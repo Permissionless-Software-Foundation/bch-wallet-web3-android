@@ -6,7 +6,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
-const IPFS_CID = 'bafybeie6gh5bngwne63tycok3okrh5i6dxt7xaoby62psjkvt7n7pl2ou4'
+const IPFS_CID = 'bafybeibkck6ylwqmpkqglvsvb7wc5xecb65uypg7fbcembuj7u4xuh2evq'
 
 class Footer extends React.Component {
   render () {
@@ -23,7 +23,7 @@ class Footer extends React.Component {
           <Col>
             <h6>Source Code</h6>
             <ul>
-              <li><a href='https://github.com/christroutner/nft-browser-v2' target='_blank' rel='noreferrer'>GitHub</a></li>
+              <li><a href='https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa' target='_blank' rel='noreferrer'>GitHub</a></li>
             </ul>
           </Col>
         </Row>
