@@ -4,6 +4,8 @@ This is a single page app (SPA) based on [react-bootstrap](https://www.npmjs.com
 
 This app can be compiled and uploaded to Filecoin via [web3.storage](https://web3.storage). This means a censorship-resistant front-end app (SPA) can be built, which communicates with a censorship-resistant back-end.
 
+- [Live Demo on Filecoin](https://bafybeihxrxdlms46nzthcxbzwudr2e4hharmiw5gj4do475pgbpwdqccva.ipfs.dweb.link/)
+
 ## Major Features
 - [react-bootstrap](https://react-bootstrap.github.io/) is used for general style and layout control.
 - An easily customized *waiting modal* component can be invoked while waiting for network calls to complete.
