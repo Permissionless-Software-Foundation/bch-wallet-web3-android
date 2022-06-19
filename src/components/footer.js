@@ -6,7 +6,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
-const IPFS_CID = 'bafybeiff7sjpdizarbtjgc3ftefyzndggsx3uxqs7l42ruzcwdkbuld6eq'
+const IPFS_CID = 'bafybeie6gh5bngwne63tycok3okrh5i6dxt7xaoby62psjkvt7n7pl2ou4'
 
 class Footer extends React.Component {
   render () {
@@ -16,12 +16,9 @@ class Footer extends React.Component {
           <Col>
             <h6>Site Mirrors</h6>
             <ul>
-              <li><a href='https://troutnfts.com' target='_blank' rel='noreferrer'>troutnfts.com</a></li>
               <li><a href={`https://${IPFS_CID}.ipfs.dweb.link/`} target='_blank' rel='noreferrer'>Filecoin</a></li>
             </ul>
           </Col>
-
-          <Col />
 
           <Col>
             <h6>Source Code</h6>

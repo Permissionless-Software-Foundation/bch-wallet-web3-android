@@ -42,7 +42,7 @@ class NFTs extends React.Component {
       <>
         <Container>
           <Row>
-            <Col className="text-break" style={{ textAlign: 'center' }}>
+            <Col className='text-break' style={{ textAlign: 'center' }}>
               <p>Loading NFTs associated with Group token{' '}
                 <a
                   href={`https://token.fullstack.cash/?tokenid=${this.groupData.tokenId}`}

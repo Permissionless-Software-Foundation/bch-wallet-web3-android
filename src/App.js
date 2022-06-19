@@ -10,17 +10,17 @@ import { useQueryParam, StringParam } from 'use-query-params'
 // Local libraries
 import './App.css'
 import LoadScripts from './components/load-scripts'
-import NFTs from './components/nfts'
+// import NFTs from './components/nfts'
 import WaitingModal from './components/waiting-modal'
 import AsyncLoad from './services/async-load'
 import ServerSelect from './components/servers'
 import Footer from './components/footer'
-
-// Token ID for Trout's NFTs
-const groupTokenId = '030563ddd65772d8e9b79b825529ed53c7d27037507b57c528788612b4911107'
+import GetBalance from './components/balance'
 
 // Default restURL for a back-end server.
 let serverURL = 'https://free-bch.fullstack.cash'
+
+let _this
 
 class App extends React.Component {
   constructor (props) {
@@ -41,6 +41,8 @@ class App extends React.Component {
     }
 
     this.cnt = 0
+
+    _this = this
   }
 
   async componentDidMount () {
@@ -53,26 +55,26 @@ class App extends React.Component {
 
       const wallet = await this.asyncLoad.initWallet(serverURL)
 
-      this.addToModal('Getting Group Token Information')
+      // this.addToModal('Getting Group Token Information')
 
       // Get Group Token info
-      const groupData = await this.asyncLoad.getGroupData(groupTokenId)
+      // const groupData = await this.asyncLoad.getGroupData(groupTokenId)
       // console.log(`groupData: ${JSON.stringify(groupData, null, 2)}`)
 
-      this.addToModal('Getting NFT Information')
+      // this.addToModal('Getting NFT Information')
 
       /// Get NFT child info
-      const nftData = []
-      for (let i = 0; i < groupData.nfts.length; i++) {
-        const tokenData = await this.asyncLoad.getTokenData(groupData.nfts[i])
-        nftData.push(tokenData)
-      }
+      // const nftData = []
+      // for (let i = 0; i < groupData.nfts.length; i++) {
+      //   const tokenData = await this.asyncLoad.getTokenData(groupData.nfts[i])
+      //   nftData.push(tokenData)
+      // }
       // console.log(`nft data: ${JSON.stringify(nftData, null, 2)}`)
 
-      this.tokenData = {
-        groupData,
-        nftData
-      }
+      // this.tokenData = {
+      //   groupData,
+      //   nftData
+      // }
 
       this.setState({
         wallet,
@@ -81,7 +83,7 @@ class App extends React.Component {
     } catch (err) {
       this.modalBody = [
         `Error: ${err.message}`,
-        `Try selecting a different back end server using the drop-down menu at the bottom of the app.`
+        'Try selecting a different back end server using the drop-down menu at the bottom of the app.'
       ]
 
       this.setState({
@@ -98,7 +100,7 @@ class App extends React.Component {
       <>
         <GetRestUrl />
         <LoadScripts />
-        {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} tokens={this.tokenData} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner}/>}
+        {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} tokens={this.tokenData} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect />
         <Footer />
       </>
@@ -125,7 +127,7 @@ function UninitializedView (props) {
     <Container style={{ backgroundColor: '#ddd' }}>
       <Row style={{ padding: '25px' }}>
         <Col>
-          <h1 className='header'>NFT Explorer</h1>
+          <h1 className='header'>PSF Web3 Demo</h1>
 
           <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
         </Col>
@@ -141,11 +143,11 @@ function InitializedView (props) {
       <Container style={{ backgroundColor: '#ddd' }}>
         <Row style={{ padding: '25px' }}>
           <Col>
-            <h1 className='header'>NFT Explorer</h1>
+            <h1 className='header'>PSF Web3 Demo</h1>
           </Col>
         </Row>
       </Container>
-      <NFTs wallet={props.wallet} tokens={props.tokens} />
+      <GetBalance wallet={_this.state.wallet} />
     </>
   )
 }
