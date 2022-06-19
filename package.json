@@ -1,5 +1,5 @@
 {
-  "name": "nft-browser-v2",
+  "name": "react-bootstrap-web3-spa",
   "version": "1.0.0",
   "dependencies": {
     "axios": "0.27.2",
