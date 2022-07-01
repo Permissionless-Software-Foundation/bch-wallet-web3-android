@@ -4,7 +4,7 @@
 
 // Global npm libraries
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+// import { Container, Row, Col } from 'react-bootstrap'
 import { useQueryParam, StringParam } from 'use-query-params'
 
 // Local libraries
@@ -16,6 +16,7 @@ import AsyncLoad from './services/async-load'
 import ServerSelect from './components/servers'
 import Footer from './components/footer'
 import GetBalance from './components/balance'
+import NavMenu from './components/nav-menu'
 
 // Default restURL for a back-end server.
 let serverURL = 'https://free-bch.fullstack.cash'
@@ -100,6 +101,7 @@ class App extends React.Component {
       <>
         <GetRestUrl />
         <LoadScripts />
+        <NavMenu />
         {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} tokens={this.tokenData} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect />
         <Footer />
@@ -124,15 +126,7 @@ function UninitializedView (props) {
   const heading = 'Loading Blockchain Data...'
 
   return (
-    <Container style={{ backgroundColor: '#ddd' }}>
-      <Row style={{ padding: '25px' }}>
-        <Col>
-          <h1 className='header'>PSF Web3 Demo</h1>
-
-          <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
-        </Col>
-      </Row>
-    </Container>
+    <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
   )
 }
 
@@ -140,13 +134,7 @@ function UninitializedView (props) {
 function InitializedView (props) {
   return (
     <>
-      <Container style={{ backgroundColor: '#ddd' }}>
-        <Row style={{ padding: '25px' }}>
-          <Col>
-            <h1 className='header'>PSF Web3 Demo</h1>
-          </Col>
-        </Row>
-      </Container>
+      <br />
       <GetBalance wallet={_this.state.wallet} />
     </>
   )
