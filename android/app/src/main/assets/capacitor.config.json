@@ -1,0 +1,6 @@
+{
+	"appId": "com.capacitor01.app",
+	"appName": "react-bootstrap-web3-android",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
