@@ -1,5 +1,5 @@
 {
-  "name": "react-bootstrap-web3-spa",
+  "name": "react-bootstrap-web3-android",
   "version": "1.0.0",
   "dependencies": {
     "axios": "0.27.2",
@@ -34,6 +34,9 @@
     ]
   },
   "devDependencies": {
+    "@capacitor/android": "3.6.0",
+    "@capacitor/cli": "3.6.0",
+    "@capacitor/core": "3.6.0",
     "standard": "17.0.0",
     "web3.storage": "4.2.0"
   }
