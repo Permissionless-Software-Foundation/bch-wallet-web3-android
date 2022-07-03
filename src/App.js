@@ -18,7 +18,8 @@ import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
 
 // Default restURL for a back-end server.
-let serverURL = 'https://free-bch.fullstack.cash'
+let serverUrl = 'https://free-bch.fullstack.cash'
+let queryParamExists = false
 
 let _this
 
@@ -37,7 +38,9 @@ class App extends React.Component {
       wallet: false,
       modalBody: this.modalBody,
       hideSpinner: false,
-      menuState: 0
+      menuState: 0,
+      queryParamExists: false,
+      serverUrl
     }
 
     this.cnt = 0
@@ -52,12 +55,16 @@ class App extends React.Component {
       await this.asyncLoad.loadWalletLib()
 
       this.addToModal('Initializing wallet')
+      // console.log(`Initializing wallet with back end server ${serverUrl}`)
+      // console.log(`queryParamExists: ${queryParamExists}`)
 
-      const wallet = await this.asyncLoad.initWallet(serverURL)
+      const wallet = await this.asyncLoad.initWallet(serverUrl)
 
       this.setState({
         wallet,
-        walletInitialized: true
+        walletInitialized: true,
+        serverUrl,
+        queryParamExists
       })
     } catch (err) {
       this.modalBody = [
@@ -75,6 +82,7 @@ class App extends React.Component {
   render () {
     // console.log('App component rendered. this.state.wallet: ', this.state.wallet)
     // console.log(`App component menuState: ${this.state.menuState}`)
+    // console.log(`render() this.state.serverUrl: ${this.state.serverUrl}`)
 
     return (
       <>
@@ -82,7 +90,7 @@ class App extends React.Component {
         <LoadScripts />
         <NavMenu menuHandler={this.onMenuClick} />
         {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
-        <ServerSelect />
+        <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
         <Footer />
       </>
     )
@@ -138,7 +146,10 @@ function GetRestUrl (props) {
   const [restURL] = useQueryParam('restURL', StringParam)
   // console.log('restURL: ', restURL)
 
-  serverURL = restURL
+  if(restURL) {
+    serverUrl = restURL
+    queryParamExists = true
+  }
 
   return (<></>)
 }
