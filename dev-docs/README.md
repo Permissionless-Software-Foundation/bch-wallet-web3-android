@@ -23,3 +23,6 @@ The top-level file layout of this app looks like this:
   - Footer - Footer links
 
 After initialization, the InitailizedView is displayed. This loads the AppBody, which is a wrapper for each View. Views are selected using the navigation menu. When one View is selected, the others are hidden.
+
+## Loading of Wallet
+The wallet library [minimal-slp-wallet](https://www.npmjs.com/package/minimal-slp-wallet) is loaded at startup, and initialized with a web3 back end server. By default, the back-end server is free-bch.fullstack.cash. However, a list of back end servers provided by the [PSF](https://psfoundation.cash) are loaded into a drop-down from a GitHub

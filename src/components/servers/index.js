@@ -22,6 +22,7 @@ class ServerSelect extends React.Component {
   constructor (props) {
     super(props)
 
+    this.props = props
     // this.wallet = props.wallet
 
     this.state = {
@@ -55,10 +56,10 @@ class ServerSelect extends React.Component {
           <Col>
             <br />
             <h5 style={{ textAlign: 'center' }}>
-              Having trouble loading the Balance? Try selecting a different back-end server.
+              Having trouble loading? Try selecting a different back-end server.
             </h5>
             <Form.Select onChange={(values) => this.selectServer(values)}>
-              <option>Choose a back-end server</option>
+              <option>{this.props.queryParamExists ? (`${this.props.displayUrl}`) : (`Choose a back-end server`)}</option>
               {items}
             </Form.Select>
             <br />
