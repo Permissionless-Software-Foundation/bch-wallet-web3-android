@@ -75,7 +75,7 @@ class App extends React.Component {
 
   render () {
     // console.log('App component rendered. this.state.wallet: ', this.state.wallet)
-    console.log(`App component menuState: ${this.state.menuState}`)
+    // console.log(`App component menuState: ${this.state.menuState}`)
 
     return (
       <>
@@ -102,7 +102,7 @@ class App extends React.Component {
   // nav menu is clicked, this handler will update the state. The state is
   // used by the AppBody component to determine which View component to display.
   handleMenuClick(menuState) {
-    console.log('menuState: ', menuState)
+    // console.log('menuState: ', menuState)
 
     _this.setState({
       menuState
@@ -123,14 +123,13 @@ function UninitializedView (props) {
 
 // This is rendered *after* the BCH wallet is initialized.
 function InitializedView (props) {
-  console.log(`InitializedView props.menuState: ${props.menuState}`)
-  console.log(`InitializedView _this.state.menuState: ${_this.state.menuState}`)
+  // console.log(`InitializedView props.menuState: ${props.menuState}`)
+  // console.log(`InitializedView _this.state.menuState: ${_this.state.menuState}`)
 
   return (
     <>
       <br />
-      <AppBody menuState={_this.state.menuState}/>
-      <GetBalance wallet={props.wallet} />
+      <AppBody menuState={_this.state.menuState} wallet={props.wallet} />
     </>
   )
 }
