@@ -10,8 +10,10 @@ This app can be compiled and uploaded to Filecoin via [web3.storage](https://web
 - [react-bootstrap](https://react-bootstrap.github.io/) is used for general style and layout control.
 - An easily customized *waiting modal* component can be invoked while waiting for network calls to complete.
 - [minimal-slp-wallet](https://www.npmjs.com/package/minimal-slp-wallet) is used to access tokens and BCH on the Bitcoin Cash blockchain.
-- A 'server selection' dropdown allows the user to select from an array of redundant back end servers.
+- A 'server selection' dropdown allows the user to select from an array of redundant [web3 back end servers](https://cashstack.info).
 - This site is statically compiled, uploaded to Filecoin, and served over IPFS for censorship resistance and version control.
+- A collapsible navigation menu is used to load different views.
+- This app can be compiled into an native Android app using [react-bootstrap-web3-android](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-android).
 
 ## Installation
 ```bash
