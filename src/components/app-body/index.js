@@ -20,8 +20,12 @@ class AppBody extends React.Component {
   }
 
   render() {
+    console.log(`AppBody menu state: ${this.props.menuState}`)
+
     return(
-      <></>
+      <>
+
+      </>
     )
   }
 }

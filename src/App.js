@@ -32,7 +32,6 @@ class App extends React.Component {
 
     // Working array for storing modal output.
     this.modalBody = []
-    this.tokenData = {}
 
     this.state = {
       walletInitialized: false,
@@ -76,13 +75,14 @@ class App extends React.Component {
 
   render () {
     // console.log('App component rendered. this.state.wallet: ', this.state.wallet)
+    console.log(`App component menuState: ${this.state.menuState}`)
 
     return (
       <>
         <GetRestUrl />
         <LoadScripts />
         <NavMenu menuHandler={this.handleMenuClick}/>
-        {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} tokens={this.tokenData} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
+        {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect />
         <Footer />
       </>
@@ -104,7 +104,7 @@ class App extends React.Component {
   handleMenuClick(menuState) {
     console.log('menuState: ', menuState)
 
-    this.setState({
+    _this.setState({
       menuState
     })
   }
@@ -123,11 +123,14 @@ function UninitializedView (props) {
 
 // This is rendered *after* the BCH wallet is initialized.
 function InitializedView (props) {
+  console.log(`InitializedView props.menuState: ${props.menuState}`)
+  console.log(`InitializedView _this.state.menuState: ${_this.state.menuState}`)
+
   return (
     <>
       <br />
-      <AppBody />
-      <GetBalance wallet={_this.state.wallet} />
+      <AppBody menuState={_this.state.menuState}/>
+      <GetBalance wallet={props.wallet} />
     </>
   )
 }
