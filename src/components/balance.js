@@ -9,7 +9,7 @@ import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap'
 let _this
 
 class GetBalance extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -31,10 +31,10 @@ class GetBalance extends React.Component {
               <Form>
                 <Form.Group className='mb-3' controlId='formBasicEmail'>
                   <Form.Label>Enter a BCH address to check the balance.</Form.Label>
-                  <Form.Control type='text' placeholder='bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d' onChange={e => this.setState({textInput: e.target.value})} />
+                  <Form.Control type='text' placeholder='bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d' onChange={e => this.setState({ textInput: e.target.value })} />
                 </Form.Group>
 
-                <Button variant='primary' onClick={this.getBalance}>
+                <Button variant='primary' onClick={this.handleGetBalance}>
                   Check Balance
                 </Button>
               </Form>
@@ -51,13 +51,13 @@ class GetBalance extends React.Component {
     )
   }
 
-  async getBalance(event) {
+  async handleGetBalance (event) {
     try {
       const textInput = _this.state.textInput
 
       // Exit on invalid input
-      if(!textInput) return
-      if(!textInput.includes('bitcoincash:')) return
+      if (!textInput) return
+      if (!textInput.includes('bitcoincash:')) return
 
       _this.setState({
         balance: (<span>Retrieving balance... <Spinner animation='border' /></span>)
@@ -71,7 +71,7 @@ class GetBalance extends React.Component {
       _this.setState({
         balance: `Balance: ${balance} sats, ${bchBalance} BCH`
       })
-    } catch(err) {
+    } catch (err) {
       _this.setState({
         balance: `Error: ${err.message}`
       })

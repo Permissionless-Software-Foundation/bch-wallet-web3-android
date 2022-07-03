@@ -7,51 +7,52 @@
 
 // Global npm libraries
 import React from 'react'
-import { Nav, Navbar, NavDropdown, Image } from "react-bootstrap"
+import { Nav, Navbar, Image } from 'react-bootstrap'
 import Logo from './psf-logo.png'
-// import { ReactComponent as Logo } from "./psf-logo.png"
 
 class NavMenu extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    console.log('NavMenu')
+
+    // This is the event handler passed in from the Parent component.
+    this.parentMenuHandler = props.menuHandler
+
+    // this.state = {
+    //   selectedMenuItem: 0
+    // }
   }
 
-  render() {
-    return(
+  render () {
+    // console.log(`selectedMenuItem: ${this.state.selectedMenuItem}`)
+    // this.handleMenuClick(this.state.selectedMenuItem)
+
+    return (
       <>
-        <Navbar collapseOnSelect expand="xxxl" bg="dark" variant="dark" style={{paddingRight: '20px'}} >
-          <Navbar.Brand href="#home" style={{paddingLeft: '20px'}}>
-            <Image src={Logo} thumbnail width="50" />{' '}
+        <Navbar collapseOnSelect expand='xxxl' bg='dark' variant='dark' style={{ paddingRight: '20px' }}>
+          <Navbar.Brand href='#home' style={{ paddingLeft: '20px' }}>
+            <Image src={Logo} thumbnail width='50' />{' '}
             PSF Web3 Demo
           </Navbar.Brand>
 
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="#features">Placeholder 1</Nav.Link>
-              <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Nav>
-              <Nav.Link href="#deets">Placeholder 2</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
-                Placeholder 3
-              </Nav.Link>
+          <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+          <Navbar.Collapse id='responsive-navbar-nav'>
+            <Nav className='mr-auto'>
+              <Nav.Link href='#' onClick={() => this.handleClickEvent(0)}>Check Balance</Nav.Link>
+              <Nav.Link href='#' onClick={() => this.handleClickEvent(1)}>Take Picture</Nav.Link>
+              <Nav.Link href='#'>Placeholder 3</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
       </>
     )
+  }
+
+  handleClickEvent (menuItem) {
+    // Update the
+    // this.setState({selectedMenuItem: menuItem})
+
+    // Pass the selected menu item up to the parent component.
+    this.parentMenuHandler(menuItem)
   }
 }
 
