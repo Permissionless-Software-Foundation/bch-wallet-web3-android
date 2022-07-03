@@ -14,7 +14,6 @@ import WaitingModal from './components/waiting-modal'
 import AsyncLoad from './services/async-load'
 import ServerSelect from './components/servers'
 import Footer from './components/footer'
-import GetBalance from './components/balance'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
 
@@ -81,7 +80,7 @@ class App extends React.Component {
       <>
         <GetRestUrl />
         <LoadScripts />
-        <NavMenu menuHandler={this.handleMenuClick}/>
+        <NavMenu menuHandler={this.onMenuClick} />
         {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect />
         <Footer />
@@ -101,7 +100,7 @@ class App extends React.Component {
   // This handler is passed into the child menu component. When an item in the
   // nav menu is clicked, this handler will update the state. The state is
   // used by the AppBody component to determine which View component to display.
-  handleMenuClick(menuState) {
+  onMenuClick (menuState) {
     // console.log('menuState: ', menuState)
 
     _this.setState({

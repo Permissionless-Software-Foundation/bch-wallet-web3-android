@@ -7,8 +7,10 @@
 import React from 'react'
 
 class TakePicture extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
+
+    console.log('Take Picture component loaded')
 
     // this.state = {
     //   activeView: 0,
@@ -16,8 +18,8 @@ class TakePicture extends React.Component {
     // }
   }
 
-  render() {
-    return(
+  render () {
+    return (
       <>
         <p>Take Picture Component Placeholder</p>
       </>

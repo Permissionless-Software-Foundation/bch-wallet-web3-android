@@ -16,7 +16,7 @@ import TakePicture from '../take-picture'
 let _this
 
 class AppBody extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -28,28 +28,26 @@ class AppBody extends React.Component {
     _this = this
   }
 
-  render() {
+  render () {
     // console.log(`AppBody menu state: ${this.props.menuState}`)
 
-    return(
+    return (
       <>
         {this.chooseView(this.props.menuState)}
       </>
     )
   }
 
-  chooseView(menuState) {
+  chooseView (menuState) {
     // console.log(`chooseView() menuState: ${menuState}`)
 
-    switch(menuState) {
+    switch (menuState) {
       case 0:
-        return(<GetBalance wallet={_this.state.wallet} />)
-        break
+        return (<GetBalance wallet={_this.state.wallet} />)
       case 1:
         return (<TakePicture />)
-        break
       default:
-       return(<GetBalance wallet={_this.state.wallet} />)
+        return (<GetBalance wallet={_this.state.wallet} />)
     }
   }
 }
