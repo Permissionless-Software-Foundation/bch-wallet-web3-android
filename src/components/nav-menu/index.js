@@ -16,10 +16,6 @@ class NavMenu extends React.Component {
 
     // This is the event handler passed in from the Parent component.
     this.parentMenuHandler = props.menuHandler
-
-    // this.state = {
-    //   selectedMenuItem: 0
-    // }
   }
 
   render () {
@@ -38,8 +34,8 @@ class NavMenu extends React.Component {
           <Navbar.Collapse id='responsive-navbar-nav'>
             <Nav className='mr-auto'>
               <Nav.Link href='#' onClick={() => this.handleClickEvent(0)}>Check Balance</Nav.Link>
-              <Nav.Link href='#' onClick={() => this.handleClickEvent(1)}>Take Picture</Nav.Link>
-              <Nav.Link href='#'>Placeholder 3</Nav.Link>
+              <Nav.Link href='#' onClick={() => this.handleClickEvent(1)}>Placeholder2</Nav.Link>
+              <Nav.Link href='#' onClick={() => this.handleClickEvent(2)}>Placeholder 3</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -48,9 +44,6 @@ class NavMenu extends React.Component {
   }
 
   handleClickEvent (menuItem) {
-    // Update the
-    // this.setState({selectedMenuItem: menuItem})
-
     // Pass the selected menu item up to the parent component.
     this.parentMenuHandler(menuItem)
   }
