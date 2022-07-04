@@ -11,7 +11,8 @@ import React from 'react'
 
 // Local libraries
 import GetBalance from '../balance'
-import TakePicture from '../take-picture'
+import Placeholder2 from '../placeholder2'
+import Placeholder3 from '../placeholder3'
 
 let _this
 
@@ -45,7 +46,9 @@ class AppBody extends React.Component {
       case 0:
         return (<GetBalance wallet={_this.state.wallet} />)
       case 1:
-        return (<TakePicture />)
+        return (<Placeholder2 />)
+      case 2:
+        return (<Placeholder3 />)
       default:
         return (<GetBalance wallet={_this.state.wallet} />)
     }
