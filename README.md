@@ -4,7 +4,7 @@ This is a single page app (SPA) based on [react-bootstrap](https://www.npmjs.com
 
 This app can be compiled and uploaded to Filecoin via [web3.storage](https://web3.storage). This means a censorship-resistant front-end app (SPA) can be built, which communicates with a censorship-resistant back-end.
 
-- [Live Demo on Filecoin](https://bafybeidje4nxihqtqnexs5wlwmmzbxyhydwk3pv6kfszzetxelpl4xxykm.ipfs.dweb.link/)
+- [Live Demo on Filecoin](https://bafybeieawisnppueyqxeqjnu6d67jogu7xt7cypshx3q3k55yizphg3tia.ipfs.dweb.link/)
 
 ## Major Features
 - [react-bootstrap](https://react-bootstrap.github.io/) is used for general style and layout control.
@@ -25,7 +25,18 @@ npm run build
 ```
 
 ## Support
-The [Permissionless Software Foundation](https://psfoundation.cash) is a collection of JavaScript developers and entrepreneurs. Join our [bch-js-toolkit Telegram channel](https://t.me/bch_js_toolkit) to get community-based technical help and meet like-minded individuals.
+
+Have questions? Need help? Join our community support
+[Telegram channel](https://t.me/bch_js_toolkit)
+
+## Donate
+
+This open source software is developed and maintained by the [Permissionless Software Foundation](https://psfoundation.cash). If this library provides value to you, please consider making a donation to support the PSF developers:
+
+<div align="center">
+<img src="./img/donation-qr.png" />
+<p>bitcoincash:qqsrke9lh257tqen99dkyy2emh4uty0vky9y0z0lsr</p>
+</div>
 
 ## License
 [MIT](./LICENSE.md)
