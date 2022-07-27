@@ -10,7 +10,7 @@ Have questions? Need help? Join our community support
 
 ## Donate
 
-This open source software is developed and maintained by the [Permissionless Software Foundation](https://psfoundation.cash), and is based on the [CashStack](https://cashstack.info). If this library provides value to you, please consider making a donation to support the PSF developers:
+This open source software is developed and maintained by the [Permissionless Software Foundation](https://psfoundation.cash) (PSF), and is based on the [CashStack](https://cashstack.info). If this library provides value to you, please consider making a donation to support the PSF developers:
 
 <div align="center">
 <img src="./img/donation-qr.png" />
