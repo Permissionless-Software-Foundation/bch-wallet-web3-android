@@ -23,7 +23,7 @@ class Footer extends React.Component {
           <Col>
             <h6>Source Code</h6>
             <ul>
-              <li><a href='https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa' target='_blank' rel='noreferrer'>GitHub</a></li>
+              <li><a href='https://github.com/Permissionless-Software-Foundation/bch-wallet-web3-android' target='_blank' rel='noreferrer'>GitHub</a></li>
             </ul>
           </Col>
         </Row>

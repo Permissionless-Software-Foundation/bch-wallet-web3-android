@@ -12,7 +12,8 @@ import React from 'react'
 // Local libraries
 import GetBalance from '../balance'
 import Placeholder2 from '../placeholder2'
-import Placeholder3 from '../placeholder3'
+// import Placeholder3 from '../placeholder3'
+import BchWallet from '../bch-wallet'
 
 let _this
 
@@ -23,7 +24,7 @@ class AppBody extends React.Component {
     this.state = {
       activeView: 0,
       menuState: props.menuState,
-      wallet: props.wallet
+      bchWallet: props.bchWallet
     }
 
     _this = this
@@ -44,13 +45,13 @@ class AppBody extends React.Component {
 
     switch (menuState) {
       case 0:
-        return (<GetBalance wallet={_this.state.wallet} />)
+        return (<GetBalance wallet={_this.state.bchWallet} />)
       case 1:
         return (<Placeholder2 />)
       case 2:
-        return (<Placeholder3 />)
+        return (<BchWallet bchWallet={_this.state.bchWallet} />)
       default:
-        return (<GetBalance wallet={_this.state.wallet} />)
+        return (<GetBalance wallet={_this.state.bchWallet} />)
     }
   }
 }

@@ -35,7 +35,7 @@ class App extends React.Component {
 
     this.state = {
       walletInitialized: false,
-      wallet: false,
+      bchWallet: false,
       modalBody: this.modalBody,
       hideSpinner: false,
       menuState: 0,
@@ -58,10 +58,10 @@ class App extends React.Component {
       // console.log(`Initializing wallet with back end server ${serverUrl}`)
       // console.log(`queryParamExists: ${queryParamExists}`)
 
-      const wallet = await this.asyncLoad.initWallet(serverUrl)
+      const bchWallet = await this.asyncLoad.initWallet(serverUrl)
 
       this.setState({
-        wallet,
+        bchWallet,
         walletInitialized: true,
         serverUrl,
         queryParamExists
@@ -89,7 +89,7 @@ class App extends React.Component {
         <GetRestUrl />
         <LoadScripts />
         <NavMenu menuHandler={this.onMenuClick} />
-        {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
+        {this.state.walletInitialized ? <InitializedView wallet={this.state.bchWallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
         <Footer />
       </>
@@ -136,7 +136,7 @@ function InitializedView (props) {
   return (
     <>
       <br />
-      <AppBody menuState={_this.state.menuState} wallet={props.wallet} />
+      <AppBody menuState={_this.state.menuState} bchWallet={props.wallet} />
     </>
   )
 }
