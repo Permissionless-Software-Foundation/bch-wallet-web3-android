@@ -13,3 +13,6 @@ ReactDOM.render(
     </QueryParamProvider>
   </>
   , document.getElementById('root'))
+
+// Updating to React v18
+// https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#updates-to-client-rendering-apis
