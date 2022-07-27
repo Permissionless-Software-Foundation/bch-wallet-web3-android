@@ -3,6 +3,9 @@ This is a fork of [react-bootstrap-web3-spa](https://github.com/Permissionless-S
 
 This repository adds [CapacitorJS](https://capacitorjs.com/) libraries and configuration, in order to compile the SPA into a native Android app APK file.
 
+- [Live Demo on Filecoin](https://bafybeieawisnppueyqxeqjnu6d67jogu7xt7cypshx3q3k55yizphg3tia.ipfs.dweb.link/)
+- [Download latest APK file](./android/apk/capacitor-web3-app.apk)
+
 ## Support
 
 Have questions? Need help? Join our community support
