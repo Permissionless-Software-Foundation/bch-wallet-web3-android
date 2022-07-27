@@ -1,6 +1,6 @@
 {
-  "name": "react-bootstrap-web3-android",
-  "version": "2.0.1",
+  "name": "bch-wallet-web3-android",
+  "version": "1.0.0",
   "dependencies": {
     "axios": "0.27.2",
     "bootstrap": "5.1.3",
