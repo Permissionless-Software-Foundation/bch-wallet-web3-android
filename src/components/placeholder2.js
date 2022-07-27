@@ -15,7 +15,7 @@ class Placeholder2 extends React.Component {
   render () {
     return (
       <>
-        <p style={{padding: '25px'}}>This is placeholder View #2</p>
+        <p style={{ padding: '25px' }}>This is placeholder View #2</p>
       </>
     )
   }
