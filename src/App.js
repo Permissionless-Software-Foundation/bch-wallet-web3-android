@@ -146,7 +146,7 @@ function GetRestUrl (props) {
   const [restURL] = useQueryParam('restURL', StringParam)
   // console.log('restURL: ', restURL)
 
-  if(restURL) {
+  if (restURL) {
     serverUrl = restURL
     queryParamExists = true
   }

@@ -59,7 +59,7 @@ class ServerSelect extends React.Component {
               Having trouble loading? Try selecting a different back-end server.
             </h5>
             <Form.Select onChange={(values) => this.selectServer(values)}>
-              <option>{this.props.queryParamExists ? (`${this.props.displayUrl}`) : (`Choose a back-end server`)}</option>
+              <option>{this.props.queryParamExists ? (`${this.props.displayUrl}`) : ('Choose a back-end server')}</option>
               {items}
             </Form.Select>
             <br />
