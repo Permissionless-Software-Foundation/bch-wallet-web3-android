@@ -41,7 +41,23 @@ class App extends React.Component {
       hideSpinner: false,
       menuState: 0,
       queryParamExists: false,
-      serverUrl
+      serverUrl,
+
+      // The wallet state make this a true progressive web app (PWA). As
+      // balances, UTXOs, and tokens are retrieved, this state is updated.
+      // properties are enumerated here for the purpose of documentation.
+      bchWalletState: {
+        mnemonic: undefined,
+        address: undefined,
+        cashAddress: undefined,
+        slpAddress: undefined,
+        privateKey: undefined,
+        publicKey: undefined,
+        legacyAddress: undefined,
+        hdPath: undefined,
+        bchBalance: 0,
+        slpTokens: []
+      }
     }
 
     this.cnt = 0
@@ -61,7 +77,7 @@ class App extends React.Component {
       // console.log(`Initializing wallet with back end server ${serverUrl}`)
       // console.log(`queryParamExists: ${queryParamExists}`)
 
-      const bchWallet = await this.asyncLoad.initWallet(serverUrl, this.mnemonic, this.setMnemonic)
+      const bchWallet = await this.asyncLoad.initWallet(serverUrl, this.mnemonic, this.setMnemonic, this.updateBchWalletState)
 
       this.setState({
         bchWallet,
@@ -93,7 +109,7 @@ class App extends React.Component {
         <LoadScripts />
         <LoadLocalStorage passMnemonic={this.passMnemonic} />
         <NavMenu menuHandler={this.onMenuClick} />
-        {this.state.walletInitialized ? <InitializedView wallet={this.state.bchWallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
+        {this.state.walletInitialized ? <InitializedView bchWallet={this.state.bchWallet} menuState={this.state.menuState} updateBchWalletState={this.updateBchWalletState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
         <Footer />
       </>
@@ -128,6 +144,22 @@ class App extends React.Component {
     _this.mnemonic = mnemonic
     _this.setMnemonic = setMnemonic
   }
+
+  // This function is passed to child components in order to update the wallet
+  // state. This function is important to make this wallet a PWA.
+  updateBchWalletState (walletObj) {
+    console.log('updateBchWalletState() walletObj: ', walletObj)
+
+    const oldState = _this.state.bchWalletState
+
+    const bchWalletState = Object.assign({}, oldState, walletObj)
+
+    _this.setState({
+      bchWalletState
+    })
+
+    console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
+  }
 }
 
 // This is rendered *before* the BCH wallet is initialized.
@@ -149,7 +181,7 @@ function InitializedView (props) {
   return (
     <>
       <br />
-      <AppBody menuState={_this.state.menuState} bchWallet={props.wallet} />
+      <AppBody menuState={_this.state.menuState} bchWallet={props.bchWallet} updateBchWalletState={_this.updateBchWalletState} />
     </>
   )
 }

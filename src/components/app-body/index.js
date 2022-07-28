@@ -27,6 +27,10 @@ class AppBody extends React.Component {
       bchWallet: props.bchWallet
     }
 
+    // This function is passed from the parent component. It's used to update
+    // the BCH wallet state.
+    this.updateBchWalletState = props.updateBchWalletState
+
     _this = this
   }
 
