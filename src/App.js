@@ -16,6 +16,7 @@ import ServerSelect from './components/servers'
 import Footer from './components/footer'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
+import LoadLocalStorage from './components/load-localstorage'
 
 // Default restURL for a back-end server.
 let serverUrl = 'https://free-bch.fullstack.cash'
@@ -44,6 +45,8 @@ class App extends React.Component {
     }
 
     this.cnt = 0
+    this.mnemonic = undefined
+    this.setMnemonic = undefined
 
     _this = this
   }
@@ -58,7 +61,7 @@ class App extends React.Component {
       // console.log(`Initializing wallet with back end server ${serverUrl}`)
       // console.log(`queryParamExists: ${queryParamExists}`)
 
-      const bchWallet = await this.asyncLoad.initWallet(serverUrl)
+      const bchWallet = await this.asyncLoad.initWallet(serverUrl, this.mnemonic, this.setMnemonic)
 
       this.setState({
         bchWallet,
@@ -88,6 +91,7 @@ class App extends React.Component {
       <>
         <GetRestUrl />
         <LoadScripts />
+        <LoadLocalStorage passMnemonic={this.passMnemonic} />
         <NavMenu menuHandler={this.onMenuClick} />
         {this.state.walletInitialized ? <InitializedView wallet={this.state.bchWallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
@@ -114,6 +118,15 @@ class App extends React.Component {
     _this.setState({
       menuState
     })
+  }
+
+  // This function is used to retrieve the mnemonic from local storage, which
+  // is handled by a child component.
+  passMnemonic (mnemonic, setMnemonic) {
+    // console.log(`mnemonic loaded from local storage: ${mnemonic}`)
+
+    _this.mnemonic = mnemonic
+    _this.setMnemonic = setMnemonic
   }
 }
 
