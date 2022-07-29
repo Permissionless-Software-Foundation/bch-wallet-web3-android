@@ -38,55 +38,55 @@ class WalletSummary extends React.Component {
                   <Card.Text>
                     <Container>
                       <Row style={{ padding: '25px' }}>
-                        <Col xs={10} sm={10} lg={8}>
+                        <Col xs={12} sm={10} lg={8}>
                           <span><b>Mnemonic:</b> {this.state.bchWalletState.mnemonic}</span>
                         </Col>
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faEye} />
                         </Col>
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faCopy} />
                         </Col>
                       </Row>
 
                       <Row style={{ padding: '25px', backgroundColor: '#eee' }}>
-                        <Col xs={10} sm={10} lg={8}>
+                        <Col xs={12} sm={10} lg={8}>
                           <span><b>Private Key:</b> {this.state.bchWalletState.privateKey}</span>
                         </Col>
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faEye} />
                         </Col>
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faCopy} />
                         </Col>
                       </Row>
 
                       <Row style={{ padding: '25px' }}>
-                        <Col xs={10} sm={10} lg={8}>
+                        <Col xs={12} sm={10} lg={8}>
                           <span><b>Cash Address:</b> {this.state.bchWalletState.cashAddress}</span>
                         </Col>
-                        <Col xs={1} sm={1} lg={2} />
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faCopy} />
                         </Col>
                       </Row>
 
                       <Row style={{ padding: '25px', backgroundColor: '#eee' }}>
-                        <Col xs={10} sm={10} lg={8}>
+                        <Col xs={12} sm={10} lg={8}>
                           <span><b>SLP Address:</b> {this.state.bchWalletState.slpAddress}</span>
                         </Col>
-                        <Col xs={1} sm={1} lg={2} />
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faCopy} />
                         </Col>
                       </Row>
 
                       <Row style={{ padding: '25px' }}>
-                        <Col xs={10} sm={10} lg={8}>
+                        <Col xs={12} sm={10} lg={8}>
                           <span><b>Legacy Address:</b> {this.state.bchWalletState.legacyAddress}</span>
                         </Col>
-                        <Col xs={1} sm={1} lg={2} />
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faCopy} />
                         </Col>
                       </Row>
@@ -95,8 +95,8 @@ class WalletSummary extends React.Component {
                         <Col xs={10} sm={10} lg={8}>
                           <span><b>HD Path:</b> {this.state.bchWalletState.hdPath}</span>
                         </Col>
-                        <Col xs={1} sm={1} lg={2} />
-                        <Col xs={1} sm={1} lg={2}>
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
+                        <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                           <FontAwesomeIcon icon={faCopy} />
                         </Col>
                       </Row>
