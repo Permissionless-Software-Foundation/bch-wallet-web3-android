@@ -24,7 +24,8 @@ class AppBody extends React.Component {
     this.state = {
       activeView: 0,
       menuState: props.menuState,
-      bchWallet: props.bchWallet
+      bchWallet: props.bchWallet,
+      bchWalletState: props.bchWalletState
     }
 
     // This function is passed from the parent component. It's used to update
@@ -53,7 +54,7 @@ class AppBody extends React.Component {
       case 1:
         return (<Placeholder2 />)
       case 2:
-        return (<BchWallet bchWallet={_this.state.bchWallet} />)
+        return (<BchWallet bchWallet={_this.state.bchWallet} bchWalletState={_this.state.bchWalletState} />)
       default:
         return (<GetBalance wallet={_this.state.bchWallet} />)
     }

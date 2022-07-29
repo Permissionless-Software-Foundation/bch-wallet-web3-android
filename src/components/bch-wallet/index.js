@@ -5,17 +5,31 @@
 // Global npm libraries
 import React from 'react'
 
+// Local Libraries
+import WebWalletWarning from './warning'
+import WalletSummary from './wallet-summary'
+import WalletClear from './clear-wallet'
+
 class BchWallet extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      bchWallet: props.bchWallet
+      bchWallet: props.bchWallet,
+      bchWalletState: props.bchWalletState
     }
   }
 
   render () {
-    return (<>Placeholder</>)
+    return (
+      <>
+        <WebWalletWarning />
+        <br />
+        <WalletSummary bchWallet={this.state.bchWallet} bchWalletState={this.state.bchWalletState} />
+        <br />
+        <WalletClear />
+      </>
+    )
   }
 
   async componentDidMount () {

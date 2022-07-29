@@ -109,7 +109,14 @@ class App extends React.Component {
         <LoadScripts />
         <LoadLocalStorage passMnemonic={this.passMnemonic} />
         <NavMenu menuHandler={this.onMenuClick} />
-        {this.state.walletInitialized ? <InitializedView bchWallet={this.state.bchWallet} menuState={this.state.menuState} updateBchWalletState={this.updateBchWalletState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
+        {this.state.walletInitialized
+          ? <InitializedView
+              bchWallet={this.state.bchWallet}
+              menuState={this.state.menuState}
+              bchWalletState={this.state.bchWalletState}
+              updateBchWalletState={this.updateBchWalletState}
+            />
+          : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
         <Footer />
       </>
@@ -181,7 +188,12 @@ function InitializedView (props) {
   return (
     <>
       <br />
-      <AppBody menuState={_this.state.menuState} bchWallet={props.bchWallet} updateBchWalletState={_this.updateBchWalletState} />
+      <AppBody
+        menuState={_this.state.menuState}
+        bchWallet={props.bchWallet}
+        bchWalletState={props.bchWalletState}
+        updateBchWalletState={_this.updateBchWalletState}
+      />
     </>
   )
 }
