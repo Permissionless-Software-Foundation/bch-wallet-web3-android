@@ -119,6 +119,7 @@ class App extends React.Component {
               bchWalletState={this.state.bchWalletState}
               updateBchWalletState={this.updateBchWalletState}
               delMnemonic={this.delMnemonic}
+              setMnemonic={this.setMnemonic}
             />
           : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
@@ -199,6 +200,7 @@ function InitializedView (props) {
         bchWalletState={props.bchWalletState}
         updateBchWalletState={_this.updateBchWalletState}
         delMnemonic={_this.delMnemonic}
+        setMnemonic={_this.setMnemonic}
       />
     </>
   )

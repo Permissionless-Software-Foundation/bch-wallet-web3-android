@@ -19,7 +19,7 @@ class WalletSummary extends React.Component {
   }
 
   render () {
-    console.log(`WalletSummary render() this.state.bchWalletState: ${JSON.stringify(this.state.bchWalletState, null, 2)}`)
+    // console.log(`WalletSummary render() this.state.bchWalletState: ${JSON.stringify(this.state.bchWalletState, null, 2)}`)
 
     return (
       <>

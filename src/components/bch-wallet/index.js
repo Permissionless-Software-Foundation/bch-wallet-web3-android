@@ -9,6 +9,7 @@ import React from 'react'
 import WebWalletWarning from './warning'
 import WalletSummary from './wallet-summary'
 import WalletClear from './clear-wallet'
+import WalletImport from './import-wallet'
 
 class BchWallet extends React.Component {
   constructor (props) {
@@ -17,7 +18,8 @@ class BchWallet extends React.Component {
     this.state = {
       bchWallet: props.bchWallet,
       bchWalletState: props.bchWalletState,
-      delMnemonic: props.delMnemonic
+      delMnemonic: props.delMnemonic,
+      setMnemonic: props.setMnemonic
     }
   }
 
@@ -29,6 +31,8 @@ class BchWallet extends React.Component {
         <WalletSummary bchWallet={this.state.bchWallet} bchWalletState={this.state.bchWalletState} />
         <br />
         <WalletClear delMnemonic={this.state.delMnemonic} />
+        <br />
+        <WalletImport bchWallet={this.state.bchWallet} setMnemonic={this.state.setMnemonic} />
       </>
     )
   }

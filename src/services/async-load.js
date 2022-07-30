@@ -54,11 +54,11 @@ class AsyncLoad {
 
     // Get token information from the wallet. This will also initialize the UTXO store.
     const slpTokens = await wallet.listTokens(walletAddr)
-    console.log(`slpTokens: ${JSON.stringify(slpTokens, null, 2)}`)
+    // console.log(`slpTokens: ${JSON.stringify(slpTokens, null, 2)}`)
 
     // Get the BCH balance of the wallet.
     const bchBalance = await wallet.getBalance(walletAddr)
-    console.log(`bchBalance: ${JSON.stringify(bchBalance, null, 2)}`)
+    // console.log(`bchBalance: ${JSON.stringify(bchBalance, null, 2)}`)
 
     // Create an object containing the BCH balance and tokens.
     const balances = {

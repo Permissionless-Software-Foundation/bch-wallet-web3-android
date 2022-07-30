@@ -38,7 +38,7 @@ class WalletClear extends React.Component {
 
                   <Card.Text style={{ textAlign: 'center' }}>
                     Clicking the button below will clear the Local Storage, which
-                    will reset the wallet and allow you to create a new one.
+                    will reload the app with a newly created wallet.
                     <br />
                     <b>
                       Be sure to write down your 12-word mnemonic to back
@@ -59,10 +59,13 @@ class WalletClear extends React.Component {
   }
 
   handleClearLocalStorage () {
-    console.log('Button was clicked!')
+    console.log('Deleting wallet and reloading page.')
 
     // Delete the mnemonic from Local Storage
     _this.state.delMnemonic()
+
+    // Reload the app.
+    window.location.reload()
   }
 }
 
