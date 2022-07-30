@@ -29,7 +29,7 @@ class BchWallet extends React.Component {
       <>
         <WebWalletWarning />
         <br />
-        <WalletSummary bchWallet={this.state.bchWallet} bchWalletState={this.state.bchWalletState} />
+        <WalletSummary bchWallet={this.state.bchWallet} bchWalletState={this.state.bchWalletState} appData={this.state.appData} />
         <br />
         <WalletClear delMnemonic={this.state.delMnemonic} />
         <br />

@@ -8,13 +8,17 @@ import { Container, Row, Col, Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet, faCopy, faEye } from '@fortawesome/free-solid-svg-icons'
 
+// Local libraries
+import CopyOnClick from './copy-on-click'
+
 class WalletSummary extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
       bchWallet: props.bchWallet,
-      bchWalletState: props.bchWalletState
+      bchWalletState: props.bchWalletState,
+      appData: props.appData
     }
   }
 
@@ -43,7 +47,7 @@ class WalletSummary extends React.Component {
                         <FontAwesomeIcon icon={faEye} />
                       </Col>
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                        <FontAwesomeIcon icon={faCopy} />
+                        <CopyOnClick appData={this.state.appData} walletProp='mnemonic' />
                       </Col>
                     </Row>
 

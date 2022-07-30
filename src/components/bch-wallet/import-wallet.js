@@ -6,7 +6,8 @@
 import React from 'react'
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileExport } from '@fortawesome/free-solid-svg-icons'
+import { faFileExport, faPaste } from '@fortawesome/free-solid-svg-icons'
+import { Clipboard } from '@capacitor/clipboard'
 
 let _this
 
@@ -45,18 +46,27 @@ class WalletImport extends React.Component {
 
                   <Container>
                     <Row>
-                      <Col className='text-break' style={{ textAlign: 'center' }}>
+                      <Col xs={10} className='text-break' style={{ textAlign: 'center' }}>
                         <Form>
                           <Form.Group className='mb-3' controlId='formImportWallet'>
-                            <Form.Control type='text' onChange={e => this.setState({ newMnemonic: e.target.value })} />
+                            <Form.Control type='text' value={this.state.newMnemonic} onChange={e => this.setState({ newMnemonic: e.target.value })} />
                           </Form.Group>
-
-                          <Button variant='primary' onClick={this.handleImportWallet}>
-                            Import
-                          </Button>
                         </Form>
                       </Col>
+
+                      <Col xs={2}>
+                        <FontAwesomeIcon icon={faPaste} size='lg' onClick={(e) => _this.pasteFromClipboard(e)} />
+                      </Col>
                     </Row>
+
+                    <Row>
+                      <Col style={{ textAlign: 'center' }}>
+                        <Button variant='primary' onClick={this.handleImportWallet}>
+                          Import
+                        </Button>
+                      </Col>
+                    </Row>
+
                     <br />
                     <Row>
                       <Col style={{ textAlign: 'center' }}>
@@ -71,6 +81,21 @@ class WalletImport extends React.Component {
         </Container>
       </>
     )
+  }
+
+  async pasteFromClipboard (event) {
+    try {
+      // Capacitor Android app takes this code path.
+
+      // Get the value from the clipboard.
+      const { value } = await Clipboard.read()
+      // console.log('value: ', value)
+
+      // Set the value of the form.
+      this.setState({ newMnemonic: value })
+    } catch (err) {
+      // Browser implementation. Exit quietly.
+    }
   }
 
   // Ensure the mnemonic is valid. If it is, then replace the current mnemonic
