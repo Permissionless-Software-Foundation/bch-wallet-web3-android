@@ -7,7 +7,7 @@
 import useLocalStorageState from 'use-local-storage-state'
 
 function LoadLocalStorage (props) {
-  const [mnemonic, setMnemonic] = useLocalStorageState('bchMnemonic', {
+  const [mnemonic, setMnemonic, { removeItem }] = useLocalStorageState('bchMnemonic', {
     ssr: true,
     defaultValue: undefined
   })
@@ -16,7 +16,7 @@ function LoadLocalStorage (props) {
   const passMnemonic = props.passMnemonic
 
   // Pass the result up to the parent component.
-  passMnemonic(mnemonic, setMnemonic)
+  passMnemonic(mnemonic, setMnemonic, removeItem)
 
   return true
 }

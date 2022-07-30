@@ -8,7 +8,19 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 
+let _this
+
 class WalletClear extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      delMnemonic: props.delMnemonic
+    }
+
+    _this = this
+  }
+
   render () {
     return (
       <>
@@ -48,6 +60,9 @@ class WalletClear extends React.Component {
 
   handleClearLocalStorage () {
     console.log('Button was clicked!')
+
+    // Delete the mnemonic from Local Storage
+    _this.state.delMnemonic()
   }
 }
 

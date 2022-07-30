@@ -61,8 +61,11 @@ class App extends React.Component {
     }
 
     this.cnt = 0
+
+    // These values are set by load-localstorage.js when it reads Local Storage.
     this.mnemonic = undefined
     this.setMnemonic = undefined
+    this.delMnemonic = undefined
 
     _this = this
   }
@@ -115,6 +118,7 @@ class App extends React.Component {
               menuState={this.state.menuState}
               bchWalletState={this.state.bchWalletState}
               updateBchWalletState={this.updateBchWalletState}
+              delMnemonic={this.delMnemonic}
             />
           : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
@@ -144,12 +148,13 @@ class App extends React.Component {
   }
 
   // This function is used to retrieve the mnemonic from local storage, which
-  // is handled by a child component.
-  passMnemonic (mnemonic, setMnemonic) {
+  // is handled by a child component (load-localstorage.js)
+  passMnemonic (mnemonic, setMnemonic, delMnemonic) {
     // console.log(`mnemonic loaded from local storage: ${mnemonic}`)
 
     _this.mnemonic = mnemonic
     _this.setMnemonic = setMnemonic
+    _this.delMnemonic = delMnemonic
   }
 
   // This function is passed to child components in order to update the wallet
@@ -193,6 +198,7 @@ function InitializedView (props) {
         bchWallet={props.bchWallet}
         bchWalletState={props.bchWalletState}
         updateBchWalletState={_this.updateBchWalletState}
+        delMnemonic={_this.delMnemonic}
       />
     </>
   )

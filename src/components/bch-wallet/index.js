@@ -16,7 +16,8 @@ class BchWallet extends React.Component {
 
     this.state = {
       bchWallet: props.bchWallet,
-      bchWalletState: props.bchWalletState
+      bchWalletState: props.bchWalletState,
+      delMnemonic: props.delMnemonic
     }
   }
 
@@ -27,7 +28,7 @@ class BchWallet extends React.Component {
         <br />
         <WalletSummary bchWallet={this.state.bchWallet} bchWalletState={this.state.bchWalletState} />
         <br />
-        <WalletClear />
+        <WalletClear delMnemonic={this.state.delMnemonic} />
       </>
     )
   }
