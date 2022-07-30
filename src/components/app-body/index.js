@@ -24,15 +24,16 @@ class AppBody extends React.Component {
     this.state = {
       activeView: 0,
       menuState: props.menuState,
-      bchWallet: props.bchWallet,
-      bchWalletState: props.bchWalletState,
-      delMnemonic: props.delMnemonic,
-      setMnemonic: props.setMnemonic
+      appData: props.appData,
+      bchWallet: props.appData.bchWallet,
+      bchWalletState: props.appData.bchWalletState,
+      delMnemonic: props.appData.delMnemonic,
+      setMnemonic: props.appData.setMnemonic
     }
 
     // This function is passed from the parent component. It's used to update
     // the BCH wallet state.
-    this.updateBchWalletState = props.updateBchWalletState
+    this.updateBchWalletState = props.appData.updateBchWalletState
 
     _this = this
   }
@@ -58,10 +59,7 @@ class AppBody extends React.Component {
       case 2:
         return (
           <BchWallet
-            bchWallet={_this.state.bchWallet}
-            bchWalletState={_this.state.bchWalletState}
-            setMnemonic={_this.state.setMnemonic}
-            delMnemonic={_this.state.delMnemonic}
+            appData={_this.state.appData}
           />
         )
       default:

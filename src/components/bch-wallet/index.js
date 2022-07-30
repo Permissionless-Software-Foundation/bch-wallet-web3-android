@@ -16,10 +16,11 @@ class BchWallet extends React.Component {
     super(props)
 
     this.state = {
-      bchWallet: props.bchWallet,
-      bchWalletState: props.bchWalletState,
-      delMnemonic: props.delMnemonic,
-      setMnemonic: props.setMnemonic
+      appData: props.appData,
+      bchWallet: props.appData.bchWallet,
+      bchWalletState: props.appData.bchWalletState,
+      delMnemonic: props.appData.delMnemonic,
+      setMnemonic: props.appData.setMnemonic
     }
   }
 

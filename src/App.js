@@ -110,6 +110,17 @@ class App extends React.Component {
     //   bchWallet:
     // }
 
+    const appData = {
+      // Wallet and wallet state
+      bchWallet: this.state.bchWallet,
+      bchWalletState: this.state.bchWalletState,
+
+      // Functions
+      updateBchWalletState: this.updateBchWalletState,
+      setMnemonic: this.setMnemonic,
+      delMnemonic: this.delMnemonic
+    }
+
     return (
       <>
         <GetRestUrl />
@@ -118,12 +129,8 @@ class App extends React.Component {
         <NavMenu menuHandler={this.onMenuClick} />
         {this.state.walletInitialized
           ? <InitializedView
-              bchWallet={this.state.bchWallet}
               menuState={this.state.menuState}
-              bchWalletState={this.state.bchWalletState}
-              updateBchWalletState={this.updateBchWalletState}
-              delMnemonic={this.delMnemonic}
-              setMnemonic={this.setMnemonic}
+              appData={appData}
             />
           : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
@@ -200,11 +207,7 @@ function InitializedView (props) {
       <br />
       <AppBody
         menuState={_this.state.menuState}
-        bchWallet={props.bchWallet}
-        bchWalletState={props.bchWalletState}
-        updateBchWalletState={_this.updateBchWalletState}
-        delMnemonic={_this.delMnemonic}
-        setMnemonic={_this.setMnemonic}
+        appData={props.appData}
       />
     </>
   )
