@@ -106,6 +106,10 @@ class App extends React.Component {
     // console.log(`App component menuState: ${this.state.menuState}`)
     // console.log(`render() this.state.serverUrl: ${this.state.serverUrl}`)
 
+    // const passedData = {
+    //   bchWallet:
+    // }
+
     return (
       <>
         <GetRestUrl />

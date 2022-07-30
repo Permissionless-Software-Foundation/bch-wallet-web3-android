@@ -41,6 +41,7 @@
   "devDependencies": {
     "@capacitor/android": "latest",
     "@capacitor/cli": "latest",
+    "@capacitor/clipboard": "^4.0.1",
     "@capacitor/core": "latest",
     "standard": "17.0.0",
     "web3.storage": "4.3.0"
