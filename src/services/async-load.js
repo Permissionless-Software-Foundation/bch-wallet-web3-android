@@ -67,7 +67,7 @@ class AsyncLoad {
     }
 
     // console.log(`mnemonic: ${wallet.walletInfo.mnemonic}`)
-    console.log('wallet.walletInfo: ', wallet.walletInfo)
+    // console.log('wallet.walletInfo: ', wallet.walletInfo)
 
     // Update the state of the wallet.
     updateBchWalletState(wallet.walletInfo)

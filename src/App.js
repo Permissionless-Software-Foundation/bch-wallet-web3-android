@@ -172,7 +172,7 @@ class App extends React.Component {
   // This function is passed to child components in order to update the wallet
   // state. This function is important to make this wallet a PWA.
   updateBchWalletState (walletObj) {
-    console.log('updateBchWalletState() walletObj: ', walletObj)
+    // console.log('updateBchWalletState() walletObj: ', walletObj)
 
     const oldState = _this.state.bchWalletState
 
@@ -182,7 +182,7 @@ class App extends React.Component {
       bchWalletState
     })
 
-    console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
+    // console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
   }
 }
 
