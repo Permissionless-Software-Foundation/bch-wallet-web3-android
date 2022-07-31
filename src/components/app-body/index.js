@@ -10,11 +10,12 @@
 import React from 'react'
 
 // Local libraries
-import GetBalance from '../balance'
+// import GetBalance from '../balance'
 // import Placeholder2 from '../placeholder2'
 // import Placeholder3 from '../placeholder3'
 import BchWallet from '../bch-wallet'
 import BchSend from '../bch-send'
+import SlpTokens from '../slp-tokens'
 
 let _this
 
@@ -54,7 +55,8 @@ class AppBody extends React.Component {
 
     switch (menuState) {
       case 0:
-        return (<GetBalance wallet={_this.state.bchWallet} />)
+        // return (<GetBalance wallet={_this.state.bchWallet} />)
+        return (<SlpTokens appData={_this.state.appData} />)
       case 1:
         return (<BchSend appData={_this.state.appData} />)
       case 2:
@@ -64,7 +66,8 @@ class AppBody extends React.Component {
           />
         )
       default:
-        return (<GetBalance wallet={_this.state.bchWallet} />)
+        // return (<GetBalance wallet={_this.state.bchWallet} />)
+        return (<SlpTokens appData={_this.state.appData} />)
     }
   }
 }
