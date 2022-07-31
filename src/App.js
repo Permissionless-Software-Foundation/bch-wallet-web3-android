@@ -16,6 +16,7 @@ import ServerSelect from './components/servers'
 import Footer from './components/footer'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
+import LoadLocalStorage from './components/load-localstorage'
 
 // Default restURL for a back-end server.
 let serverUrl = 'https://free-bch.fullstack.cash'
@@ -35,15 +36,36 @@ class App extends React.Component {
 
     this.state = {
       walletInitialized: false,
-      wallet: false,
+      bchWallet: false,
       modalBody: this.modalBody,
       hideSpinner: false,
       menuState: 0,
       queryParamExists: false,
-      serverUrl
+      serverUrl,
+
+      // The wallet state make this a true progressive web app (PWA). As
+      // balances, UTXOs, and tokens are retrieved, this state is updated.
+      // properties are enumerated here for the purpose of documentation.
+      bchWalletState: {
+        mnemonic: undefined,
+        address: undefined,
+        cashAddress: undefined,
+        slpAddress: undefined,
+        privateKey: undefined,
+        publicKey: undefined,
+        legacyAddress: undefined,
+        hdPath: undefined,
+        bchBalance: 0,
+        slpTokens: []
+      }
     }
 
     this.cnt = 0
+
+    // These values are set by load-localstorage.js when it reads Local Storage.
+    this.mnemonic = undefined
+    this.setMnemonic = undefined
+    this.delMnemonic = undefined
 
     _this = this
   }
@@ -58,10 +80,10 @@ class App extends React.Component {
       // console.log(`Initializing wallet with back end server ${serverUrl}`)
       // console.log(`queryParamExists: ${queryParamExists}`)
 
-      const wallet = await this.asyncLoad.initWallet(serverUrl)
+      const bchWallet = await this.asyncLoad.initWallet(serverUrl, this.mnemonic, this.setMnemonic, this.updateBchWalletState)
 
       this.setState({
-        wallet,
+        bchWallet,
         walletInitialized: true,
         serverUrl,
         queryParamExists
@@ -84,12 +106,33 @@ class App extends React.Component {
     // console.log(`App component menuState: ${this.state.menuState}`)
     // console.log(`render() this.state.serverUrl: ${this.state.serverUrl}`)
 
+    // const passedData = {
+    //   bchWallet:
+    // }
+
+    const appData = {
+      // Wallet and wallet state
+      bchWallet: this.state.bchWallet,
+      bchWalletState: this.state.bchWalletState,
+
+      // Functions
+      updateBchWalletState: this.updateBchWalletState,
+      setMnemonic: this.setMnemonic,
+      delMnemonic: this.delMnemonic
+    }
+
     return (
       <>
         <GetRestUrl />
         <LoadScripts />
+        <LoadLocalStorage passMnemonic={this.passMnemonic} />
         <NavMenu menuHandler={this.onMenuClick} />
-        {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
+        {this.state.walletInitialized
+          ? <InitializedView
+              menuState={this.state.menuState}
+              appData={appData}
+            />
+          : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
         <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
         <Footer />
       </>
@@ -115,6 +158,32 @@ class App extends React.Component {
       menuState
     })
   }
+
+  // This function is used to retrieve the mnemonic from local storage, which
+  // is handled by a child component (load-localstorage.js)
+  passMnemonic (mnemonic, setMnemonic, delMnemonic) {
+    // console.log(`mnemonic loaded from local storage: ${mnemonic}`)
+
+    _this.mnemonic = mnemonic
+    _this.setMnemonic = setMnemonic
+    _this.delMnemonic = delMnemonic
+  }
+
+  // This function is passed to child components in order to update the wallet
+  // state. This function is important to make this wallet a PWA.
+  updateBchWalletState (walletObj) {
+    // console.log('updateBchWalletState() walletObj: ', walletObj)
+
+    const oldState = _this.state.bchWalletState
+
+    const bchWalletState = Object.assign({}, oldState, walletObj)
+
+    _this.setState({
+      bchWalletState
+    })
+
+    // console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
+  }
 }
 
 // This is rendered *before* the BCH wallet is initialized.
@@ -136,7 +205,10 @@ function InitializedView (props) {
   return (
     <>
       <br />
-      <AppBody menuState={_this.state.menuState} wallet={props.wallet} />
+      <AppBody
+        menuState={_this.state.menuState}
+        appData={props.appData}
+      />
     </>
   )
 }

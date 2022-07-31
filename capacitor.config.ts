@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.capacitor01.app',
-  appName: 'react-bootstrap-web3-android',
+  appId: 'com.bch-wallet.app',
+  appName: 'bch-wallet-web3',
   webDir: 'build',
   bundledWebRuntime: false
 };

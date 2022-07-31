@@ -12,7 +12,8 @@ import React from 'react'
 // Local libraries
 import GetBalance from '../balance'
 import Placeholder2 from '../placeholder2'
-import Placeholder3 from '../placeholder3'
+// import Placeholder3 from '../placeholder3'
+import BchWallet from '../bch-wallet'
 
 let _this
 
@@ -23,8 +24,16 @@ class AppBody extends React.Component {
     this.state = {
       activeView: 0,
       menuState: props.menuState,
-      wallet: props.wallet
+      appData: props.appData,
+      bchWallet: props.appData.bchWallet,
+      bchWalletState: props.appData.bchWalletState,
+      delMnemonic: props.appData.delMnemonic,
+      setMnemonic: props.appData.setMnemonic
     }
+
+    // This function is passed from the parent component. It's used to update
+    // the BCH wallet state.
+    this.updateBchWalletState = props.appData.updateBchWalletState
 
     _this = this
   }
@@ -44,13 +53,17 @@ class AppBody extends React.Component {
 
     switch (menuState) {
       case 0:
-        return (<GetBalance wallet={_this.state.wallet} />)
+        return (<GetBalance wallet={_this.state.bchWallet} />)
       case 1:
         return (<Placeholder2 />)
       case 2:
-        return (<Placeholder3 />)
+        return (
+          <BchWallet
+            appData={_this.state.appData}
+          />
+        )
       default:
-        return (<GetBalance wallet={_this.state.wallet} />)
+        return (<GetBalance wallet={_this.state.bchWallet} />)
     }
   }
 }

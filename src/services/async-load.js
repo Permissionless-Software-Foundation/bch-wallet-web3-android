@@ -27,17 +27,59 @@ class AsyncLoad {
   }
 
   // Initialize the BCH wallet
-  async initWallet (restURL) {
+  async initWallet (restURL, mnemonic, setMnemonic, updateBchWalletState) {
     const options = {
       interface: 'consumer-api',
       restURL,
       noUpdate: true
     }
 
-    const wallet = new this.BchWallet(null, options)
+    // Get the mnemonic from local storage.
+    // const { mnemonic, setMnemonic } = GetMnemonic()
 
+    let wallet
+    if (mnemonic) {
+      // Load the wallet from the mnemonic, if it's available from local storage.
+      wallet = new this.BchWallet(mnemonic, options)
+    } else {
+      // Generate a new mnemonic and wallet.
+      wallet = new this.BchWallet(null, options)
+    }
+
+    // const wallet = new this.BchWallet(null, options)
+
+    // Wait for wallet to initialize.
     await wallet.walletInfoPromise
+    const walletAddr = wallet.walletInfo.address
+
+    // Get token information from the wallet. This will also initialize the UTXO store.
+    const slpTokens = await wallet.listTokens(walletAddr)
+    // console.log(`slpTokens: ${JSON.stringify(slpTokens, null, 2)}`)
+
+    // Get the BCH balance of the wallet.
+    const bchBalance = await wallet.getBalance(walletAddr)
+    // console.log(`bchBalance: ${JSON.stringify(bchBalance, null, 2)}`)
+
+    // Create an object containing the BCH balance and tokens.
+    const balances = {
+      bchBalance,
+      slpTokens
+    }
+
     // console.log(`mnemonic: ${wallet.walletInfo.mnemonic}`)
+    // console.log('wallet.walletInfo: ', wallet.walletInfo)
+
+    // Update the state of the wallet.
+    updateBchWalletState(wallet.walletInfo)
+
+    // Update the state of the wallet with the balances
+    updateBchWalletState(balances)
+
+    // Save the mnemonic to local storage.
+    if (!mnemonic) {
+      const newMnemonic = wallet.walletInfo.mnemonic
+      setMnemonic(newMnemonic)
+    }
 
     this.wallet = wallet
 

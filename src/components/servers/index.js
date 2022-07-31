@@ -5,7 +5,6 @@
 
 // Global npm libraries
 import React from 'react'
-// import Select from 'react-dropdown-select'
 import { Container, Row, Col, Form } from 'react-bootstrap'
 
 // Local libraries
