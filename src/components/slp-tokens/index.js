@@ -9,9 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRedo } from '@fortawesome/free-solid-svg-icons'
 
 // Local libraries
-// import SendCard from './send-card'
-// import BalanceCard from './balance-card'
-// import ReceiveCard from './receive-card'
+import TokenCard from './token-card'
 
 class SlpTokens extends React.Component {
   constructor (props) {
@@ -23,6 +21,8 @@ class SlpTokens extends React.Component {
   }
 
   render () {
+    const tokenCards = this.generateCards()
+
     return (
       <>
         <Container>
@@ -34,9 +34,29 @@ class SlpTokens extends React.Component {
           </Row>
           <br />
 
+          <Row>
+            {tokenCards}
+          </Row>
+
         </Container>
       </>
     )
+  }
+
+  // This function generates a Token Card for each token in the wallet.
+  generateCards () {
+    const tokens = this.state.appData.bchWalletState.slpTokens
+
+    const tokenCards = []
+
+    for (let i = 0; i < tokens.length; i++) {
+      const thisToken = tokens[i]
+
+      const thisTokenCard = <TokenCard appData={this.state.appData} token={thisToken} />
+      tokenCards.push(thisTokenCard)
+    }
+
+    return tokenCards
   }
 }
 
