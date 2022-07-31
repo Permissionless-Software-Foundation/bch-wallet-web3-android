@@ -11,9 +11,10 @@ import React from 'react'
 
 // Local libraries
 import GetBalance from '../balance'
-import Placeholder2 from '../placeholder2'
+// import Placeholder2 from '../placeholder2'
 // import Placeholder3 from '../placeholder3'
 import BchWallet from '../bch-wallet'
+import BchSend from '../bch-send'
 
 let _this
 
@@ -55,7 +56,7 @@ class AppBody extends React.Component {
       case 0:
         return (<GetBalance wallet={_this.state.bchWallet} />)
       case 1:
-        return (<Placeholder2 />)
+        return (<BchSend appData={_this.state.appData} />)
       case 2:
         return (
           <BchWallet
