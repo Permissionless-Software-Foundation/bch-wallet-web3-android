@@ -15,7 +15,7 @@ class TokenCard extends React.Component {
       token: props.token
     }
 
-    console.log(`token: ${JSON.stringify(props.token, null, 2)}`)
+    // console.log(`token: ${JSON.stringify(props.token, null, 2)}`)
   }
 
   render () {

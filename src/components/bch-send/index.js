@@ -4,14 +4,21 @@
 
 // Global npm libraries
 import React from 'react'
-import { Container, Row, Col, Button } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRedo } from '@fortawesome/free-solid-svg-icons'
+import { Container, Row, Col } from 'react-bootstrap'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faRedo } from '@fortawesome/free-solid-svg-icons'
 
 // Local libraries
+import RefreshBchBalance from './refresh-bch-balance'
 import SendCard from './send-card'
 import BalanceCard from './balance-card'
 import ReceiveCard from './receive-card'
+// import WaitingModal from '../waiting-modal'
+
+// Working array for storing modal output.
+// this.modalBody = []
+
+// let _this
 
 class BchSend extends React.Component {
   constructor (props) {
@@ -19,7 +26,10 @@ class BchSend extends React.Component {
 
     this.state = {
       appData: props.appData
+      // modalBody: this.modalBody
     }
+
+    // _this = this
   }
 
   render () {
@@ -28,7 +38,7 @@ class BchSend extends React.Component {
         <Container>
           <Row>
             <Col xs={6}>
-              <Button variant='success'><FontAwesomeIcon icon={faRedo} size='lg' /> Refresh</Button>
+              <RefreshBchBalance appData={this.state.appData} />
             </Col>
             <Col xs={6} />
           </Row>
@@ -57,6 +67,15 @@ class BchSend extends React.Component {
       </>
     )
   }
+
+  // Add a new line to the waiting modal.
+  // addToModal (inStr) {
+  //   this.modalBody.push(inStr)
+  //
+  //   this.setState({
+  //     modalBody: this.modalBody
+  //   })
+  // }
 }
 
 export default BchSend
