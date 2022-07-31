@@ -49,7 +49,7 @@ class WalletImport extends React.Component {
                       <Col xs={10} className='text-break' style={{ textAlign: 'center' }}>
                         <Form>
                           <Form.Group className='mb-3' controlId='formImportWallet'>
-                            <Form.Control type='text' value={this.state.newMnemonic} onChange={e => this.setState({ newMnemonic: e.target.value })} />
+                            <Form.Control type='text' value={this.state.newMnemonic} onChange={this.handleImportMnemonic} />
                           </Form.Group>
                         </Form>
                       </Col>
@@ -81,6 +81,17 @@ class WalletImport extends React.Component {
         </Container>
       </>
     )
+  }
+
+  // This event handler is triggered as the user enters text into the Import
+  // Wallet text box.
+  async handleImportMnemonic (event) {
+    const inputStr = event.target.value
+
+    // Force the string to be all lower case
+    const formattedInput = inputStr.toLowerCase()
+
+    _this.setState({ newMnemonic: formattedInput })
   }
 
   async pasteFromClipboard (event) {
