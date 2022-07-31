@@ -89,8 +89,14 @@ class App extends React.Component {
         <GetRestUrl />
         <LoadScripts />
         <NavMenu menuHandler={this.onMenuClick} />
-        {this.state.walletInitialized ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} /> : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
-        <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
+
+        {
+          this.state.walletInitialized
+            ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} />
+            : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />
+        }
+
+        <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} menuHandler={this.onMenuClick} />
         <Footer />
       </>
     )

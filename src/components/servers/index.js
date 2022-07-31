@@ -6,7 +6,7 @@
 // Global npm libraries
 import React from 'react'
 // import Select from 'react-dropdown-select'
-import { Container, Row, Col, Form } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 
 // Local libraries
 import GistServers from '../../services/gist-servers'
@@ -18,6 +18,8 @@ const defaultOptions = [
   { value: 'https://wa-usa-bch-consumer.fullstackcash.nl', label: 'https://wa-usa-bch-consumer.fullstackcash.nl' }
 ]
 
+let _this
+
 class ServerSelect extends React.Component {
   constructor (props) {
     super(props)
@@ -26,8 +28,11 @@ class ServerSelect extends React.Component {
     // this.wallet = props.wallet
 
     this.state = {
-      options: defaultOptions
+      options: defaultOptions,
+      menuHandler: props.menuHandler
     }
+
+    _this = this
   }
 
   // This is called when the a new drop-down item is selected.
@@ -49,24 +54,48 @@ class ServerSelect extends React.Component {
       items.push(<option key={`server-${i}`} value={thisServer.value}>{thisServer.label}</option>)
     }
 
+    // return (
+    //   <Container>
+    //     <hr />
+    //     <Row>
+    //       <Col>
+    //         <br />
+    //         <h5 style={{ textAlign: 'center' }}>
+    //           Having trouble loading? Try selecting a different back-end server.
+    //         </h5>
+    //         <Form.Select onChange={(values) => this.selectServer(values)}>
+    //           <option>{this.props.queryParamExists ? (`${this.props.displayUrl}`) : ('Choose a back-end server')}</option>
+    //           {items}
+    //         </Form.Select>
+    //         <br />
+    //       </Col>
+    //     </Row>
+    //   </Container>
+    // )
+
     return (
       <Container>
         <hr />
         <Row>
-          <Col>
+          <Col style={{ textAlign: 'center', padding: '25px' }}>
             <br />
-            <h5 style={{ textAlign: 'center' }}>
+            <h5>
               Having trouble loading? Try selecting a different back-end server.
             </h5>
-            <Form.Select onChange={(values) => this.selectServer(values)}>
-              <option>{this.props.queryParamExists ? (`${this.props.displayUrl}`) : ('Choose a back-end server')}</option>
-              {items}
-            </Form.Select>
+            <Button variant='warning' onClick={this.handleServerSelect}>Select a different back end server</Button>
             <br />
           </Col>
         </Row>
       </Container>
     )
+  }
+
+  // This is a click handler for the server select button. It brings up the
+  // server selection View.
+  handleServerSelect () {
+    console.log('This function should navigate to the server selection view.')
+
+    _this.state.menuHandler(100)
   }
 
   // Retrieve an array of server URLs from the GitHub Gist.

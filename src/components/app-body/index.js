@@ -13,6 +13,7 @@ import React from 'react'
 import GetBalance from '../balance'
 import Placeholder2 from '../placeholder2'
 import Placeholder3 from '../placeholder3'
+import ServerSelectView from '../servers/select-server-view'
 
 let _this
 
@@ -49,6 +50,8 @@ class AppBody extends React.Component {
         return (<Placeholder2 />)
       case 2:
         return (<Placeholder3 />)
+      case 100:
+        return (<ServerSelectView />)
       default:
         return (<GetBalance wallet={_this.state.wallet} />)
     }
