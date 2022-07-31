@@ -56,7 +56,8 @@ class App extends React.Component {
         legacyAddress: undefined,
         hdPath: undefined,
         bchBalance: 0,
-        slpTokens: []
+        slpTokens: [],
+        bchUsdPrice: 150
       }
     }
 

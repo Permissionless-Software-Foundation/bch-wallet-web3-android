@@ -60,10 +60,14 @@ class AsyncLoad {
     const bchBalance = await wallet.getBalance(walletAddr)
     // console.log(`bchBalance: ${JSON.stringify(bchBalance, null, 2)}`)
 
+    // Get the price of BCH in USD
+    const bchUsdPrice = await wallet.getUsd()
+
     // Create an object containing the BCH balance and tokens.
     const balances = {
       bchBalance,
-      slpTokens
+      slpTokens,
+      bchUsdPrice
     }
 
     // console.log(`mnemonic: ${wallet.walletInfo.mnemonic}`)
