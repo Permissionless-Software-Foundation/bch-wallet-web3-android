@@ -12,7 +12,7 @@ import './App.css'
 import LoadScripts from './components/load-scripts'
 import WaitingModal from './components/waiting-modal'
 import AsyncLoad from './services/async-load'
-import ServerSelect from './components/servers'
+import SelectServerButton from './components/servers/select-server-button'
 import Footer from './components/footer'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
@@ -108,7 +108,7 @@ class App extends React.Component {
             : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />
         }
 
-        <ServerSelect menuHandler={this.onMenuClick} />
+        <SelectServerButton menuHandler={this.onMenuClick} />
         <Footer />
       </>
     )
