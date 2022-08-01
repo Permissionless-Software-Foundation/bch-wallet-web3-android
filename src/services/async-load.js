@@ -5,6 +5,9 @@
 // Global npm libraries
 import axios from 'axios'
 
+// Local libraries
+import GistServers from './gist-servers'
+
 class AsyncLoad {
   constructor () {
     this.BchWallet = false
@@ -79,6 +82,35 @@ class AsyncLoad {
     const data = response.data
 
     return data
+  }
+
+  // Get a list of alternative back end servers.
+  async getServers () {
+    // Try to get the list from GitHub
+    try {
+      const gistLib = new GistServers()
+      const gistServers = await gistLib.getServerList()
+
+      const serversAry = []
+
+      for (let i = 0; i < gistServers.length; i++) {
+        serversAry.push({ value: gistServers[i].url, label: gistServers[i].url })
+      }
+
+      return serversAry
+    } catch (err) {
+      console.error('Error trying to retrieve list of servers from GitHub: ', err)
+      console.log('Returning hard-coded list of servers.')
+
+      const defaultOptions = [
+        { value: 'https://free-bch.fullstack.cash', label: 'https://free-bch.fullstack.cash' },
+        { value: 'https://bc01-ca-bch-consumer.fullstackcash.nl', label: 'https://bc01-ca-bch-consumer.fullstackcash.nl' },
+        { value: 'https://pdx01-usa-bch-consumer.fullstackcash.nl', label: 'https://pdx01-usa-bch-consumer.fullstackcash.nl' },
+        { value: 'https://wa-usa-bch-consumer.fullstackcash.nl', label: 'https://wa-usa-bch-consumer.fullstackcash.nl' }
+      ]
+
+      return defaultOptions
+    }
   }
 }
 

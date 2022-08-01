@@ -13,6 +13,7 @@ import React from 'react'
 import GetBalance from '../balance'
 import Placeholder2 from '../placeholder2'
 import Placeholder3 from '../placeholder3'
+import ServerSelectView from '../servers/select-server-view'
 
 let _this
 
@@ -23,7 +24,8 @@ class AppBody extends React.Component {
     this.state = {
       activeView: 0,
       menuState: props.menuState,
-      wallet: props.wallet
+      wallet: props.wallet,
+      appData: props.appData
     }
 
     _this = this
@@ -49,6 +51,10 @@ class AppBody extends React.Component {
         return (<Placeholder2 />)
       case 2:
         return (<Placeholder3 />)
+
+      // Special Views
+      case 100:
+        return (<ServerSelectView appData={this.state.appData} />)
       default:
         return (<GetBalance wallet={_this.state.wallet} />)
     }
