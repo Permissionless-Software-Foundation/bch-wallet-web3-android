@@ -3,6 +3,9 @@ This is a web-based single page app (SPA) written in React. It provides non-cust
 
 This is a fork of [react-bootstrap-web3-android](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-android), which is a fork of [react-bootstrap-web3-spa](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa). That boilerplate is used to build a React app using the [react-boostrap library](https://www.npmjs.com/package/react-bootstrap).
 
+- [Live Demo on Filecoin](https://bafybeiex75v64b3xvp5vzqjyxo5sfb4kuj3iclxprxis2gng7hfnyw4kim.ipfs.dweb.link/)
+- [Download latest APK file](./android/apk/bch-web3-wallet.apk)
+
 ## Support
 
 Have questions? Need help? Join our community support
@@ -16,9 +19,6 @@ This open source software is developed and maintained by the [Permissionless Sof
 <img src="./img/donation-qr.png" />
 <p>bitcoincash:qqsrke9lh257tqen99dkyy2emh4uty0vky9y0z0lsr</p>
 </div>
-
-- [Live Demo on Filecoin](https://bafybeieawisnppueyqxeqjnu6d67jogu7xt7cypshx3q3k55yizphg3tia.ipfs.dweb.link/)
-- [Download latest APK file](./android/apk/capacitor-web3-app.apk)
 
 ## Support
 
