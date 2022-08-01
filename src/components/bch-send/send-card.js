@@ -8,6 +8,9 @@ import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faPaste, faRandom } from '@fortawesome/free-solid-svg-icons'
 
+// Local libraries
+import WaitingModal from '../waiting-modal'
+
 let _this
 
 class SendCard extends React.Component {
@@ -26,7 +29,12 @@ class SendCard extends React.Component {
 
       // Used to display the opposite units and quantity.
       oppositeUnits: 'BCH',
-      oppositeQty: 0
+      oppositeQty: 0,
+
+      // Modal variables
+      modalBody: [],
+      hideModalSpinner: false,
+      hideModal: true
     }
 
     _this = this
@@ -35,6 +43,12 @@ class SendCard extends React.Component {
   render () {
     return (
       <>
+        {
+          this.state.hideModal
+            ? null
+            : (<WaitingModal heading='Sending BCH' body={this.state.modalBody} hideSpinner={this.state.hideModalSpinner} />)
+        }
+
         <Card>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' }}>
@@ -177,31 +191,71 @@ class SendCard extends React.Component {
   async handleSendBch () {
     console.log('Sending BCH')
 
-    const amountBch = _this.state.amountBch
-    let bchAddr = _this.state.bchAddr
-    console.log(`Sending ${amountBch} BCH to ${bchAddr}`)
+    try {
+      // Open the modal
+      const modalBody = ['Preparing to send bch...']
+      _this.setState({
+        hideModal: false,
+        modalBody
+      })
 
-    const wallet = _this.state.appData.bchWallet
-    const bchjs = wallet.bchjs
+      const amountBch = _this.state.amountBch
+      let bchAddr = _this.state.bchAddr
+      let infoStr = `Sending ${amountBch} BCH to ${bchAddr}`
+      console.log(infoStr)
 
-    // If the address is an SLP address, convert it to a cash address.
-    if (!bchAddr.includes(bchAddr)) {
-      bchAddr = bchjs.SLP.Address.toCashAddress(bchAddr)
+      // Update modal
+      modalBody.push(infoStr)
+      _this.setState({ modalBody })
+
+      const wallet = _this.state.appData.bchWallet
+      const bchjs = wallet.bchjs
+
+      // If the address is an SLP address, convert it to a cash address.
+      if (!bchAddr.includes(bchAddr)) {
+        bchAddr = bchjs.SLP.Address.toCashAddress(bchAddr)
+      }
+
+      // Convert the BCH to satoshis
+      const sats = bchjs.BitcoinCash.toSatoshi(amountBch)
+
+      // Update the wallets UTXOs
+      infoStr = 'Updating UTXOs...'
+      console.log(infoStr)
+      modalBody.push(infoStr)
+      _this.setState({ modalBody })
+      await wallet.getUtxos()
+
+      const receivers = [{
+        address: bchAddr,
+        amountSat: sats
+      }]
+      const txid = await wallet.send(receivers)
+
+      // Display TXID
+      infoStr = `txid: ${txid}`
+      console.log(infoStr)
+      modalBody.push(infoStr)
+
+      // Link to block explorer
+      const explorerUrl = `https://blockchair.com/bitcoin-cash/transaction/${txid}`
+      const explorerLink = (<a href={`${explorerUrl}`} target='_blank' rel='noreferrer'>Block Explorer</a>)
+      modalBody.push(explorerLink)
+
+      _this.setState({ modalBody, hideModalSpinner: true })
+    } catch (err) {
+      console.log('Error in handleSendBch(): ', err)
+
+      const modalBody = _this.state.modalBody
+      modalBody.push(`Error trying to send BCH: ${err.message}`)
+
+      // Print the error to the modal
+      _this.setState({
+        hideModal: false,
+        modalBody: ['Preparing to send bch...'],
+        hideModalSpinner: true
+      })
     }
-
-    // Convert the BCH to satoshis
-    const sats = bchjs.BitcoinCash.toSatoshi(amountBch)
-
-    // Update the wallets UTXOs
-    console.log('Updating UTXOs...')
-    await wallet.getUtxos()
-
-    const receivers = [{
-      address: bchAddr,
-      amountSat: sats
-    }]
-    const txid = await wallet.send(receivers)
-    console.log(`txid: ${txid}`)
   }
 }
 
