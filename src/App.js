@@ -1,10 +1,9 @@
 /*
-  This is an SPA that displays information about NFTs on the BCH blockchain.
+  This is an SPA that creates a template for future BCH web3 apps.
 */
 
 // Global npm libraries
 import React from 'react'
-// import { Container, Row, Col } from 'react-bootstrap'
 import { useQueryParam, StringParam } from 'use-query-params'
 
 // Local libraries
@@ -19,7 +18,14 @@ import AppBody from './components/app-body'
 
 // Default restURL for a back-end server.
 let serverUrl = 'https://free-bch.fullstack.cash'
-let queryParamExists = false
+
+// Default alternative servers.
+const defaultServerOptions = [
+  { value: 'https://free-bch.fullstack.cash', label: 'https://free-bch.fullstack.cash' },
+  { value: 'https://bc01-ca-bch-consumer.fullstackcash.nl', label: 'https://bc01-ca-bch-consumer.fullstackcash.nl' },
+  { value: 'https://pdx01-usa-bch-consumer.fullstackcash.nl', label: 'https://pdx01-usa-bch-consumer.fullstackcash.nl' },
+  { value: 'https://wa-usa-bch-consumer.fullstackcash.nl', label: 'https://wa-usa-bch-consumer.fullstackcash.nl' }
+]
 
 let _this
 
@@ -30,18 +36,18 @@ class App extends React.Component {
     // Encasulate dependencies
     this.asyncLoad = new AsyncLoad()
 
-    // Working array for storing modal output.
-    this.modalBody = []
-
     this.state = {
-      walletInitialized: false,
-      wallet: false,
-      modalBody: this.modalBody,
-      hideSpinner: false,
-      menuState: 0,
-      queryParamExists: false,
+      wallet: false, // BCH wallet instance
+      menuState: 0, // The current View being displayed in the app
       serverUrl,
-      servers: []
+      servers: defaultServerOptions,
+
+      // Startup Modal
+      showStartModal: true, // Should the startup modal be visible?
+      asyncInitFinished: false, // Did startup finish?
+      asyncInitSucceeded: null, // Did startup finish successfully?
+      modalBody: [],
+      hideSpinner: false
     }
 
     this.cnt = 0
@@ -61,16 +67,17 @@ class App extends React.Component {
 
       this.addToModal('Initializing wallet')
       // console.log(`Initializing wallet with back end server ${serverUrl}`)
-      // console.log(`queryParamExists: ${queryParamExists}`)
 
       const wallet = await this.asyncLoad.initWallet(serverUrl)
 
       this.setState({
         wallet,
-        walletInitialized: true,
         serverUrl,
-        queryParamExists,
-        servers
+        // queryParamExists,
+        servers,
+        showStartModal: false,
+        asyncInitFinished: true,
+        asyncInitSucceeded: true
       })
     } catch (err) {
       this.modalBody = [
@@ -80,7 +87,10 @@ class App extends React.Component {
 
       this.setState({
         modalBody: this.modalBody,
-        hideSpinner: true
+        hideSpinner: true,
+        showStartModal: true,
+        asyncInitFinished: true,
+        asyncInitSucceeded: false
       })
     }
   }
@@ -103,9 +113,9 @@ class App extends React.Component {
         <NavMenu menuHandler={this.onMenuClick} />
 
         {
-          this.state.walletInitialized
-            ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
-            : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />
+          this.state.showStartModal
+            ? <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} appData={appData} />
+            : <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
         }
 
         <SelectServerButton menuHandler={this.onMenuClick} />
@@ -116,10 +126,12 @@ class App extends React.Component {
 
   // Add a new line to the waiting modal.
   addToModal (inStr) {
-    this.modalBody.push(inStr)
+    const modalBody = this.state.modalBody
+
+    modalBody.push(inStr)
 
     this.setState({
-      modalBody: this.modalBody
+      modalBody
     })
   }
 
@@ -142,7 +154,15 @@ function UninitializedView (props) {
   const heading = 'Loading Blockchain Data...'
 
   return (
-    <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
+    <>
+      <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
+
+      {
+        _this.state.asyncInitFinished
+          ? <AppBody menuState={100} wallet={props.wallet} appData={props.appData} />
+          : null
+      }
+    </>
   )
 }
 
@@ -166,7 +186,7 @@ function GetRestUrl (props) {
 
   if (restURL) {
     serverUrl = restURL
-    queryParamExists = true
+    // queryParamExists = true
   }
 
   return (<></>)
