@@ -37,9 +37,6 @@ class AsyncLoad {
       noUpdate: true
     }
 
-    // Get the mnemonic from local storage.
-    // const { mnemonic, setMnemonic } = GetMnemonic()
-
     let wallet
     if (mnemonic) {
       // Load the wallet from the mnemonic, if it's available from local storage.
@@ -49,38 +46,11 @@ class AsyncLoad {
       wallet = new this.BchWallet(null, options)
     }
 
-    // const wallet = new this.BchWallet(null, options)
-
     // Wait for wallet to initialize.
     await wallet.walletInfoPromise
-    const walletAddr = wallet.walletInfo.address
-
-    // Get token information from the wallet. This will also initialize the UTXO store.
-    const slpTokens = await wallet.listTokens(walletAddr)
-    // console.log(`slpTokens: ${JSON.stringify(slpTokens, null, 2)}`)
-
-    // Get the BCH balance of the wallet.
-    const bchBalance = await wallet.getBalance(walletAddr)
-    // console.log(`bchBalance: ${JSON.stringify(bchBalance, null, 2)}`)
-
-    // Get the price of BCH in USD
-    const bchUsdPrice = await wallet.getUsd()
-
-    // Create an object containing the BCH balance and tokens.
-    const balances = {
-      bchBalance,
-      slpTokens,
-      bchUsdPrice
-    }
-
-    // console.log(`mnemonic: ${wallet.walletInfo.mnemonic}`)
-    // console.log('wallet.walletInfo: ', wallet.walletInfo)
 
     // Update the state of the wallet.
     updateBchWalletState(wallet.walletInfo)
-
-    // Update the state of the wallet with the balances
-    updateBchWalletState(balances)
 
     // Save the mnemonic to local storage.
     if (!mnemonic) {
@@ -91,6 +61,38 @@ class AsyncLoad {
     this.wallet = wallet
 
     return wallet
+  }
+
+  // Get the spot exchange rate for BCH in USD.
+  async getUSDExchangeRate (wallet, updateBchWalletState) {
+    const bchUsdPrice = await wallet.getUsd()
+
+    // Update the state of the wallet
+    updateBchWalletState({ bchUsdPrice })
+
+    return true
+  }
+
+  // Get a list of SLP tokens held by the wallet.
+  async getSlpTokenBalances (wallet, updateBchWalletState) {
+    // Get token information from the wallet. This will also initialize the UTXO store.
+    const slpTokens = await wallet.listTokens(wallet.walletInfo.cashAddress)
+
+    // Update the state of the wallet with the balances
+    updateBchWalletState({ slpTokens })
+
+    return true
+  }
+
+  // Get the BCH balance of the wallet.
+  async getWalletBchBalance (wallet, updateBchWalletState) {
+    // Get the BCH balance of the wallet.
+    const bchBalance = await wallet.getBalance(wallet.walletInfo.cashAddress)
+
+    // Update the state of the wallet with the balances
+    updateBchWalletState({ bchBalance })
+
+    return true
   }
 
   // Get token data for a given Token ID
