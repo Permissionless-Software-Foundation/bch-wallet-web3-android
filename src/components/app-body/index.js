@@ -10,12 +10,10 @@
 import React from 'react'
 
 // Local libraries
-// import GetBalance from '../balance'
-// import Placeholder2 from '../placeholder2'
-// import Placeholder3 from '../placeholder3'
 import BchWallet from '../bch-wallet'
 import BchSend from '../bch-send'
 import SlpTokens from '../slp-tokens'
+import ServerSelectView from '../servers/select-server-view'
 
 let _this
 
@@ -65,6 +63,10 @@ class AppBody extends React.Component {
             appData={_this.state.appData}
           />
         )
+
+      // Special Views
+      case 100:
+        return (<ServerSelectView appData={this.state.appData} />)
       default:
         // return (<GetBalance wallet={_this.state.bchWallet} />)
         return (<SlpTokens appData={_this.state.appData} />)

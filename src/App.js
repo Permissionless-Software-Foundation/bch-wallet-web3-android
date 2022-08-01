@@ -42,6 +42,7 @@ class App extends React.Component {
       menuState: 0,
       queryParamExists: false,
       serverUrl,
+      server: [],
 
       // The wallet state make this a true progressive web app (PWA). As
       // balances, UTXOs, and tokens are retrieved, this state is updated.
@@ -77,6 +78,14 @@ class App extends React.Component {
 
       await this.asyncLoad.loadWalletLib()
 
+      this.addToModal('Getting alternative servers')
+      const servers = await this.asyncLoad.getServers()
+      // console.log('servers: ', servers)
+
+      this.setState({
+        servers
+      })
+
       this.addToModal('Initializing wallet')
       // console.log(`Initializing wallet with back end server ${serverUrl}`)
       // console.log(`queryParamExists: ${queryParamExists}`)
@@ -107,10 +116,8 @@ class App extends React.Component {
     // console.log(`App component menuState: ${this.state.menuState}`)
     // console.log(`render() this.state.serverUrl: ${this.state.serverUrl}`)
 
-    // const passedData = {
-    //   bchWallet:
-    // }
-
+    // This is a macro object that is passed to all child components. It gathers
+    // all the data and handlers used throughout the app.
     const appData = {
       // Wallet and wallet state
       bchWallet: this.state.bchWallet,
@@ -119,8 +126,18 @@ class App extends React.Component {
       // Functions
       updateBchWalletState: this.updateBchWalletState,
       setMnemonic: this.setMnemonic,
-      delMnemonic: this.delMnemonic
+      delMnemonic: this.delMnemonic,
+
+      servers: this.state.servers // Alternative back end servers
     }
+
+    // {this.state.walletInitialized
+    //   ? <InitializedView
+    //       menuState={this.state.menuState}
+    //       appData={appData}
+    //     />
+    //   : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
+    // <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
 
     return (
       <>
@@ -128,13 +145,14 @@ class App extends React.Component {
         <LoadScripts />
         <LoadLocalStorage passMnemonic={this.passMnemonic} />
         <NavMenu menuHandler={this.onMenuClick} />
-        {this.state.walletInitialized
-          ? <InitializedView
-              menuState={this.state.menuState}
-              appData={appData}
-            />
-          : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
-        <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
+
+        {
+          this.state.walletInitialized
+            ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
+            : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />
+        }
+
+        <ServerSelect menuHandler={this.onMenuClick} />
         <Footer />
       </>
     )
