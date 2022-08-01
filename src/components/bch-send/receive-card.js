@@ -8,6 +8,9 @@ import { Container, Row, Col, Card, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import QRCode from 'qrcode.react'
+import { Clipboard } from '@capacitor/clipboard'
+
+let _this
 
 class ReceiveCard extends React.Component {
   constructor (props) {
@@ -15,10 +18,11 @@ class ReceiveCard extends React.Component {
 
     this.state = {
       appData: props.appData,
-      addrSwitch: false
+      addrSwitch: false,
+      displayCopyMsg: false
     }
 
-    // _this = this
+    _this = this
   }
 
   render () {
@@ -41,6 +45,12 @@ class ReceiveCard extends React.Component {
             <br />
 
             <Container>
+              <Row>
+                <Col style={{ color: 'green' }}>
+                  {this.state.displayCopyMsg ? 'Copied' : null}
+                </Col>
+              </Row>
+
               <Row>
                 <Col>
                   <QRCode
@@ -79,8 +89,48 @@ class ReceiveCard extends React.Component {
     )
   }
 
-  handleCopyAddress (event) {
-    console.log('QR code clicked')
+  // Copy the selected address to the clipboard when the QR image is clicked
+  async handleCopyAddress (event) {
+    // console.log('QR code clicked')
+
+    // Determine which address to display
+    let addrToDisplay = _this.state.appData.bchWalletState.cashAddress
+    const addrSwitch = _this.state.addrSwitch
+    if (!addrSwitch) {
+      addrToDisplay = _this.state.appData.bchWalletState.cashAddress
+    } else {
+      addrToDisplay = _this.state.appData.bchWalletState.slpAddress
+    }
+
+    try {
+      // Capacitor Android environment.
+
+      // Write the value to the clipboard.
+      await Clipboard.write({
+        string: addrToDisplay
+      })
+    } catch (err) {
+      // Browser environment. Use normal browser methods.
+
+      const textArea = document.createElement('textarea')
+      textArea.value = addrToDisplay
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('Copy')
+      textArea.remove()
+    }
+
+    // Display the copied message.
+    _this.setState({
+      displayCopyMsg: true
+    })
+
+    // Clear the copied message after some time.
+    setTimeout(function () {
+      _this.setState({
+        displayCopyMsg: false
+      })
+    }, 1000)
   }
 
   // Event handler that updates the state when the address switch is toggled.
