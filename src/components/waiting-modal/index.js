@@ -39,16 +39,6 @@ function BodyList (props) {
 
   const listItems = []
 
-  // List items
-  // for(let i=0; i < items.length; i++) {
-  //   listItems.push(<li key={items[i]}>{items[i]}</li>)
-  // }
-  // return (
-  //   <ul>
-  //     {listItems}
-  //   </ul>
-  // )
-
   // Paragraphs
   for (let i = 0; i < items.length; i++) {
     listItems.push(<p key={items[i]}><code>{items[i]}</code></p>)
