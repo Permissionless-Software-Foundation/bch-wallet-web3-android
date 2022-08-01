@@ -1,10 +1,9 @@
 /*
-  This is an SPA that displays information about NFTs on the BCH blockchain.
+  This is an SPA that creates a template for future BCH web3 apps.
 */
 
 // Global npm libraries
 import React from 'react'
-// import { Container, Row, Col } from 'react-bootstrap'
 import { useQueryParam, StringParam } from 'use-query-params'
 
 // Local libraries
@@ -12,7 +11,7 @@ import './App.css'
 import LoadScripts from './components/load-scripts'
 import WaitingModal from './components/waiting-modal'
 import AsyncLoad from './services/async-load'
-import ServerSelect from './components/servers'
+import SelectServerButton from './components/servers/select-server-button'
 import Footer from './components/footer'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
@@ -20,7 +19,14 @@ import LoadLocalStorage from './components/load-localstorage'
 
 // Default restURL for a back-end server.
 let serverUrl = 'https://free-bch.fullstack.cash'
-let queryParamExists = false
+
+// Default alternative servers.
+const defaultServerOptions = [
+  { value: 'https://free-bch.fullstack.cash', label: 'https://free-bch.fullstack.cash' },
+  { value: 'https://bc01-ca-bch-consumer.fullstackcash.nl', label: 'https://bc01-ca-bch-consumer.fullstackcash.nl' },
+  { value: 'https://pdx01-usa-bch-consumer.fullstackcash.nl', label: 'https://pdx01-usa-bch-consumer.fullstackcash.nl' },
+  { value: 'https://wa-usa-bch-consumer.fullstackcash.nl', label: 'https://wa-usa-bch-consumer.fullstackcash.nl' }
+]
 
 let _this
 
@@ -31,17 +37,21 @@ class App extends React.Component {
     // Encasulate dependencies
     this.asyncLoad = new AsyncLoad()
 
-    // Working array for storing modal output.
-    this.modalBody = []
-
     this.state = {
+      // State specific to this top-level component.
       walletInitialized: false,
-      bchWallet: false,
-      modalBody: this.modalBody,
-      hideSpinner: false,
-      menuState: 0,
-      queryParamExists: false,
-      serverUrl,
+      bchWallet: false, // BCH wallet instance
+      menuState: 0, // The current View being displayed in the app
+      queryParamExists: false, // Becomes true if query parameters are detected in the URL.
+      serverUrl, // Stores the URL for the currently selected server.
+      servers: defaultServerOptions, // A list of back end servers.
+
+      // Startup Modal
+      showStartModal: true, // Should the startup modal be visible?
+      asyncInitFinished: false, // Did startup finish?
+      asyncInitSucceeded: null, // Did startup finish successfully?
+      modalBody: [], // Strings displayed in the modal
+      hideSpinner: false, // Spinner gif in modal
 
       // The wallet state make this a true progressive web app (PWA). As
       // balances, UTXOs, and tokens are retrieved, this state is updated.
@@ -77,17 +87,37 @@ class App extends React.Component {
 
       await this.asyncLoad.loadWalletLib()
 
-      this.addToModal('Initializing wallet')
-      // console.log(`Initializing wallet with back end server ${serverUrl}`)
-      // console.log(`queryParamExists: ${queryParamExists}`)
-
-      const bchWallet = await this.asyncLoad.initWallet(serverUrl, this.mnemonic, this.setMnemonic, this.updateBchWalletState)
-
+      // Update the list of potential back end servers.
+      this.addToModal('Getting alternative servers')
+      const servers = await this.asyncLoad.getServers()
       this.setState({
-        bchWallet,
-        walletInitialized: true,
-        serverUrl,
-        queryParamExists
+        servers
+      })
+
+      // Initialize the BCH wallet with the currently selected server.
+      this.addToModal('Initializing wallet')
+      const bchWallet = await this.asyncLoad.initWallet(serverUrl, this.mnemonic, this.setMnemonic, this.updateBchWalletState)
+      this.setState({
+        bchWallet
+      })
+
+      // Get the BCH balance of the wallet.
+      this.addToModal('Getting BCH balance')
+      await this.asyncLoad.getWalletBchBalance(bchWallet, this.updateBchWalletState)
+
+      // Get the SLP tokens held by the wallet.
+      this.addToModal('Getting SLP token balances')
+      await this.asyncLoad.getSlpTokenBalances(bchWallet, this.updateBchWalletState)
+
+      // Get the SLP tokens held by the wallet.
+      this.addToModal('Getting BCH spot price in USD')
+      await this.asyncLoad.getUSDExchangeRate(bchWallet, this.updateBchWalletState)
+
+      // Close the modal once initialization is done.
+      this.setState({
+        showStartModal: false,
+        asyncInitFinished: true,
+        asyncInitSucceeded: true
       })
     } catch (err) {
       this.modalBody = [
@@ -97,7 +127,10 @@ class App extends React.Component {
 
       this.setState({
         modalBody: this.modalBody,
-        hideSpinner: true
+        hideSpinner: true,
+        showStartModal: true,
+        asyncInitFinished: true,
+        asyncInitSucceeded: false
       })
     }
   }
@@ -107,10 +140,8 @@ class App extends React.Component {
     // console.log(`App component menuState: ${this.state.menuState}`)
     // console.log(`render() this.state.serverUrl: ${this.state.serverUrl}`)
 
-    // const passedData = {
-    //   bchWallet:
-    // }
-
+    // This is a macro object that is passed to all child components. It gathers
+    // all the data and handlers used throughout the app.
     const appData = {
       // Wallet and wallet state
       bchWallet: this.state.bchWallet,
@@ -119,7 +150,9 @@ class App extends React.Component {
       // Functions
       updateBchWalletState: this.updateBchWalletState,
       setMnemonic: this.setMnemonic,
-      delMnemonic: this.delMnemonic
+      delMnemonic: this.delMnemonic,
+
+      servers: this.state.servers // Alternative back end servers
     }
 
     return (
@@ -128,13 +161,14 @@ class App extends React.Component {
         <LoadScripts />
         <LoadLocalStorage passMnemonic={this.passMnemonic} />
         <NavMenu menuHandler={this.onMenuClick} />
-        {this.state.walletInitialized
-          ? <InitializedView
-              menuState={this.state.menuState}
-              appData={appData}
-            />
-          : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />}
-        <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} />
+
+        {
+          this.state.showStartModal
+            ? <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} appData={appData} />
+            : <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
+        }
+
+        <SelectServerButton menuHandler={this.onMenuClick} />
         <Footer />
       </>
     )
@@ -142,10 +176,12 @@ class App extends React.Component {
 
   // Add a new line to the waiting modal.
   addToModal (inStr) {
-    this.modalBody.push(inStr)
+    const modalBody = this.state.modalBody
+
+    modalBody.push(inStr)
 
     this.setState({
-      modalBody: this.modalBody
+      modalBody
     })
   }
 
@@ -194,7 +230,15 @@ function UninitializedView (props) {
   const heading = 'Loading Blockchain Data...'
 
   return (
-    <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
+    <>
+      <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
+
+      {
+        _this.state.asyncInitFinished
+          ? <AppBody menuState={100} wallet={props.wallet} appData={props.appData} />
+          : null
+      }
+    </>
   )
 }
 
@@ -221,7 +265,7 @@ function GetRestUrl (props) {
 
   if (restURL) {
     serverUrl = restURL
-    queryParamExists = true
+    // queryParamExists = true
   }
 
   return (<></>)
