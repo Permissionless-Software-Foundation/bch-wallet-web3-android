@@ -40,7 +40,8 @@ class App extends React.Component {
       hideSpinner: false,
       menuState: 0,
       queryParamExists: false,
-      serverUrl
+      serverUrl,
+      servers: []
     }
 
     this.cnt = 0
@@ -54,6 +55,10 @@ class App extends React.Component {
 
       await this.asyncLoad.loadWalletLib()
 
+      this.addToModal('Getting alternative servers')
+      const servers = await this.asyncLoad.getServers()
+      // console.log('servers: ', servers)
+
       this.addToModal('Initializing wallet')
       // console.log(`Initializing wallet with back end server ${serverUrl}`)
       // console.log(`queryParamExists: ${queryParamExists}`)
@@ -64,7 +69,8 @@ class App extends React.Component {
         wallet,
         walletInitialized: true,
         serverUrl,
-        queryParamExists
+        queryParamExists,
+        servers
       })
     } catch (err) {
       this.modalBody = [
@@ -84,6 +90,12 @@ class App extends React.Component {
     // console.log(`App component menuState: ${this.state.menuState}`)
     // console.log(`render() this.state.serverUrl: ${this.state.serverUrl}`)
 
+    // This is a macro object that is passed to all child components. It gathers
+    // all the data and handlers used throughout the app.
+    const appData = {
+      servers: this.state.servers // Alternative back end servers
+    }
+
     return (
       <>
         <GetRestUrl />
@@ -92,11 +104,11 @@ class App extends React.Component {
 
         {
           this.state.walletInitialized
-            ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} />
+            ? <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
             : <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} />
         }
 
-        <ServerSelect displayUrl={this.state.serverUrl} queryParamExists={queryParamExists} menuHandler={this.onMenuClick} />
+        <ServerSelect menuHandler={this.onMenuClick} />
         <Footer />
       </>
     )
@@ -142,7 +154,7 @@ function InitializedView (props) {
   return (
     <>
       <br />
-      <AppBody menuState={_this.state.menuState} wallet={props.wallet} />
+      <AppBody menuState={_this.state.menuState} wallet={props.wallet} appData={props.appData} />
     </>
   )
 }
