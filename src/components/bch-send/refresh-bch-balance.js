@@ -18,12 +18,9 @@ class RefreshBchBalance extends React.Component {
   constructor (props) {
     super(props)
 
-    // Working array for storing modal output.
-    this.modalBody = []
-
     this.state = {
       appData: props.appData,
-      modalBody: this.modalBody,
+      modalBody: [],
       hideSpinner: false,
       hideWaitingModal: true
     }
@@ -89,10 +86,12 @@ class RefreshBchBalance extends React.Component {
 
   // Add a new line to the waiting modal.
   addToModal (inStr) {
-    this.modalBody.push(inStr)
+    const modalBody = this.state.modalBody
+
+    modalBody.push(inStr)
 
     this.setState({
-      modalBody: this.modalBody
+      modalBody
     })
   }
 }

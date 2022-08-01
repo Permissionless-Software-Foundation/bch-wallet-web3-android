@@ -6,11 +6,12 @@
 import React from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faWallet, faEye, faEyeSlash, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faWallet, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { Clipboard } from '@capacitor/clipboard'
 
 // Local libraries
 import './wallet-summary.css'
+import CopyOnClick from './copy-on-click'
 
 let _this
 
@@ -59,7 +60,7 @@ class WalletSummary extends React.Component {
                         <FontAwesomeIcon icon={eyeIcon.mnemonic} size='lg' onClick={() => _this.toggleMnemonicBlur()} />
                       </Col>
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                        <FontAwesomeIcon icon={faCopy} size='lg' onClick={() => _this.copyToClipboard('mnemonic')} />
+                        <CopyOnClick walletProp='mnemonic' appData={this.state.appData} />
                       </Col>
                     </Row>
 
@@ -71,7 +72,7 @@ class WalletSummary extends React.Component {
                         <FontAwesomeIcon icon={eyeIcon.privateKey} size='lg' onClick={() => _this.togglePrivateKeyBlur()} />
                       </Col>
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                        <FontAwesomeIcon icon={faCopy} size='lg' onClick={() => _this.copyToClipboard('privateKey')} />
+                        <CopyOnClick walletProp='privateKey' appData={this.state.appData} />
                       </Col>
                     </Row>
 
@@ -81,7 +82,7 @@ class WalletSummary extends React.Component {
                       </Col>
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                        <FontAwesomeIcon icon={faCopy} size='lg' onClick={() => _this.copyToClipboard('cashAddress')} />
+                        <CopyOnClick walletProp='cashAddress' appData={this.state.appData} />
                       </Col>
                     </Row>
 
@@ -91,7 +92,7 @@ class WalletSummary extends React.Component {
                       </Col>
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                        <FontAwesomeIcon icon={faCopy} size='lg' onClick={() => _this.copyToClipboard('slpAddress')} />
+                        <CopyOnClick walletProp='slpAddress' appData={this.state.appData} />
                       </Col>
                     </Row>
 
@@ -101,7 +102,7 @@ class WalletSummary extends React.Component {
                       </Col>
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                        <FontAwesomeIcon icon={faCopy} size='lg' onClick={() => _this.copyToClipboard('legacyAddress')} />
+                        <CopyOnClick walletProp='legacyAddress' appData={this.state.appData} />
                       </Col>
                     </Row>
 
@@ -111,7 +112,7 @@ class WalletSummary extends React.Component {
                       </Col>
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }} />
                       <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                        <FontAwesomeIcon icon={faCopy} size='lg' onClick={() => _this.copyToClipboard('hdPath')} />
+                        <CopyOnClick walletProp='hdPath' appData={this.state.appData} />
                       </Col>
                     </Row>
                   </Container>
