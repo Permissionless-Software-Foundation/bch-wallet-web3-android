@@ -72,7 +72,7 @@ class SendCard extends React.Component {
 
               <Row>
                 <Col xs={12}>
-                  <Form>
+                  <Form style={{ paddingBottom: '10px' }}>
                     <Form.Group controlId='formBasicEmail' style={{ textAlign: 'center' }}>
                       <Form.Control type='text' onChange={this.handleUpdateAmount} value={this.state.amountStr} />
                     </Form.Group>
@@ -83,7 +83,7 @@ class SendCard extends React.Component {
                 <Col xs={6}>
                   Units: {this.state.amountUnits} <FontAwesomeIcon icon={faRandom} size='lg' onClick={this.handleSwitchUnits} />
                 </Col>
-                <Col style={{ textAlign: 'right' }}>
+                <Col xs={6} style={{ textAlign: 'right' }}>
                   {this.state.oppositeUnits}: {this.state.oppositeQty}
                 </Col>
               </Row>
@@ -120,6 +120,7 @@ class SendCard extends React.Component {
       let amountUsd = 0
       let amountBch = 0
 
+      // Calculate the amount in the opposite units.
       const currentUnit = _this.state.amountUnits
       if (currentUnit.includes('USD')) {
         // Convert USD to BCH
@@ -175,6 +176,32 @@ class SendCard extends React.Component {
   // form.
   async handleSendBch () {
     console.log('Sending BCH')
+
+    const amountBch = _this.state.amountBch
+    let bchAddr = _this.state.bchAddr
+    console.log(`Sending ${amountBch} BCH to ${bchAddr}`)
+
+    const wallet = _this.state.appData.bchWallet
+    const bchjs = wallet.bchjs
+
+    // If the address is an SLP address, convert it to a cash address.
+    if (!bchAddr.includes(bchAddr)) {
+      bchAddr = bchjs.SLP.Address.toCashAddress(bchAddr)
+    }
+
+    // Convert the BCH to satoshis
+    const sats = bchjs.BitcoinCash.toSatoshi(amountBch)
+
+    // Update the wallets UTXOs
+    console.log('Updating UTXOs...')
+    await wallet.getUtxos()
+
+    const receivers = [{
+      address: bchAddr,
+      amountSat: sats
+    }]
+    const txid = await wallet.send(receivers)
+    console.log(`txid: ${txid}`)
   }
 }
 
