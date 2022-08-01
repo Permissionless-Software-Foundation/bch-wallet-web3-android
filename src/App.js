@@ -106,7 +106,7 @@ class App extends React.Component {
       await this.asyncLoad.getWalletBchBalance(bchWallet, this.updateBchWalletState)
 
       // Get the SLP tokens held by the wallet.
-      this.addToModal('Getting SLP token balances')
+      this.addToModal('Getting SLP tokens')
       await this.asyncLoad.getSlpTokenBalances(bchWallet, this.updateBchWalletState)
 
       // Get the SLP tokens held by the wallet.
