@@ -51,7 +51,7 @@ class SlpTokens extends React.Component {
 
     for (let i = 0; i < tokens.length; i++) {
       const thisToken = tokens[i]
-      console.log(`thisToken: ${JSON.stringify(thisToken, null, 2)}`)
+      // console.log(`thisToken: ${JSON.stringify(thisToken, null, 2)}`)
 
       const thisTokenCard = <TokenCard appData={this.state.appData} token={thisToken} key={`${thisToken.tokenId}`} />
       tokenCards.push(thisTokenCard)

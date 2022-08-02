@@ -23,6 +23,7 @@ class TokenCard extends React.Component {
 
   async componentDidMount () {
     const token = this.state.token
+    let tokenFound = false
 
     // console.log('this.state.appData: ', this.state.appData)
 
@@ -54,11 +55,39 @@ class TokenCard extends React.Component {
           <Card.Img src={tokenIcon} style={{ width: '100px' }} />
         )
 
+        tokenFound = true
+
         // Replace the auto-generated icon with the one specified in the mutable data.
         this.setState({
           icon: newIcon
         })
       }
+    }
+
+    if (!tokenFound) {
+      // Check the slp-token-icon GitHub repository for an icon:
+      // https://github.com/kosinusbch/slp-token-icons
+
+      const url = `https://tokens.bch.sx/100/${token.tokenId}.png`
+      console.log('url: ', url)
+
+      // Check to see if icon exists. If it doesn't, axios will throw an error
+      // and this function can exit.
+      try {
+        await axios.get(url)
+      } catch (err) {
+        /* exit quietly */
+        return
+      }
+
+      const newIcon = (
+        <Card.Img src={url} style={{ width: '100px' }} />
+      )
+
+      // Replace the auto-generated icon with the one specified in the mutable data.
+      this.setState({
+        icon: newIcon
+      })
     }
   }
 
