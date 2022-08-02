@@ -42,7 +42,7 @@ class InfoButton extends React.Component {
   // Generate the info modal that is displayed when the button is clicked.
   getModal () {
     const token = this.state.token
-    console.log(`token: ${JSON.stringify(token, null, 2)}`)
+    // console.log(`token: ${JSON.stringify(token, null, 2)}`)
 
     return (
       <ModalTemplate instance={this} token={token} />

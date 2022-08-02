@@ -4,12 +4,13 @@
 
 // Global npm libraries
 import React from 'react'
-import { Container, Row, Col, Button, Card } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import Jdenticon from '@chris.troutner/react-jdenticon'
 import axios from 'axios'
 
 // Local libraries
 import InfoButton from './info-button'
+import SendTokenButton from './send-token-button'
 
 class TokenCard extends React.Component {
   constructor (props) {
@@ -126,7 +127,7 @@ class TokenCard extends React.Component {
                     <InfoButton token={this.state.token} />
                   </Col>
                   <Col>
-                    <Button>Send</Button>
+                    <SendTokenButton token={this.state.token} appData={this.state.appData} />
                   </Col>
                 </Row>
               </Container>

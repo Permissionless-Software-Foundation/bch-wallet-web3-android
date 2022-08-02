@@ -7,6 +7,7 @@ import React from 'react'
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faPaste, faRandom } from '@fortawesome/free-solid-svg-icons'
+import { Clipboard } from '@capacitor/clipboard'
 
 // Local libraries
 import WaitingModal from '../waiting-modal'
@@ -67,7 +68,7 @@ class SendCard extends React.Component {
                 <Col xs={10}>
                   <Form>
                     <Form.Group controlId='formBasicEmail' style={{ textAlign: 'center' }}>
-                      <Form.Control type='text' placeholder='bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d' onChange={e => this.setState({ bchAddr: e.target.value })} />
+                      <Form.Control type='text' placeholder='bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d' onChange={e => this.setState({ bchAddr: e.target.value })} value={this.state.bchAddr} />
                     </Form.Group>
                   </Form>
                 </Col>
@@ -114,6 +115,21 @@ class SendCard extends React.Component {
         </Card>
       </>
     )
+  }
+
+  async pasteFromClipboard (event) {
+    try {
+      // Capacitor Android app takes this code path.
+
+      // Get the value from the clipboard.
+      const { value } = await Clipboard.read()
+      // console.log('value: ', value)
+
+      // Set the value of the form.
+      this.setState({ bchAddr: value })
+    } catch (err) {
+      // Browser implementation. Exit quietly.
+    }
   }
 
   // This is an on-change event handler that updates the amount calculated in
