@@ -19,10 +19,11 @@ class TokenCard extends React.Component {
     this.state = {
       appData: props.appData,
       token: props.token,
-      icon: (<Jdenticon size='100' value={props.token.tokenId} />)
+      // icon: (<Jdenticon size='100' value={props.token.tokenId} />),
+      shouldCheckIcon: true // Determines if the app should try to lookup the token icon.
     }
 
-    // console.log(`token: ${JSON.stringify(props.token, null, 2)}`)
+    // console.log('appData: ', props.appData)
   }
 
   // After the initial token has been loaded, this function tries to figure
@@ -30,13 +31,17 @@ class TokenCard extends React.Component {
   async componentDidMount () {
     const token = this.state.token
     let tokenFound = false
+    const shouldCheckIcon = this.state.shouldCheckIcon
+
+    // Exit if the token Icon has already been retrieved.
+    if (token.icon !== null) return
 
     // console.log('this.state.appData: ', this.state.appData)
 
     // If the URL property of the token has an IPFS CID, then it probably
     // follows the PS002 specification for tokens. Download the token icon
     // and replace the Jdenticon automatically-generated icon.
-    if (token.url.includes('ipfs://')) {
+    if (token.url.includes('ipfs://') && shouldCheckIcon) {
       const wallet = this.state.appData.bchWallet
 
       // Retrieve token data from psf-slp-indexer.
@@ -63,17 +68,25 @@ class TokenCard extends React.Component {
 
         tokenFound = true
 
+        // Add the JSX for the icon to the token object.
+        token.icon = newIcon
+
+        // Update the wallet state with the new token data.
+        // const walletState = this.state.appData.bchWalletState
+        // console.log('walletState: ', walletState)
+
         // Replace the auto-generated icon with the one specified in the mutable data.
         this.setState({
-          icon: newIcon
+          token,
+          shouldCheckIcon: false
         })
       }
     }
 
-    if (!tokenFound) {
-      // Check the slp-token-icon GitHub repository for an icon:
-      // https://github.com/kosinusbch/slp-token-icons
-
+    // If the token does not have mutable data to store icon data,
+    // Check the slp-token-icon GitHub repository for an icon:
+    // https://github.com/kosinusbch/slp-token-icons
+    if (!tokenFound && shouldCheckIcon) {
       const url = `https://tokens.bch.sx/100/${token.tokenId}.png`
       // console.log('url: ', url)
 
@@ -82,7 +95,17 @@ class TokenCard extends React.Component {
       try {
         await axios.get(url)
       } catch (err) {
-        /* exit quietly */
+        // Both types of icon lookup has failed. Mark the token with a Jdenticon
+        // to prevent unneeded network calls.
+
+        token.icon = (<Jdenticon size='100' value={this.state.token.tokenId} />)
+
+        this.setState({
+          // icon: newIcon,
+          token,
+          shouldCheckIcon: false
+        })
+
         return
       }
 
@@ -90,20 +113,31 @@ class TokenCard extends React.Component {
         <Card.Img src={url} style={{ width: '100px' }} />
       )
 
+      // Add the JSX for the icon to the token object.
+      token.icon = newIcon
+
       // Replace the auto-generated icon with the one specified in the mutable data.
       this.setState({
-        icon: newIcon
+        // icon: newIcon,
+        token,
+        shouldCheckIcon: false
       })
     }
   }
 
   render () {
+    const defaultIcon = (<Jdenticon size='100' value={this.state.token.tokenId} />)
+
     return (
       <>
         <Col xs={12} sm={6} lg={4} style={{ padding: '25px' }}>
           <Card>
             <Card.Body style={{ textAlign: 'center' }}>
-              {this.state.icon}
+              {
+                this.state.token.icon
+                  ? this.state.token.icon
+                  : defaultIcon
+              }
               <Card.Title style={{ textAlign: 'center' }}>
                 <h4>{this.state.token.ticker}</h4>
               </Card.Title>
