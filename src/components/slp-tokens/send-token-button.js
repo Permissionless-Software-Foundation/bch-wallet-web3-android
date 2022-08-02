@@ -20,10 +20,15 @@ class SentTokenButton extends React.Component {
       token: props.token,
       appData: props.appData,
 
+      // Function from parent View component. Called after sending tokens,
+      // to trigger a refresh of the wallet token balances.
+      refreshTokens: props.refreshTokens,
+
       // Modal control
       showModal: false,
       statusMsg: '',
       hideSpinner: true,
+      shouldRefreshOnModalClose: false,
 
       // Modal inputs
       sendToAddress: '',
@@ -35,6 +40,7 @@ class SentTokenButton extends React.Component {
   }
 
   render () {
+    // Generate the JSX for the modal.
     const modal = this.getModal()
 
     return (
@@ -56,9 +62,28 @@ class SentTokenButton extends React.Component {
     })
   }
 
+  // This handler function is called when the modal is closed.
   handleCloseModal (instance) {
-    // setShow(false)
-    instance.setState({ showModal: false })
+    // console.log(`Refreshing tokens: ${instance.state.shouldRefreshOnModalClose}`)
+
+    if (instance.state.shouldRefreshOnModalClose) {
+      // Refresh the token balance on modal close.
+
+      instance.setState({
+        showModal: false,
+        shouldRefreshOnModalClose: false,
+        statusMsg: ''
+      })
+
+      instance.state.refreshTokens()
+    } else {
+      // Default behavior
+
+      instance.setState({
+        showModal: false,
+        statusMsg: ''
+      })
+    }
   }
 
   // Generate the info modal that is displayed when the button is clicked.
@@ -66,14 +91,10 @@ class SentTokenButton extends React.Component {
     const token = this.state.token
     // console.log(`token: ${JSON.stringify(token, null, 2)}`)
 
-    // return (
-    //   <ModalTemplate instance={this} token={token} />
-    // )
-
     return (
       <Modal show={this.state.showModal} size='lg' onHide={(e) => this.handleCloseModal(this)}>
         <Modal.Header closeButton>
-          <Modal.Title><FontAwesomeIcon icon={faPaperPlane} size='lg' /> Send Tokens: {token.ticker}</Modal.Title>
+          <Modal.Title><FontAwesomeIcon icon={faPaperPlane} size='lg' /> Send Tokens: <span style={{ color: 'red' }}>{token.ticker}</span></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
@@ -156,6 +177,10 @@ class SentTokenButton extends React.Component {
     )
   }
 
+  // This handler is called when the user clicks on the paste-icon favicon,
+  // in order to paste an address from the clipboard. This is only functional
+  // on Android devices. In the web browser, reading the clipboard requires
+  // special permissions, so nothing happens in that context.
   async pasteFromClipboard (event) {
     try {
       // Capacitor Android app takes this code path.
@@ -226,17 +251,16 @@ class SentTokenButton extends React.Component {
       console.log(infoStr)
       instance.setState({ statusMsg: infoStr })
 
-      const txid = await wallet.sendTokens(receiver)
+      const txid = await wallet.sendTokens(receiver, 3)
       console.log(`Token sent. TXID: ${txid}`)
 
       instance.setState({
         statusMsg: (<p>Success! <a href={`https://token.fullstack.cash/transactions/?txid=${txid}`} target='_blank' rel='noreferrer'>See on Block Explorer</a></p>),
         hideSpinner: true,
         sendQtyStr: '',
-        sendToAddress: ''
+        sendToAddress: '',
+        shouldRefreshOnModalClose: true
       })
-
-      // instance.handleCloseModal(instance)
     } catch (err) {
       console.error('Error in handleSendTokens(): ', err)
 

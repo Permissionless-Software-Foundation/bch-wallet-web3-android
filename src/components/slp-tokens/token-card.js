@@ -19,8 +19,12 @@ class TokenCard extends React.Component {
     this.state = {
       appData: props.appData,
       token: props.token,
-      // icon: (<Jdenticon size='100' value={props.token.tokenId} />),
-      shouldCheckIcon: true // Determines if the app should try to lookup the token icon.
+      shouldCheckIcon: true, // Determines if the app should try to lookup the token icon.
+
+      // This function is passed from the parent Token View. It's called to
+      // refresh the tokens data from the blockchain, after a successful
+      // token send transaction is broadcast.
+      refreshTokens: props.refreshTokens
     }
 
     // console.log('appData: ', props.appData)
@@ -161,7 +165,11 @@ class TokenCard extends React.Component {
                     <InfoButton token={this.state.token} />
                   </Col>
                   <Col>
-                    <SendTokenButton token={this.state.token} appData={this.state.appData} />
+                    <SendTokenButton
+                      token={this.state.token}
+                      appData={this.state.appData}
+                      refreshTokens={this.state.refreshTokens}
+                    />
                   </Col>
                 </Row>
               </Container>

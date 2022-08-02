@@ -1,6 +1,7 @@
 /*
   This component is displayed as a button. When clicked, it displays a modal
-  with a spinny gif, while the wallets SLP token list is updated.
+  with a spinny gif, while the wallets SLP token list is updated from the
+  blockchain and psf-slp-indexer.
 */
 
 // Global npm libraries
@@ -20,6 +21,7 @@ class RefreshTokenBalance extends React.Component {
 
     this.state = {
       appData: props.appData,
+      shouldTokensBeRefreshed: props.shouldTokensBeRefreshed,
       modalBody: [],
       hideSpinner: false,
       hideWaitingModal: true
@@ -29,8 +31,6 @@ class RefreshTokenBalance extends React.Component {
   }
 
   render () {
-    // console.log(`this.state.hideWaitingModal: ${this.state.hideWaitingModal}`)
-
     return (
       <>
         <Button variant='success' onClick={this.handleRefreshBalance}>
