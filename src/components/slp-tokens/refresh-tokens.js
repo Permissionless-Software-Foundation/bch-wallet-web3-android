@@ -1,6 +1,7 @@
 /*
   This component is displayed as a button. When clicked, it displays a modal
-  with a spinny gif, while the wallets SLP token list is updated.
+  with a spinny gif, while the wallets SLP token list is updated from the
+  blockchain and psf-slp-indexer.
 */
 
 // Global npm libraries
@@ -20,6 +21,7 @@ class RefreshTokenBalance extends React.Component {
 
     this.state = {
       appData: props.appData,
+      shouldTokensBeRefreshed: props.shouldTokensBeRefreshed,
       modalBody: [],
       hideSpinner: false,
       hideWaitingModal: true
@@ -29,8 +31,6 @@ class RefreshTokenBalance extends React.Component {
   }
 
   render () {
-    // console.log(`this.state.hideWaitingModal: ${this.state.hideWaitingModal}`)
-
     return (
       <>
         <Button variant='success' onClick={this.handleRefreshBalance}>
@@ -52,6 +52,11 @@ class RefreshTokenBalance extends React.Component {
       // Throw up the waiting modal
       _this.setState({ hideWaitingModal: false })
 
+      // Clear the body of the modal.
+      _this.setState({
+        modalBody: ''
+      })
+
       _this.addToModal('Updating token balance...')
 
       // Get handles on app data.
@@ -60,13 +65,39 @@ class RefreshTokenBalance extends React.Component {
 
       // Update the wallet UTXOs
       const tokenList = await wallet.listTokens()
+      // console.log(`tokenList: ${JSON.stringify(tokenList, null, 2)}`)
+
+      // Copy tokens from old token state.
+      for (let i = 0; i < tokenList.length; i++) {
+        const thisToken = tokenList[i]
+
+        // Look through the existing wallet state for the matching token.
+        const existingToken = walletState.slpTokens.filter(x => x.tokenId === thisToken.tokenId)
+
+        // If the current wallet state has an icon, copy it over.
+        if (existingToken[0] && existingToken[0].icon) {
+          thisToken.icon = existingToken[0].icon
+        } else {
+          thisToken.icon = null
+        }
+      }
 
       // Update the wallet state.
       walletState.slpTokens = tokenList
       _this.state.appData.updateBchWalletState(walletState)
 
-      // Hide waiting modal
-      _this.setState({ hideWaitingModal: true })
+      const newAppData = Object.assign({}, _this.state.appData, { bchWalletState: walletState })
+      // console.log(`newAppData.bchWalletState: ${JSON.stringify(newAppData.bchWalletState, null, 2)}`)
+
+      _this.setState({
+        // Hide waiting modal
+        hideWaitingModal: true,
+
+        // Update the token data for this View
+        appData: newAppData
+      })
+
+      return newAppData
     } catch (err) {
       console.error('Error while trying to update BCH balance: ', err)
 

@@ -4,6 +4,7 @@
 
 // Global npm libraries
 import axios from 'axios'
+import Jdenticon from '@chris.troutner/react-jdenticon'
 
 // Local libraries
 import GistServers from './gist-servers'
@@ -81,7 +82,8 @@ class AsyncLoad {
 
     // Add an icon property to each token.
     slpTokens.map(x => {
-      x.icon = null
+      x.icon = (<Jdenticon size='100' value={x.tokenId} />)
+      x.iconNeedsDownload = true
       return true
     })
 
