@@ -69,7 +69,7 @@ class TokenCard extends React.Component {
       // https://github.com/kosinusbch/slp-token-icons
 
       const url = `https://tokens.bch.sx/100/${token.tokenId}.png`
-      console.log('url: ', url)
+      // console.log('url: ', url)
 
       // Check to see if icon exists. If it doesn't, axios will throw an error
       // and this function can exit.
