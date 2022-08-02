@@ -5,6 +5,7 @@
 // Global npm libraries
 import React from 'react'
 import { Container, Row, Col, Button, Card } from 'react-bootstrap'
+import Jdenticon from '@chris.troutner/react-jdenticon'
 
 class TokenCard extends React.Component {
   constructor (props) {
@@ -24,6 +25,7 @@ class TokenCard extends React.Component {
         <Col xs={12} sm={6} lg={4} style={{ padding: '25px' }}>
           <Card>
             <Card.Body style={{ textAlign: 'center' }}>
+              <Jdenticon size='100' value={this.state.token.tokenId} />
               <Card.Title style={{ textAlign: 'center' }}>
                 <h4>{this.state.token.ticker}</h4>
               </Card.Title>
