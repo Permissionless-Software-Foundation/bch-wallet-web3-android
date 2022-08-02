@@ -20,7 +20,7 @@ class BalanceCard extends React.Component {
   }
 
   render () {
-    console.log('this.state.appData: ', this.state.appData)
+    // console.log('this.state.appData: ', this.state.appData)
 
     const bchjs = this.state.appData.bchWallet.bchjs
     const sats = this.state.appData.bchWalletState.bchBalance

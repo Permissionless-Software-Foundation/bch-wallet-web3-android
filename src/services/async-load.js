@@ -77,6 +77,13 @@ class AsyncLoad {
   async getSlpTokenBalances (wallet, updateBchWalletState) {
     // Get token information from the wallet. This will also initialize the UTXO store.
     const slpTokens = await wallet.listTokens(wallet.walletInfo.cashAddress)
+    // console.log('slpTokens: ', slpTokens)
+
+    // Add an icon property to each token.
+    slpTokens.map(x => {
+      x.icon = null
+      return true
+    })
 
     // Update the state of the wallet with the balances
     updateBchWalletState({ slpTokens })

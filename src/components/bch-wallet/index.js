@@ -37,21 +37,6 @@ class BchWallet extends React.Component {
       </>
     )
   }
-
-  async componentDidMount () {
-    try {
-      await this.state.bchWallet.walletInfoPromise
-
-      const bchBalance = await this.state.bchWallet.getBalance()
-      console.log('bchBalance: ', bchBalance)
-
-      this.setState({
-        bchBalance
-      })
-    } catch (err) {
-      console.error('Error in wallets.js component when trying to load BCH wallet balances: ', err)
-    }
-  }
 }
 
 export default BchWallet

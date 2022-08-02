@@ -164,8 +164,16 @@ class App extends React.Component {
 
         {
           this.state.showStartModal
-            ? <UninitializedView modalBody={this.state.modalBody} hideSpinner={this.state.hideSpinner} appData={appData} />
-            : <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
+            ? <UninitializedView
+                modalBody={this.state.modalBody}
+                hideSpinner={this.state.hideSpinner}
+                appData={appData}
+              />
+            : <InitializedView
+                wallet={this.state.wallet}
+                menuState={this.state.menuState}
+                appData={appData}
+              />
         }
 
         <SelectServerButton menuHandler={this.onMenuClick} />
