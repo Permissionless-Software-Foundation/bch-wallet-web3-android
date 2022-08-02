@@ -1,6 +1,8 @@
 /*
   This component renders as a button. When clicked, it opens up a modal
   for sending a quantity of tokens.
+  This component requires state, because it's a complex form that is being manipulated
+  by the user.
 */
 
 // Global npm libraries

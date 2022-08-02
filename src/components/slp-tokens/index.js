@@ -63,7 +63,7 @@ class SlpTokens extends React.Component {
   // from the internet.
   async lazyLoadTokenIcons () {
     const tokens = this.state.appData.bchWalletState.slpTokens
-    console.log(`lazy loading these tokens: ${JSON.stringify(tokens, null, 2)}`)
+    // console.log(`lazy loading these tokens: ${JSON.stringify(tokens, null, 2)}`)
 
     for (let i = 0; i < tokens.length; i++) {
       const thisToken = tokens[i]
@@ -147,7 +147,7 @@ class SlpTokens extends React.Component {
   async refreshTokens () {
     const appData = await _this.refreshTokenButtonRef.current.handleRefreshBalance()
 
-    console.log('new appData: ', appData)
+    // console.log('new appData: ', appData)
 
     _this.setState({ appData })
 
@@ -165,7 +165,6 @@ class SlpTokens extends React.Component {
     for (let i = 0; i < tokens.length; i++) {
       const thisToken = tokens[i]
       // console.log(`thisToken: ${JSON.stringify(thisToken, null, 2)}`)
-      console.log(`generateCards() executing for token ID ${thisToken.tokenId} with balance ${thisToken.qty}`)
 
       const thisTokenCard = (
         <TokenCard

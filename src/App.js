@@ -227,7 +227,7 @@ class App extends React.Component {
       bchWalletState
     })
 
-    console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
+    // console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
   }
 }
 
