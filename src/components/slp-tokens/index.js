@@ -5,8 +5,6 @@
 // Global npm libraries
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faRedo } from '@fortawesome/free-solid-svg-icons'
 
 // Local libraries
 import TokenCard from './token-card'

@@ -8,6 +8,9 @@ import { Container, Row, Col, Button, Card } from 'react-bootstrap'
 import Jdenticon from '@chris.troutner/react-jdenticon'
 import axios from 'axios'
 
+// Local libraries
+import InfoButton from './info-button'
+
 class TokenCard extends React.Component {
   constructor (props) {
     super(props)
@@ -21,6 +24,8 @@ class TokenCard extends React.Component {
     // console.log(`token: ${JSON.stringify(props.token, null, 2)}`)
   }
 
+  // After the initial token has been loaded, this function tries to figure
+  // out if the token has a token icon. If it does, the icon is lazy-loaded.
   async componentDidMount () {
     const token = this.state.token
     let tokenFound = false
@@ -118,7 +123,7 @@ class TokenCard extends React.Component {
 
                 <Row>
                   <Col>
-                    <Button variant='info'>Info</Button>
+                    <InfoButton token={this.state.token} />
                   </Col>
                   <Col>
                     <Button>Send</Button>
