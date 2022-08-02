@@ -63,7 +63,7 @@ class SentTokenButton extends React.Component {
   }
 
   // This handler function is called when the modal is closed.
-  handleCloseModal (instance) {
+  async handleCloseModal (instance) {
     // console.log(`Refreshing tokens: ${instance.state.shouldRefreshOnModalClose}`)
 
     if (instance.state.shouldRefreshOnModalClose) {
@@ -75,7 +75,7 @@ class SentTokenButton extends React.Component {
         statusMsg: ''
       })
 
-      instance.state.refreshTokens()
+      await instance.state.refreshTokens()
     } else {
       // Default behavior
 
