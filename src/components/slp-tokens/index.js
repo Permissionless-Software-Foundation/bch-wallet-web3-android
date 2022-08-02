@@ -4,12 +4,11 @@
 
 // Global npm libraries
 import React from 'react'
-import { Container, Row, Col, Button } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRedo } from '@fortawesome/free-solid-svg-icons'
+import { Container, Row, Col } from 'react-bootstrap'
 
 // Local libraries
 import TokenCard from './token-card'
+import RefreshTokenBalance from './refresh-tokens'
 
 class SlpTokens extends React.Component {
   constructor (props) {
@@ -28,7 +27,7 @@ class SlpTokens extends React.Component {
         <Container>
           <Row>
             <Col xs={6}>
-              <Button variant='success'><FontAwesomeIcon icon={faRedo} size='lg' /> Refresh</Button>
+              <RefreshTokenBalance appData={this.state.appData} />
             </Col>
             <Col xs={6} />
           </Row>
@@ -51,7 +50,7 @@ class SlpTokens extends React.Component {
 
     for (let i = 0; i < tokens.length; i++) {
       const thisToken = tokens[i]
-      console.log(`thisToken: ${JSON.stringify(thisToken, null, 2)}`)
+      // console.log(`thisToken: ${JSON.stringify(thisToken, null, 2)}`)
 
       const thisTokenCard = <TokenCard appData={this.state.appData} token={thisToken} key={`${thisToken.tokenId}`} />
       tokenCards.push(thisTokenCard)

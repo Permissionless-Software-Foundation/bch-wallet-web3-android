@@ -4,9 +4,13 @@
 
 // Global npm libraries
 import React from 'react'
-import { Container, Row, Col, Button, Card } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import Jdenticon from '@chris.troutner/react-jdenticon'
 import axios from 'axios'
+
+// Local libraries
+import InfoButton from './info-button'
+import SendTokenButton from './send-token-button'
 
 class TokenCard extends React.Component {
   constructor (props) {
@@ -21,8 +25,11 @@ class TokenCard extends React.Component {
     // console.log(`token: ${JSON.stringify(props.token, null, 2)}`)
   }
 
+  // After the initial token has been loaded, this function tries to figure
+  // out if the token has a token icon. If it does, the icon is lazy-loaded.
   async componentDidMount () {
     const token = this.state.token
+    let tokenFound = false
 
     // console.log('this.state.appData: ', this.state.appData)
 
@@ -54,11 +61,39 @@ class TokenCard extends React.Component {
           <Card.Img src={tokenIcon} style={{ width: '100px' }} />
         )
 
+        tokenFound = true
+
         // Replace the auto-generated icon with the one specified in the mutable data.
         this.setState({
           icon: newIcon
         })
       }
+    }
+
+    if (!tokenFound) {
+      // Check the slp-token-icon GitHub repository for an icon:
+      // https://github.com/kosinusbch/slp-token-icons
+
+      const url = `https://tokens.bch.sx/100/${token.tokenId}.png`
+      // console.log('url: ', url)
+
+      // Check to see if icon exists. If it doesn't, axios will throw an error
+      // and this function can exit.
+      try {
+        await axios.get(url)
+      } catch (err) {
+        /* exit quietly */
+        return
+      }
+
+      const newIcon = (
+        <Card.Img src={url} style={{ width: '100px' }} />
+      )
+
+      // Replace the auto-generated icon with the one specified in the mutable data.
+      this.setState({
+        icon: newIcon
+      })
     }
   }
 
@@ -89,10 +124,10 @@ class TokenCard extends React.Component {
 
                 <Row>
                   <Col>
-                    <Button variant='info'>Info</Button>
+                    <InfoButton token={this.state.token} />
                   </Col>
                   <Col>
-                    <Button>Send</Button>
+                    <SendTokenButton token={this.state.token} appData={this.state.appData} />
                   </Col>
                 </Row>
               </Container>

@@ -49,13 +49,21 @@ class WalletImport extends React.Component {
                       <Col xs={10} className='text-break' style={{ textAlign: 'center' }}>
                         <Form>
                           <Form.Group className='mb-3' controlId='formImportWallet'>
-                            <Form.Control type='text' value={this.state.newMnemonic} onChange={this.handleImportMnemonic} />
+                            <Form.Control
+                              type='text'
+                              value={this.state.newMnemonic}
+                              onChange={this.handleImportMnemonic}
+                            />
                           </Form.Group>
                         </Form>
                       </Col>
 
                       <Col xs={2}>
-                        <FontAwesomeIcon icon={faPaste} size='lg' onClick={(e) => _this.pasteFromClipboard(e)} />
+                        <FontAwesomeIcon
+                          icon={faPaste}
+                          size='lg'
+                          onClick={(e) => _this.pasteFromClipboard(e)}
+                        />
                       </Col>
                     </Row>
 
