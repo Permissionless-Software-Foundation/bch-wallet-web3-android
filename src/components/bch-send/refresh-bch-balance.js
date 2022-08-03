@@ -12,7 +12,7 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons'
 // Local libraries
 import WaitingModal from '../waiting-modal'
 
-let _this
+// let _this
 
 class RefreshBchBalance extends React.Component {
   constructor (props) {
@@ -25,7 +25,10 @@ class RefreshBchBalance extends React.Component {
       hideWaitingModal: true
     }
 
-    _this = this
+    // Bind the 'this' keyword to event handler
+    this.handleRefreshBalance = this.handleRefreshBalance.bind(this)
+
+    // _this = this
   }
 
   render () {
@@ -40,41 +43,51 @@ class RefreshBchBalance extends React.Component {
         {
           this.state.hideWaitingModal
             ? null
-            : (<WaitingModal heading='Refreshing BCH Balance' body={this.state.modalBody} hideSpinner={this.state.hideSpinner} />)
+            : (<WaitingModal
+                heading='Refreshing BCH Balance'
+                body={this.state.modalBody}
+                hideSpinner={this.state.hideSpinner}
+               />)
         }
       </>
     )
   }
 
+  wipeModalBody () {
+    this.setState({ modalBody: [] })
+  }
+
   // Update the balance of the wallet.
-  async handleRefreshBalance () {
+  async handleRefreshBalance (event) {
+    console.log('handleRefreshBalance() event: ', event)
+
     try {
       // Clear the modal body.
-      _this.setState({ modalBody: '' })
+      this.wipeModalBody()
 
       // Throw up the waiting modal
-      _this.setState({ hideWaitingModal: false })
+      this.setState({ hideWaitingModal: false })
 
-      _this.addToModal('Updating wallet balance...')
+      this.addToModal('Updating wallet balance...')
 
       // Get handles on app data.
-      const walletState = _this.state.appData.bchWalletState
+      const walletState = this.state.appData.bchWalletState
       const cashAddr = walletState.cashAddress
-      const wallet = _this.state.appData.bchWallet
+      const wallet = this.state.appData.bchWallet
 
       // Get the latest balance of the wallet.
       const newBalance = await wallet.getBalance(cashAddr)
 
-      _this.addToModal('Updating BCH per USD price...')
+      this.addToModal('Updating BCH per USD price...')
       const bchUsdPrice = await wallet.getUsd()
 
       // Update the wallet state.
       walletState.bchBalance = newBalance
       walletState.bchUsdPrice = bchUsdPrice
-      _this.state.appData.updateBchWalletState(walletState)
+      this.state.appData.updateBchWalletState(walletState)
 
       // Hide waiting modal
-      _this.setState({ hideWaitingModal: true })
+      this.setState({ hideWaitingModal: true })
     } catch (err) {
       console.error('Error while trying to update BCH balance: ', err)
 

@@ -3,7 +3,7 @@
 */
 
 // Global npm libraries
-import React, { useState } from 'react'
+import React from 'react'
 import { Container, Row, Col, Card, Form, Button, Modal, Spinner } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faPaste, faRandom } from '@fortawesome/free-solid-svg-icons'
@@ -39,35 +39,36 @@ class SendCard extends React.Component {
       // Modal variables
       modalBody: [],
       hideModalSpinner: false,
-      hideModal: true
+      hideModal: true,
+      refreshOnClose: false // Indicates if the BCH balance should be refreshed on close.
     }
 
     _this = this
   }
 
-  // {
-  //   this.state.hideModal
-  //     ? null
-  //     : (<ModalTemplate
-  //         heading='Sending BCH'
-  //         body={this.state.modalBody}
-  //         hideSpinner={this.state.hideModalSpinner}
-  //         closeFunc={this.state.refreshBchBalance}
-  //         forceOpen
-  //        />)
-  // }
+  // <ModalTemplate
+  //   heading='Sending BCH'
+  //   body={this.state.modalBody}
+  //   hideSpinner={this.state.hideModalSpinner}
+  //   closeFunc={this.onModalClose}
+  //   hideModal={this.state.hideModal}
+  //   instance={this}
+  // />
 
   render () {
     return (
       <>
-        <ModalTemplate
-          heading='Sending BCH'
-          body={this.state.modalBody}
-          hideSpinner={this.state.hideModalSpinner}
-          closeFunc={this.onModalClose}
-          hideModal={this.state.hideModal}
-          instance={this}
-        />
+        {
+          this.state.hideModal
+            ? null
+            : (<ModalTemplate
+                heading='Sending BCH'
+                body={this.state.modalBody}
+                hideSpinner={this.state.hideModalSpinner}
+                closeFunc={this.onModalClose}
+                instance={this}
+               />)
+        }
 
         <Card>
           <Card.Body>
@@ -140,7 +141,9 @@ class SendCard extends React.Component {
   onModalClose () {
     // _this.setState({ hideModal: true })
 
-    _this.state.refreshBchBalance()
+    if (_this.state.refreshOnClose) {
+      _this.state.refreshBchBalance()
+    }
   }
 
   async pasteFromClipboard (event) {
@@ -245,6 +248,9 @@ class SendCard extends React.Component {
       })
 
       const amountBch = _this.state.amountBch
+
+      if (amountBch < 0.00000546) throw new Error('Trying to send less than dust.')
+
       let bchAddr = _this.state.bchAddr
       let infoStr = `Sending ${amountBch} BCH ($${_this.state.amountUsd} USD) to ${bchAddr}`
       console.log(infoStr)
@@ -291,19 +297,23 @@ class SendCard extends React.Component {
         modalBody,
         hideModalSpinner: true,
         bchAddr: '',
-        amountStr: ''
+        amountStr: '',
+        refreshOnClose: true,
+        amountUsd: 0,
+        amountBch: 0
       })
     } catch (err) {
       console.log('Error in handleSendBch(): ', err)
 
-      const modalBody = _this.state.modalBody
+      const modalBody = []
       modalBody.push(`Error trying to send BCH: ${err.message}`)
 
       // Print the error to the modal
       _this.setState({
         hideModal: false,
-        modalBody: ['Preparing to send bch...'],
-        hideModalSpinner: true
+        modalBody,
+        hideModalSpinner: true,
+        refreshOnClose: false
       })
     }
   }
@@ -311,10 +321,12 @@ class SendCard extends React.Component {
 
 // Modal dedicated to the Send card.
 function ModalTemplate (props) {
-  const [showSendModal, setShowSendModal] = useState(false)
+  // const [showSendModal, setShowSendModal] = useState(false)
 
   const handleClose = () => {
-    setShowSendModal(false)
+    props.instance.setState({ hideModal: true })
+
+    // setShowSendModal(false)
 
     // If the parent component specified a function to execute at close, execute
     // it now.
@@ -323,11 +335,11 @@ function ModalTemplate (props) {
     }
   }
 
-  if (!props.hideModal) {
-    // props.instance.setState({ hideModal: true })
-
-    setShowSendModal(true)
-  }
+  // if (!props.hideModal) {
+  //   // props.instance.setState({ hideModal: true })
+  //
+  //   setShowSendModal(true)
+  // }
 
   // Allow other components to force the modal open if it was previously closed.
   // if (props.forceOpen) {
@@ -339,7 +351,7 @@ function ModalTemplate (props) {
   // const handleShow = () => setShow(true)
 
   return (
-    <Modal show={showSendModal} onHide={handleClose}>
+    <Modal show onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{props.heading}</Modal.Title>
       </Modal.Header>
