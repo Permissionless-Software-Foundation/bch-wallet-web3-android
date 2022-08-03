@@ -3,14 +3,14 @@
 */
 
 // Global npm libraries
-import React from 'react'
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Container, Row, Col, Card, Form, Button, Modal, Spinner } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faPaste, faRandom } from '@fortawesome/free-solid-svg-icons'
 import { Clipboard } from '@capacitor/clipboard'
 
 // Local libraries
-import WaitingModal from '../waiting-modal'
+// import WaitingModal from '../waiting-modal'
 
 let _this
 
@@ -21,6 +21,10 @@ class SendCard extends React.Component {
     this.state = {
       // Wallet and App data passed from parent components.
       appData: props.appData,
+
+      // Function from parent View component. Called after sending tokens,
+      // to trigger a refresh of the wallet token balances.
+      refreshBchBalance: props.refreshBchBalance,
 
       bchAddr: '',
       amountUnits: 'USD',
@@ -41,14 +45,29 @@ class SendCard extends React.Component {
     _this = this
   }
 
+  // {
+  //   this.state.hideModal
+  //     ? null
+  //     : (<ModalTemplate
+  //         heading='Sending BCH'
+  //         body={this.state.modalBody}
+  //         hideSpinner={this.state.hideModalSpinner}
+  //         closeFunc={this.state.refreshBchBalance}
+  //         forceOpen
+  //        />)
+  // }
+
   render () {
     return (
       <>
-        {
-          this.state.hideModal
-            ? null
-            : (<WaitingModal heading='Sending BCH' body={this.state.modalBody} hideSpinner={this.state.hideModalSpinner} />)
-        }
+        <ModalTemplate
+          heading='Sending BCH'
+          body={this.state.modalBody}
+          hideSpinner={this.state.hideModalSpinner}
+          closeFunc={this.onModalClose}
+          hideModal={this.state.hideModal}
+          instance={this}
+        />
 
         <Card>
           <Card.Body>
@@ -115,6 +134,13 @@ class SendCard extends React.Component {
         </Card>
       </>
     )
+  }
+
+  // This function is called when the modal is closed.
+  onModalClose () {
+    // _this.setState({ hideModal: true })
+
+    _this.state.refreshBchBalance()
   }
 
   async pasteFromClipboard (event) {
@@ -208,6 +234,9 @@ class SendCard extends React.Component {
     console.log('Sending BCH')
 
     try {
+      // Clear the modal body
+      _this.setState({ modalBody: '' })
+
       // Open the modal
       const modalBody = ['Preparing to send bch...']
       _this.setState({
@@ -217,7 +246,7 @@ class SendCard extends React.Component {
 
       const amountBch = _this.state.amountBch
       let bchAddr = _this.state.bchAddr
-      let infoStr = `Sending ${amountBch} BCH to ${bchAddr}`
+      let infoStr = `Sending ${amountBch} BCH ($${_this.state.amountUsd} USD) to ${bchAddr}`
       console.log(infoStr)
 
       // Update modal
@@ -258,7 +287,12 @@ class SendCard extends React.Component {
       const explorerLink = (<a href={`${explorerUrl}`} target='_blank' rel='noreferrer'>Block Explorer</a>)
       modalBody.push(explorerLink)
 
-      _this.setState({ modalBody, hideModalSpinner: true })
+      _this.setState({
+        modalBody,
+        hideModalSpinner: true,
+        bchAddr: '',
+        amountStr: ''
+      })
     } catch (err) {
       console.log('Error in handleSendBch(): ', err)
 
@@ -273,6 +307,70 @@ class SendCard extends React.Component {
       })
     }
   }
+}
+
+// Modal dedicated to the Send card.
+function ModalTemplate (props) {
+  const [showSendModal, setShowSendModal] = useState(false)
+
+  const handleClose = () => {
+    setShowSendModal(false)
+
+    // If the parent component specified a function to execute at close, execute
+    // it now.
+    if (props.closeFunc) {
+      props.closeFunc()
+    }
+  }
+
+  if (!props.hideModal) {
+    // props.instance.setState({ hideModal: true })
+
+    setShowSendModal(true)
+  }
+
+  // Allow other components to force the modal open if it was previously closed.
+  // if (props.forceOpen) {
+  //   if (!showSendModal) {
+  //     setShowSendModal(true)
+  //   }
+  // }
+
+  // const handleShow = () => setShow(true)
+
+  return (
+    <Modal show={showSendModal} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{props.heading}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Container>
+          <Row>
+            <Col style={{ textAlign: 'center' }}>
+              <BodyList body={props.body} />
+              {props.hideSpinner ? null : <Spinner animation='border' />}
+            </Col>
+          </Row>
+        </Container>
+      </Modal.Body>
+      <Modal.Footer />
+    </Modal>
+  )
+}
+
+function BodyList (props) {
+  const items = props.body
+
+  const listItems = []
+
+  // Paragraphs
+  for (let i = 0; i < items.length; i++) {
+    listItems.push(<p key={items[i]}><code>{items[i]}</code></p>)
+  }
+
+  return (
+    listItems
+  )
 }
 
 export default SendCard

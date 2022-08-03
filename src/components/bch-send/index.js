@@ -18,7 +18,7 @@ import ReceiveCard from './receive-card'
 // Working array for storing modal output.
 // this.modalBody = []
 
-// let _this
+let _this
 
 class BchSend extends React.Component {
   constructor (props) {
@@ -29,7 +29,10 @@ class BchSend extends React.Component {
       // modalBody: this.modalBody
     }
 
-    // _this = this
+    // Create a reference to the Refresh button.
+    this.refreshBchButtonRef = React.createRef()
+
+    _this = this
   }
 
   render () {
@@ -38,7 +41,10 @@ class BchSend extends React.Component {
         <Container>
           <Row>
             <Col xs={6}>
-              <RefreshBchBalance appData={this.state.appData} />
+              <RefreshBchBalance
+                appData={this.state.appData}
+                ref={this.refreshBchButtonRef}
+              />
             </Col>
             <Col xs={6} />
           </Row>
@@ -53,7 +59,10 @@ class BchSend extends React.Component {
 
           <Row>
             <Col>
-              <SendCard appData={this.state.appData} />
+              <SendCard
+                appData={this.state.appData}
+                refreshBchBalance={this.refreshBchBalance}
+              />
             </Col>
           </Row>
           <br />
@@ -68,14 +77,21 @@ class BchSend extends React.Component {
     )
   }
 
-  // Add a new line to the waiting modal.
-  // addToModal (inStr) {
-  //   this.modalBody.push(inStr)
-  //
-  //   this.setState({
-  //     modalBody: this.modalBody
-  //   })
-  // }
+  // This function is triggered when the BCH balance needs to be refreshed
+  // from the blockchain.
+  // This needs to happen after sending bch, to reflect the changed balance
+  // within the wallet app.
+  // This function triggers the on-click function within the refresh-bch-balance.js button.
+  async refreshBchBalance () {
+    // const appData = await _this.refreshBchButtonRef.current.handleRefreshBalance()
+    await _this.refreshBchButtonRef.current.handleRefreshBalance()
+
+    // console.log('new appData: ', appData)
+
+    // _this.setState({ appData })
+
+    // _this.render()
+  }
 }
 
 export default BchSend
