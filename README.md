@@ -3,7 +3,7 @@ This is a web-based single page app (SPA) written in React. It provides non-cust
 
 This is a fork of [react-bootstrap-web3-android](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-android), which is a fork of [react-bootstrap-web3-spa](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa). That boilerplate is used to build a React app using the [react-boostrap library](https://www.npmjs.com/package/react-bootstrap).
 
-- [Live Demo on Filecoin](https://bafybeico455d2xpz6y5egmjkjda6cqawohbnb7nepw3ousu427i62cjgve.ipfs.dweb.link/)
+- [Live Demo on Filecoin](https://bafybeifh6nuzldc6g4wverre2djw5zvz7slt2ser6werts6ro35ziy4zyu.ipfs.dweb.link/)
 - [Download latest APK file](./android/apk/bch-web3-wallet.apk)
 
 ## Support
