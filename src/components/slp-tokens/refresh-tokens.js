@@ -13,7 +13,7 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons'
 // Local libraries
 import WaitingModal from '../waiting-modal'
 
-let _this
+// let _this
 
 class RefreshTokenBalance extends React.Component {
   constructor (props) {
@@ -27,7 +27,9 @@ class RefreshTokenBalance extends React.Component {
       hideWaitingModal: true
     }
 
-    _this = this
+    this.handleRefreshBalance = this.handleRefreshBalance.bind(this)
+
+    // _this = this
   }
 
   render () {
@@ -50,18 +52,13 @@ class RefreshTokenBalance extends React.Component {
   async handleRefreshBalance () {
     try {
       // Throw up the waiting modal
-      _this.setState({ hideWaitingModal: false })
+      this.setState({ hideWaitingModal: false })
 
-      // Clear the body of the modal.
-      _this.setState({
-        modalBody: ''
-      })
-
-      _this.addToModal('Updating token balance...')
+      this.addToModal('Updating token balance...')
 
       // Get handles on app data.
-      const walletState = _this.state.appData.bchWalletState
-      const wallet = _this.state.appData.bchWallet
+      const walletState = this.state.appData.bchWalletState
+      const wallet = this.state.appData.bchWallet
 
       // Update the wallet UTXOs
       const tokenList = await wallet.listTokens()
@@ -84,17 +81,20 @@ class RefreshTokenBalance extends React.Component {
 
       // Update the wallet state.
       walletState.slpTokens = tokenList
-      _this.state.appData.updateBchWalletState(walletState)
+      this.state.appData.updateBchWalletState(walletState)
 
-      const newAppData = Object.assign({}, _this.state.appData, { bchWalletState: walletState })
+      const newAppData = Object.assign({}, this.state.appData, { bchWalletState: walletState })
       // console.log(`newAppData.bchWalletState: ${JSON.stringify(newAppData.bchWalletState, null, 2)}`)
 
-      _this.setState({
+      this.setState({
         // Hide waiting modal
         hideWaitingModal: true,
 
         // Update the token data for this View
-        appData: newAppData
+        appData: newAppData,
+
+        // Wipe the modal body
+        modalBody: []
       })
 
       return newAppData

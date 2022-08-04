@@ -53,18 +53,11 @@ class RefreshBchBalance extends React.Component {
     )
   }
 
-  wipeModalBody () {
-    this.setState({ modalBody: [] })
-  }
-
   // Update the balance of the wallet.
   async handleRefreshBalance (event) {
     // console.log('handleRefreshBalance() event: ', event)
 
     try {
-      // Clear the modal body.
-      this.wipeModalBody()
-
       // Throw up the waiting modal
       this.setState({ hideWaitingModal: false })
 
