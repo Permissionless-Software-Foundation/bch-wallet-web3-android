@@ -53,10 +53,9 @@ class AppBody extends React.Component {
 
     switch (menuState) {
       case 0:
-        // return (<GetBalance wallet={_this.state.bchWallet} />)
-        return (<SlpTokens appData={_this.state.appData} />)
-      case 1:
         return (<BchSend appData={_this.state.appData} />)
+      case 1:
+        return (<SlpTokens appData={_this.state.appData} />)
       case 2:
         return (
           <BchWallet
@@ -68,8 +67,7 @@ class AppBody extends React.Component {
       case 100:
         return (<ServerSelectView appData={this.state.appData} />)
       default:
-        // return (<GetBalance wallet={_this.state.bchWallet} />)
-        return (<SlpTokens appData={_this.state.appData} />)
+        return (<BchSend appData={_this.state.appData} />)
     }
   }
 }
