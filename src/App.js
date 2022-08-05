@@ -39,15 +39,15 @@ class App extends React.Component {
     this.state = {
       wallet: false, // BCH wallet instance
       menuState: 0, // The current View being displayed in the app
-      serverUrl,
-      servers: defaultServerOptions,
+      serverUrl, // Stores the URL for the currently selected server.
+      servers: defaultServerOptions, // A list of back end servers.
 
       // Startup Modal
       showStartModal: true, // Should the startup modal be visible?
       asyncInitFinished: false, // Did startup finish?
       asyncInitSucceeded: null, // Did startup finish successfully?
-      modalBody: [],
-      hideSpinner: false
+      modalBody: [], // Strings displayed in the modal
+      hideSpinner: false // Spinner gif in modal
     }
 
     this.cnt = 0
