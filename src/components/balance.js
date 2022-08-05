@@ -6,7 +6,7 @@
 import React from 'react'
 import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap'
 
-let _this
+// let _this
 
 class GetBalance extends React.Component {
   constructor (props) {
@@ -18,7 +18,10 @@ class GetBalance extends React.Component {
       wallet: props.wallet
     }
 
-    _this = this
+    // Bind 'this' to event handlers
+    this.handleGetBalance = this.handleGetBalance.bind(this)
+
+    // _this = this
   }
 
   render () {
@@ -53,27 +56,27 @@ class GetBalance extends React.Component {
 
   async handleGetBalance (event) {
     try {
-      const textInput = _this.state.textInput
+      const textInput = this.state.textInput
 
       // Exit on invalid input
       if (!textInput) return
       if (!textInput.includes('bitcoincash:')) return
 
-      _this.setState({
+      this.setState({
         balance: (<span>Retrieving balance... <Spinner animation='border' /></span>)
       })
 
-      const balance = await _this.state.wallet.getBalance(textInput)
+      const balance = await this.state.wallet.getBalance(textInput)
       console.log('balance: ', balance)
 
-      const bchBalance = _this.state.wallet.bchjs.BitcoinCash.toBitcoinCash(balance)
+      const bchBalance = this.state.wallet.bchjs.BitcoinCash.toBitcoinCash(balance)
 
-      _this.setState({
+      this.setState({
         balance: `Balance: ${balance} sats, ${bchBalance} BCH`
       })
     } catch (err) {
-      _this.setState({
-        balance: `Error: ${err.message}`
+      this.setState({
+        balance: (<p><b>Error</b>: {`${err.message}`}</p>)
       })
     }
   }
