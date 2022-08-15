@@ -263,7 +263,7 @@ class SendCard extends React.Component {
       const bchjs = wallet.bchjs
 
       // If the address is an SLP address, convert it to a cash address.
-      if (!bchAddr.includes(bchAddr)) {
+      if (!bchAddr.includes('bitcoincash:')) {
         bchAddr = bchjs.SLP.Address.toCashAddress(bchAddr)
       }
 
