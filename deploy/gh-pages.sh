@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pwd
+#pwd
 
 git checkout gh-pages-test
 git merge master
@@ -10,5 +10,6 @@ cp -r build docs
 git add -A
 git commit -m "Redeploying to github"
 git push
+git checkout master
 
 echo "Finished deploying to GitHub Pages"
