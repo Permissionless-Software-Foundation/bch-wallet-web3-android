@@ -55,5 +55,6 @@
         "npmPublish": false
       }
     ]
-  }
+  },
+  "homepage": "https://permissionless-software-foundation.github.io/bch-wallet-web3-android"
 }
