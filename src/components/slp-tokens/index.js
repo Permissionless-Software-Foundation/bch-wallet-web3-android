@@ -4,7 +4,7 @@
 
 // Global npm libraries
 import React from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap'
 import axios from 'axios'
 
 // Local libraries
@@ -21,7 +21,8 @@ class SlpTokens extends React.Component {
     this.refreshTokenButtonRef = React.createRef()
 
     this.state = {
-      appData: props.appData
+      appData: props.appData,
+      iconsAreLoaded: false
     }
 
     _this = this
@@ -45,7 +46,15 @@ class SlpTokens extends React.Component {
                 ref={this.refreshTokenButtonRef}
               />
             </Col>
-            <Col xs={6} />
+
+            <Col xs={6} style={{ textAlign: 'right' }}>
+              {
+                this.state.iconsAreLoaded
+                  ? null
+                  : (<Button variant='secondary'>Loading Token Icons <Spinner animation='border' /></Button>)
+              }
+
+            </Col>
           </Row>
           <br />
 
@@ -137,6 +146,10 @@ class SlpTokens extends React.Component {
 
     // Update the state of the wallet with the balances
     this.state.appData.updateBchWalletState({ slpTokens: tokens })
+
+    this.setState({
+      iconsAreLoaded: true
+    })
   }
 
   // This function is triggered when the token balance needs to be refreshed
