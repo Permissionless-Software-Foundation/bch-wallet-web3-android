@@ -10,8 +10,8 @@ const FILE_PATH = './build'
 
 const { Web3Storage, getFilesFromPath } = require('web3.storage')
 // const BCHJS = require('@psf/bch-js')
-// const BchWallet = require('minimal-slp-wallet/index')
-// const BchMessageLib = require('bch-message-lib/index')
+const BchWallet = require('minimal-slp-wallet/index')
+const BchMessageLib = require('bch-message-lib/index')
 const fs = require('fs')
 
 async function publish () {
@@ -25,12 +25,12 @@ async function publish () {
     }
 
     // Get the WIF for updating Trout's blog from the environment variable.
-    // const troutWif = process.env.TROUT_BLOG_WIF
-    // if (!troutWif) {
-    //   throw new Error(
-    //     'WIF for troutsblog.com not detect. Add it to the TROUT_BLOG_WIF environment variable.'
-    //   )
-    // }
+    const appWif = process.env.BCH_WALLET_APP_WIF
+    if (!appWif) {
+      throw new Error(
+        'WIF for bch-wallet-web3-android not detect. Add it to the BCH_WALLET_APP_WIF environment variable.'
+      )
+    }
 
     // Get a list of all the files to be uploaded.
     const fileAry = await getFileList()
@@ -44,20 +44,20 @@ async function publish () {
 
     // Initialize libraries for working with BCH blockchain.
     // const bchjs = new BCHJS()
-    // const wallet = new BchWallet(troutWif, {
-    //   interface: 'consumer-api',
-    // })
-    // await wallet.walletInfoPromise
-    // const bchMsg = new BchMessageLib({ wallet })
-    //
-    // // Publish the CID to the BCH blockchain.
-    // const hex = await bchMsg.memo.memoPush(cid, 'IPFS UPDATE')
-    //
-    // // const txid = await bchjs.RawTransactions.sendRawTransaction(hex)
-    // // Broadcast the transaction to the network.
-    // const txid = await wallet.ar.sendTx(hex)
-    // console.log(`BCH blockchain updated with new CID. TXID: ${txid}`)
-    // console.log(`https://blockchair.com/bitcoin-cash/transaction/${txid}`)
+    const wallet = new BchWallet(appWif, {
+      interface: 'consumer-api'
+    })
+    await wallet.walletInfoPromise
+    const bchMsg = new BchMessageLib({ wallet })
+
+    // Publish the CID to the BCH blockchain.
+    const hex = await bchMsg.memo.memoPush(cid, 'IPFS UPDATE')
+
+    // const txid = await bchjs.RawTransactions.sendRawTransaction(hex)
+    // Broadcast the transaction to the network.
+    const txid = await wallet.ar.sendTx(hex)
+    console.log(`BCH blockchain updated with new CID. TXID: ${txid}`)
+    console.log(`https://blockchair.com/bitcoin-cash/transaction/${txid}`)
   } catch (err) {
     console.error(err)
   }
