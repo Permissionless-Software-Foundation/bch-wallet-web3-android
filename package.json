@@ -23,7 +23,8 @@
     "build": "react-scripts build",
     "test": "npm run lint",
     "eject": "react-scripts eject",
-    "lint": "standard --env mocha --fix"
+    "lint": "standard --env mocha --fix",
+    "deploy": "./deploy/deploy-all.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
