@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1fffacca.css",
+    "main.js": "/static/js/main.6cc658ec.js",
+    "static/media/psf-logo.png": "/static/media/psf-logo.3485139af901ffeaf77f.png",
+    "index.html": "/index.html",
+    "main.1fffacca.css.map": "/static/css/main.1fffacca.css.map",
+    "main.6cc658ec.js.map": "/static/js/main.6cc658ec.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1fffacca.css",
+    "static/js/main.6cc658ec.js"
+  ]
+}

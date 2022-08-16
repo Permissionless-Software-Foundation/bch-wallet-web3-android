@@ -1,4 +1,4 @@
 node_modules/
-build/
+#build/
 android/app/src/main/assets/public/
 
