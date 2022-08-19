@@ -23,7 +23,8 @@
     "build": "react-scripts build",
     "test": "npm run lint",
     "eject": "react-scripts eject",
-    "lint": "standard --env mocha --fix"
+    "lint": "standard --env mocha --fix",
+    "deploy": "./deploy/deploy-all.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,8 +44,10 @@
   "devDependencies": {
     "@capacitor/android": "latest",
     "@capacitor/cli": "latest",
-    "@capacitor/clipboard": "^4.0.1",
+    "@capacitor/clipboard": "4.0.1",
     "@capacitor/core": "latest",
+    "bch-message-lib": "2.2.0",
+    "minimal-slp-wallet": "4.6.8",
     "standard": "17.0.0",
     "web3.storage": "4.3.0"
   },
