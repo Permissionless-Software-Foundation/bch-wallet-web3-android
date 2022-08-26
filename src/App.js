@@ -68,7 +68,10 @@ class App extends React.Component {
         bchBalance: 0,
         slpTokens: [],
         bchUsdPrice: 150
-      }
+      },
+
+      // Will be replaced by Sweep library class once the library loads.
+      Sweep: null
     }
 
     this.cnt = 0
@@ -84,8 +87,11 @@ class App extends React.Component {
   async componentDidMount () {
     try {
       this.addToModal('Loading minimal-slp-wallet')
-
       await this.asyncLoad.loadWalletLib()
+
+      this.addToModal('Loading bch-sweep-lib')
+      const Sweep = await this.asyncLoad.loadSweepLib()
+      this.setState({ Sweep })
 
       // Update the list of potential back end servers.
       this.addToModal('Getting alternative servers')
@@ -152,7 +158,9 @@ class App extends React.Component {
       setMnemonic: this.setMnemonic,
       delMnemonic: this.delMnemonic,
 
-      servers: this.state.servers // Alternative back end servers
+      servers: this.state.servers, // Alternative back end servers
+
+      Sweep: this.state.Sweep // Sweep library
     }
 
     return (

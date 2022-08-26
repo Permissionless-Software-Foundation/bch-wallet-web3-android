@@ -14,6 +14,7 @@ import BchWallet from '../bch-wallet'
 import BchSend from '../bch-send'
 import SlpTokens from '../slp-tokens'
 import ServerSelectView from '../servers/select-server-view'
+import Sweep from '../sweep'
 
 // let _this
 
@@ -57,6 +58,8 @@ class AppBody extends React.Component {
       case 1:
         return (<SlpTokens appData={this.state.appData} />)
       case 2:
+        return (<Sweep appData={this.state.appData} />)
+      case 3:
         return (
           <BchWallet
             appData={this.state.appData}
