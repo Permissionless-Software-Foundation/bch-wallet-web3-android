@@ -36,6 +36,10 @@ class WebWalletWarning extends React.Component {
                     <br />
                     <b>Do not store large amounts of money on a web wallet.
                     </b>
+                    <br /><br />
+                    Note: Scammers frequently copy this open source code to build
+                    apps for stealing people's money. Be sure you trust the source
+                    serving you this app.
                   </Card.Text>
                 </Card.Body>
               </Card>

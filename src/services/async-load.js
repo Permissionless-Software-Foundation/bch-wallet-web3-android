@@ -12,6 +12,7 @@ import GistServers from './gist-servers'
 class AsyncLoad {
   constructor () {
     this.BchWallet = false
+    this.Sweep = false
   }
 
   // Load the minimal-slp-wallet which comes in as a <script> file and is
@@ -28,6 +29,22 @@ class AsyncLoad {
 
       await sleep(1000)
     } while (!this.BchWallet)
+  }
+
+  // Load the bch-sweep-lib which comes in a <script> file and is attached to
+  // the global 'window' object.
+  async loadSweepLib () {
+    do {
+      if (typeof window !== 'undefined' && window.Sweep) {
+        this.Sweep = window.Sweep
+
+        return this.Sweep
+      } else {
+        console.log('Waiting for sweep library to load...')
+      }
+
+      await sleep(1000)
+    } while (!this.Sweep)
   }
 
   // Initialize the BCH wallet
@@ -49,6 +66,7 @@ class AsyncLoad {
 
     // Wait for wallet to initialize.
     await wallet.walletInfoPromise
+    await wallet.initialize()
 
     // Update the state of the wallet.
     updateBchWalletState(wallet.walletInfo)

@@ -2,8 +2,8 @@
 
 # This is a bash script that will publish the app to GitHub pages.
 
-git checkout gh-pages-test
-git merge master
+#git checkout gh-pages-test
+#git merge master
 npm run build
 rm -rf docs
 cp -r build docs
