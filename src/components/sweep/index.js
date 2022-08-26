@@ -212,6 +212,7 @@ class Sweep extends React.Component {
     })
   }
 
+  // Update the wallet state. This probably needs to be refined.
   async updateWalletState () {
     const wallet = this.state.appData.bchWallet
 
