@@ -35,7 +35,8 @@ class NavMenu extends React.Component {
             <Nav className='mr-auto' style={{ padding: '25px' }}>
               <Nav.Link href='#' onClick={() => this.handleClickEvent(0)}>BCH</Nav.Link>
               <Nav.Link href='#' onClick={() => this.handleClickEvent(1)}>Tokens</Nav.Link>
-              <Nav.Link href='#' onClick={() => this.handleClickEvent(2)}>Wallet</Nav.Link>
+              <Nav.Link href='#' onClick={() => this.handleClickEvent(2)}>Sweep</Nav.Link>
+              <Nav.Link href='#' onClick={() => this.handleClickEvent(3)}>Wallet</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
