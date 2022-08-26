@@ -1,7 +1,8 @@
 # bch-wallet-web3-android
 This is a web-based single page app (SPA) written in React. It provides non-custodial wallet features for the Bitcoin Cash blockchain, including support for SLP tokens and NFTs. In includes [CapacitorJS](https://capacitorjs.com/) libraries and configuration so that it can be compiled into a native Android APK file.
 
-- [Live Demo on Filecoin](https://bafybeiccikxzu3mydcwpmct5ba7pbfjznt5lh2qxbs2f5w5ki4sn4k6tua.ipfs.dweb.link/)
+- [Live Demo on Filecoin](https://bafybeiheljff4sfsujx2kb4hna7rlotjlmgfftcwtznhzxiltojmc2nkbm.ipfs.dweb.link/)
+- [Live Demo on GitHub Pages](https://permissionless-software-foundation.github.io/bch-wallet-web3-android/)
 - [Download latest APK file](./android/apk/bch-web3-wallet.apk)
 
 ## Support
