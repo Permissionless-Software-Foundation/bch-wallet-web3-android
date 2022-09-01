@@ -109,48 +109,55 @@ class Sweep extends React.Component {
         return
       }
 
-      const Sweep = this.state.appData.Sweep
-      const walletWif = this.state.appData.bchWallet.walletInfo.privateKey
-      // const bchjs = this.state.appData.bchWallet.bchjs
-      const toAddr = this.state.appData.bchWallet.slpAddress
+      try {
+        const Sweep = this.state.appData.Sweep
+        const walletWif = this.state.appData.bchWallet.walletInfo.privateKey
+        // const bchjs = this.state.appData.bchWallet.bchjs
+        const toAddr = this.state.appData.bchWallet.slpAddress
 
-      // Instance the Sweep library
-      const sweep = new Sweep(wif, walletWif, this.state.appData.bchWallet)
-      await sweep.populateObjectFromNetwork()
+        // Instance the Sweep library
+        const sweep = new Sweep(wif, walletWif, this.state.appData.bchWallet)
+        await sweep.populateObjectFromNetwork()
 
-      // Constructing the sweep transaction
-      const hex = await sweep.sweepTo(toAddr)
+        // Constructing the sweep transaction
+        const hex = await sweep.sweepTo(toAddr)
 
-      // return transactionHex
+        // return transactionHex
 
-      // Broadcast the transaction to the network.
-      // const txId = await sweeperLib.blockchain.broadcast(transactionHex)
-      const txid = await this.state.appData.bchWallet.ar.sendTx(hex)
+        // Broadcast the transaction to the network.
+        // const txId = await sweeperLib.blockchain.broadcast(transactionHex)
+        const txid = await this.state.appData.bchWallet.ar.sendTx(hex)
 
-      // Generate an HTML status message with links to block explorers.
-      const statusMsg = (
-        <>
-          <p>
-            Sweep succeeded!
-          </p>
-          <p>
-            Transaction ID: {txid}
-          </p>
-          <p>
-            <a href={`https://blockchair.com/bitcoin-cash/transaction/${txid}`} target='_blank' rel='noreferrer'>TX on Blockchair BCH Block Explorer</a>
-          </p>
-          <p>
-            <a href={`https://token.fullstack.cash/transactions/?txid=${txid}`} target='_blank' rel='noreferrer'>TX on token explorer</a>
-          </p>
-        </>
-      )
+        // Generate an HTML status message with links to block explorers.
+        const statusMsg = (
+          <>
+            <p>
+              Sweep succeeded!
+            </p>
+            <p>
+              Transaction ID: {txid}
+            </p>
+            <p>
+              <a href={`https://blockchair.com/bitcoin-cash/transaction/${txid}`} target='_blank' rel='noreferrer'>TX on Blockchair BCH Block Explorer</a>
+            </p>
+            <p>
+              <a href={`https://token.fullstack.cash/transactions/?txid=${txid}`} target='_blank' rel='noreferrer'>TX on token explorer</a>
+            </p>
+          </>
+        )
 
-      this.setState({
-        hideSpinner: true,
-        statusMsg
-      })
+        this.setState({
+          hideSpinner: true,
+          statusMsg
+        })
 
-      await this.updateWalletState()
+        await this.updateWalletState()
+      } catch (err) {
+        this.setState({
+          hideSpinner: true,
+          statusMsg: (<b>{`Error: ${err.message}`}</b>)
+        })
+      }
     } catch (err) {
       console.error('Error in handleSweep(): ', err)
     }
