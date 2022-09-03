@@ -19,7 +19,9 @@ function Footer (props) {
     async function fetchData () {
       try {
         const hash = await getUpdatedUrl(wallet)
-        setIpfsCid(hash)
+        if (hash) {
+          setIpfsCid(hash)
+        }
       } catch (err) {
         console.error('Error trying to retrieve Filecoin CID for the app from the BCH blockchain.')
       }
