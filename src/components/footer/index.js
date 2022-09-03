@@ -35,7 +35,12 @@ function Footer (props) {
         <Col>
           <h6>Site Mirrors</h6>
           <ul>
-            <li><a href={`https://${ipfsCid}.ipfs.dweb.link/`} target='_blank' rel='noreferrer'>Filecoin</a></li>
+            <li>
+              <a href='https://permissionless-software-foundation.github.io/react-bootstrap-web3-spa/' target='_blank' rel='noreferrer'>GitHub Pages</a>
+            </li>
+            <li>
+              <a href={`https://${ipfsCid}.ipfs.dweb.link/`} target='_blank' rel='noreferrer'>Filecoin</a>
+            </li>
           </ul>
         </Col>
 
