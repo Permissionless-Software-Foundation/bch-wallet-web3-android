@@ -4,7 +4,8 @@ This is a single page app (SPA) based on [react-bootstrap](https://www.npmjs.com
 
 This app can be compiled and uploaded to Filecoin via [web3.storage](https://web3.storage). This means a censorship-resistant front-end app (SPA) can be built, which communicates with a censorship-resistant back-end.
 
-- [Live Demo on Filecoin](https://bafybeibp6zaa7rjwamxagleukndta4il7w6hntztkq3oot222kzipw4bda.ipfs.dweb.link/)
+- [Live Demo on GitHub Pages](https://permissionless-software-foundation.github.io/react-bootstrap-web3-spa/)
+- [Live Demo on Filecoin](https://bafybeic3nuawgogcfjkxxstyqyg6dmzajvkxp55ccldipwmgiyuikhrq5y.ipfs.dweb.link/)
 
 ## Major Features
 - [react-bootstrap](https://react-bootstrap.github.io/) is used for general style and layout control.
@@ -44,6 +45,16 @@ This open source software is developed and maintained by the [Permissionless Sof
 <img src="./img/donation-qr.png" />
 <p>bitcoincash:qqsrke9lh257tqen99dkyy2emh4uty0vky9y0z0lsr</p>
 </div>
+
+## Repo Backup
+This GitHub repository is backed up on [Radicle](https://radicle.network/get-started.html). If GitHub ever censors this respository, the code can be found in this alternative repository. [Here are extra notes on working with Radicle](https://christroutner.github.io/trouts-blog/docs/censorship/radicle).
+
+- Project ID: rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy
+- [Repo on Rad Website](https://app.radicle.network/seeds/maple.radicle.garden/rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy/remotes/hyyycncbn9qzqmobnhjq9rry6t4mbjiadzjoyhaknzxjcz3cxkpfpc)
+
+This can be cloned from [PSF](https://psfoundation.info) Radicle seed node with one of these commands:
+- `rad clone rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy --seed radicle.fullstackcash.nl`
+- `rad clone rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy --seed maple.radicle.garden`
 
 ## License
 [MIT](./LICENSE.md)
