@@ -6,6 +6,7 @@
 // Local libraries
 const publishToFilecoin = require('./publish-filecoin')
 const publishToPinata = require('./publish-pinata')
+const publishToBch = require('./publish-bch')
 
 async function publish () {
   try {
@@ -16,6 +17,11 @@ async function publish () {
 
     // Publish to Pinata
     await publishToPinata(cid)
+
+    // Public to BCH
+    const txid = await publishToBch(cid)
+    console.log(`\nBCH blockchain updated with new CID. TXID: ${txid}`)
+    console.log(`https://blockchair.com/bitcoin-cash/transaction/${txid}`)
   } catch (err) {
     console.error('Error while trying to publish app: ', err)
   }
