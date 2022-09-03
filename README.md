@@ -24,6 +24,13 @@ npm start
 npm run build
 ```
 
+## Publish to Filecoin
+```bash
+export FILECOIN_TOKEN=myFilecoinAPITokenFromWeb3.Storage
+npm run build
+npm run pub
+```
+
 ## Support
 
 Have questions? Need help? Join our community support

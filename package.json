@@ -3,6 +3,7 @@
   "version": "2.0.1",
   "dependencies": {
     "axios": "0.27.2",
+    "bch-message-lib": "2.2.1",
     "bootstrap": "5.2.0",
     "query-string": "7.1.1",
     "react": "18.2.0",
@@ -16,7 +17,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "standard --env mocha --fix"
+    "lint": "standard --env mocha --fix",
+    "pub": "node deploy/publish-main.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,6 +36,7 @@
     ]
   },
   "devDependencies": {
+    "minimal-slp-wallet": "5.0.3",
     "standard": "17.0.0",
     "web3.storage": "4.3.0"
   }
