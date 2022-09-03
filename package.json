@@ -17,7 +17,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "standard --env mocha --fix",
-    "pub": "node publish.js"
+    "pub": "node deploy/publish-main.js"
   },
   "eslintConfig": {
     "extends": "react-app"

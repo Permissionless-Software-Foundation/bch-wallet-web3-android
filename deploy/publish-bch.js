@@ -1,9 +1,7 @@
 /*
-  Run this script with `npm run pub` after running `npm run build`
-
-  This script will upload the compiled site to Filecoin, then publish the new
-  hash to the BCH blockchain. The page at troutsblog.com will automatically
-  redirect users to the new site.
+  This script will write the CID for the current version of the app to an
+  address on the BCH blockchain. This creates an immutable, censorship-resistent,
+  globally available, and secure pointer to the latest version of the app.
 */
 
 const FILE_PATH = './build'
