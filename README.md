@@ -32,6 +32,8 @@ npm run build
 npm run pub
 ```
 
+Learn more about alternative deployments in the [deployment directory](./deploy)
+
 ## Support
 
 Have questions? Need help? Join our community support
