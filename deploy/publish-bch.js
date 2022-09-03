@@ -1,6 +1,6 @@
 /*
   This script will write the CID for the current version of the app to an
-  address on the BCH blockchain. This creates an immutable, censorship-resistent,
+  address on the BCH blockchain. This creates an immutable, censorship-resistant,
   globally available, and secure pointer to the latest version of the app.
 
   The exported function expects an IPFS CID as input and returns a TXID for a
