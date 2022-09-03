@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # Bash shell script to publish the app to GitHub pages.
-pwd
-git checkout gh-pages
-git merge master
+# Ensure you are in the gh-pages branch.
+
+#pwd
+#git checkout gh-pages
+#git merge master
+
 npm run build
 cp -r build docs
 git add -A
