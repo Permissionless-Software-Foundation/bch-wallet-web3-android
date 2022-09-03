@@ -40,5 +40,6 @@
     "minimal-slp-wallet": "5.0.3",
     "standard": "17.0.0",
     "web3.storage": "4.3.0"
-  }
+  },
+  "homepage": "https://permissionless-software-foundation.github.io/react-bootstrap-web3-spa"
 }
