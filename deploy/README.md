@@ -1,30 +1,17 @@
-This is a highly decentralized, web3-first application. It is published to GitHub pages for the convenience of web2 browsers. The primary target deployment target is a side-loaded Android app. The secondary deployment target is a web app delivered through an IPFS gateway.
+# Deploy
+This directory contains scripts for deploying the app to different platforms and blockchains.
 
-This `deploy` directory contains shell scripts for deploying the web wallet to these different environments:
+## App Deployment
 
-- GitHub Pages
-- Filecoin
-- P2WDB Pinning Service
-- BCH Blockchain
-- Radicle
+### Blockchains
+- Filecoin - The compiled app is uploaded to the Filecoin blockchain using [publish-filecoin.js](./publish-filecoin.js). Running this script requires a free API key from [web3.storage](https://web3.storage).
+- IPFS - The files are also pinned by the Pinata service using [publish-pinata.js](./publish-filecoin.js). Running this script requires a free JWT token from [Pinata](https://pinata.cloud).
+- Bitcoin Cash - The IPFS CID is written to the Bitcoin Cash blockchain with [publish-bch.js](/publish-bch.js) This creates an immutable, censorship-resistant, globally available, and secure pointer to the latest version of the app.
 
-## GitHub Pages
-This deployment if full web2 infrastructure. As a result, it's convenient, but it's also the highly susceptible to censorship by GitHub.
-- [Web Wallet on GitHub Pages](https://permissionless-software-foundation.github.io/bch-wallet-web3-android/)
+The above deployment scripts are orchestrated with [publish-main.js](`./publish-main.js`). This script is run by executing `npm run pub`.
 
-## Filecoin
-The compiled output is also uploaded to Filecoin via the [web3.storage](https://web3.storage) API. This is a free service that preserves the data on Filecoin, but can be pretty sluggish when retrieving the data over an IPFS gateway.
+### GitHub Pages
+The app can also be deployed to GitHub pages. This requires switching to the `gh-pages` branch and running the command `npm run pub:ghp`.
 
-Currently the compiled web app is published to Filecoin, and the souce code is uploaded manually. Eventually the source code will also be published automatically.
-
-## BCH Blockchain
-The IPFS hash of the latest version of the app is written to the Bitcoin Cash Blockchain. The last transaction in the history of the address always points to the latest copy of the app on IPFS. This protocol follows the [PS001 specification](https://github.com/Permissionless-Software-Foundation/specifications/blob/master/ps001-media-sharing.md).
-The BCH blockchain allows the IPFS hash to be 'anchored' in a persistent, immutable, censorship-resistant, highly-available database. This allows web browsers to easily and securely locate the latest version of the app, using the [minimal-slp-wallet](https://www.npmjs.com/package/minimal-slp-wallet) library.
-
-## P2WDB Pinning Service
-(Not yet functional)
-The P2WDB pinning service is an anonymous, censorship-resistant service that pins content on the IPFS network. This distributes the data across the globe and makes it readily available through any IPFS gateway.
-
-## Radicle
-(Not yet functional)
-The source code and compiled app are mirrored on [Radicle](https://radicle.xyz/). This is an peer-to-peer alternative to GitHub. If this repository is ever censored by GitHub, the code can always be retrieved from the Radicle network. [This article](https://christroutner.github.io/trouts-blog/docs/censorship/radicle) covers the details of mirrioring GitHub repos onto Radicle.
+## Code Deployment
+The code in this repository is backed up to the [Radicle](https://radicle.network/get-started.html) network, as GitHub has been increasing its censorship of code. Find instructions for *consuming* the code in the [top-level README](../README.md). To learn how install Radicle on your own machine and collaborate on the code that way, check out [this research article](https://christroutner.github.io/trouts-blog/docs/censorship/radicle).
