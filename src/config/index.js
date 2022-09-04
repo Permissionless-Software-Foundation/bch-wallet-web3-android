@@ -7,11 +7,11 @@ const config = {
   ipfsCid: 'bafybeibya4cwro6rgqfaazqxckcchy6qo5sz2aqc4dx7ptcvpns5peqcz4',
 
   // BCH address used to point to the latest version of the IPFS CID.
-  appBchAddr: 'bitcoincash:qztv87ppjh82v527jq2drp4u8rzzn63r5cmhth2zzm',
+  appBchAddr: 'bitcoincash:qqq66ftjgncsxlrdwxvlykkhp3qusjq3zynx3q835y',
 
   // Backup Info that goes into the Footer.
-  ghPagesUrl: 'https://permissionless-software-foundation.github.io/react-bootstrap-web3-spa/',
-  ghRepo: 'https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa',
+  ghPagesUrl: 'https://permissionless-software-foundation.github.io/bch-wallet-web3-android/',
+  ghRepo: 'https://github.com/Permissionless-Software-Foundation/bch-wallet-web3-android',
   radicleUrl: 'https://app.radicle.network/seeds/maple.radicle.garden/rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy/remotes/hyyycncbn9qzqmobnhjq9rry6t4mbjiadzjoyhaknzxjcz3cxkpfpc'
 
 }
