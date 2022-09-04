@@ -160,7 +160,9 @@ class App extends React.Component {
 
       servers: this.state.servers, // Alternative back end servers
 
-      Sweep: this.state.Sweep // Sweep library
+      Sweep: this.state.Sweep, // Sweep library
+
+      wallet: this.state.bchWallet
     }
 
     return (
@@ -185,7 +187,7 @@ class App extends React.Component {
         }
 
         <SelectServerButton menuHandler={this.onMenuClick} />
-        <Footer />
+        <Footer appData={appData} />
       </>
     )
   }
