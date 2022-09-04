@@ -103,7 +103,8 @@ class App extends React.Component {
     // This is a macro object that is passed to all child components. It gathers
     // all the data and handlers used throughout the app.
     const appData = {
-      servers: this.state.servers // Alternative back end servers
+      servers: this.state.servers, // Alternative back end servers
+      wallet: this.state.wallet
     }
 
     return (
@@ -119,7 +120,7 @@ class App extends React.Component {
         }
 
         <SelectServerButton menuHandler={this.onMenuClick} />
-        <Footer />
+        <Footer appData={appData} />
       </>
     )
   }
