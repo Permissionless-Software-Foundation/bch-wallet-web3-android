@@ -238,7 +238,10 @@ class SendCard extends React.Component {
 
     try {
       // Clear the modal body
-      _this.setState({ modalBody: '' })
+      _this.setState({
+        modalBody: '',
+        hideModalSpinner: false
+      })
 
       // Open the modal
       const modalBody = ['Preparing to send bch...']
