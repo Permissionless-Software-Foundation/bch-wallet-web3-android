@@ -158,7 +158,8 @@ class Sweep extends React.Component {
 
         this.setState({
           hideSpinner: true,
-          statusMsg
+          statusMsg,
+          wifToSweep: ''
         })
 
         await this.updateWalletState()
