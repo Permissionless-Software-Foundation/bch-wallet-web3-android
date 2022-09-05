@@ -6,6 +6,8 @@
 // Global npm libraries
 import React from 'react'
 import { Container, Row, Col, Button } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 
 class ServerSelectView extends React.Component {
   constructor (props) {
@@ -33,6 +35,14 @@ class ServerSelectView extends React.Component {
     return (
       <>
         <Container>
+          <Row>
+            <Col style={{ textAlign: 'right' }}>
+              <a href='https://youtu.be/ZEpPcWnjdxE' target='_blank' rel='noreferrer'>
+                <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+              </a>
+            </Col>
+          </Row>
+
           <Row>
             <Col style={{ textAlign: 'center' }}>
               <h2>

@@ -77,13 +77,18 @@ class SentTokenButton extends React.Component {
         statusMsg: ''
       })
 
+      // Wait a few seconds to let psf-slp-indexer index the token transfer.
+      // await this.state.appData.bchWallet.bchjs.Util.sleep(2000)
+
       await instance.state.refreshTokens()
     } else {
       // Default behavior
 
       instance.setState({
         showModal: false,
-        statusMsg: ''
+        statusMsg: '',
+        sendToAddress: '',
+        sendQtyStr: ''
       })
     }
   }
@@ -200,7 +205,7 @@ class SentTokenButton extends React.Component {
 
   // Click handler that fires when the user clicks the Max button.
   handleGetMax () {
-    console.log('get max button clicked.')
+    // console.log('get max button clicked.')
 
     // const token = instance.state.token
     // console.log('token: ', token)
@@ -212,7 +217,7 @@ class SentTokenButton extends React.Component {
 
   // Click handler that fires when the user clicks the 'Send' button.
   async handleSendTokens (instance) {
-    console.log('Send button clicked.')
+    // console.log('Send button clicked.')
 
     try {
       instance.setState({

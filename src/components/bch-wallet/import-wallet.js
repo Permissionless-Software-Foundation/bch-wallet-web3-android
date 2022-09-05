@@ -18,7 +18,7 @@ class WalletImport extends React.Component {
     this.state = {
       newMnemonic: '',
       bchWallet: props.bchWallet,
-      setMnemonic: props.setMnemonic
+      setLSState: props.setLSState
     }
 
     _this = this
@@ -133,7 +133,7 @@ class WalletImport extends React.Component {
     }
 
     // Replace the old mnemonic in LocalStorage with the new one.
-    _this.state.setMnemonic(mnemonic)
+    _this.state.setLSState({ mnemonic })
 
     // Reload the app.
     window.location.reload()
