@@ -46,6 +46,7 @@ class SlpTokens extends React.Component {
               <RefreshTokenBalance
                 appData={this.state.appData}
                 ref={this.refreshTokenButtonRef}
+                lazyLoadTokenIcons={this.lazyLoadTokenIcons}
               />
             </Col>
 
@@ -80,7 +81,7 @@ class SlpTokens extends React.Component {
   // from the internet.
   async lazyLoadTokenIcons () {
     const tokens = this.state.appData.bchWalletState.slpTokens
-    console.log(`lazy loading these tokens: ${JSON.stringify(tokens, null, 2)}`)
+    // console.log(`lazy loading these tokens: ${JSON.stringify(tokens, null, 2)}`)
 
     for (let i = 0; i < tokens.length; i++) {
       const thisToken = tokens[i]
