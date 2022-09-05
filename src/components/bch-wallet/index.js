@@ -22,8 +22,8 @@ class BchWallet extends React.Component {
       appData: props.appData,
       bchWallet: props.appData.bchWallet,
       bchWalletState: props.appData.bchWalletState,
-      delMnemonic: props.appData.delMnemonic,
-      setMnemonic: props.appData.setMnemonic
+      delLSState: props.appData.delLSState,
+      setLSState: props.appData.setLSState
     }
   }
 
@@ -43,9 +43,9 @@ class BchWallet extends React.Component {
         <br />
         <WalletSummary bchWallet={this.state.bchWallet} bchWalletState={this.state.bchWalletState} appData={this.state.appData} />
         <br />
-        <WalletClear delMnemonic={this.state.delMnemonic} />
+        <WalletClear delLSState={this.state.delLSState} />
         <br />
-        <WalletImport bchWallet={this.state.bchWallet} setMnemonic={this.state.setMnemonic} />
+        <WalletImport bchWallet={this.state.bchWallet} setLSState={this.state.setLSState} />
       </>
     )
   }

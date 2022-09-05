@@ -28,8 +28,8 @@ class AppBody extends React.Component {
       appData: props.appData,
       bchWallet: props.appData.bchWallet,
       bchWalletState: props.appData.bchWalletState,
-      delMnemonic: props.appData.delMnemonic,
-      setMnemonic: props.appData.setMnemonic
+      delLSState: props.appData.delLSState,
+      setLSState: props.appData.setLSState
     }
 
     // This function is passed from the parent component. It's used to update
