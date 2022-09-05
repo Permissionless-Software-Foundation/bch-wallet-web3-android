@@ -6,6 +6,8 @@
 // Global npm libraries
 import React from 'react'
 import { Container, Row, Col, Form, Button, Modal, Spinner } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 
 // let _this
 
@@ -38,6 +40,14 @@ class Sweep extends React.Component {
     return (
       <>
         <Container>
+          <Row>
+            <Col style={{ textAlign: 'right' }}>
+              <a href='https://youtu.be/QW9xixHaEJE' target='_blank' rel='noreferrer'>
+                <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+              </a>
+            </Col>
+          </Row>
+
           <Row>
             <Col>
               <p>
@@ -148,7 +158,8 @@ class Sweep extends React.Component {
 
         this.setState({
           hideSpinner: true,
-          statusMsg
+          statusMsg,
+          wifToSweep: ''
         })
 
         await this.updateWalletState()

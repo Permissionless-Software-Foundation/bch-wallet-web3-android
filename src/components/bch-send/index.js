@@ -5,8 +5,8 @@
 // Global npm libraries
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faRedo } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 
 // Local libraries
 import RefreshBchBalance from './refresh-bch-balance'
@@ -46,7 +46,11 @@ class BchSend extends React.Component {
                 ref={this.refreshBchButtonRef}
               />
             </Col>
-            <Col xs={6} />
+            <Col xs={6} style={{ textAlign: 'right' }}>
+              <a href='https://youtu.be/KN1ZMWoLoGs' target='_blank' rel='noreferrer'>
+                <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+              </a>
+            </Col>
           </Row>
           <br />
 

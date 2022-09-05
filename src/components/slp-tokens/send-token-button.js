@@ -83,7 +83,9 @@ class SentTokenButton extends React.Component {
 
       instance.setState({
         showModal: false,
-        statusMsg: ''
+        statusMsg: '',
+        sendToAddress: '',
+        sendQtyStr: ''
       })
     }
   }
