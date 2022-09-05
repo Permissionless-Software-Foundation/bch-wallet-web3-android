@@ -6,6 +6,8 @@
 import React from 'react'
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap'
 import axios from 'axios'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 
 // Local libraries
 import TokenCard from './token-card'
@@ -47,13 +49,19 @@ class SlpTokens extends React.Component {
               />
             </Col>
 
-            <Col xs={6} style={{ textAlign: 'right' }}>
+            <Col xs={4} style={{ textAlign: 'right' }}>
               {
                 this.state.iconsAreLoaded
                   ? null
                   : (<Button variant='secondary'>Loading Token Icons <Spinner animation='border' /></Button>)
               }
 
+            </Col>
+
+            <Col xs={2} style={{ textAlign: 'right' }}>
+              <a href='https://youtu.be/f1no5-QHTr4' target='_blank' rel='noreferrer'>
+                <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+              </a>
             </Col>
           </Row>
           <br />
