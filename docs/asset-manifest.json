@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/bch-wallet-web3-android/static/css/main.1fffacca.css",
-    "main.js": "/bch-wallet-web3-android/static/js/main.6329007d.js",
+    "main.css": "/bch-wallet-web3-android/static/css/main.a6c58155.css",
+    "main.js": "/bch-wallet-web3-android/static/js/main.02cd356f.js",
     "static/media/psf-logo.png": "/bch-wallet-web3-android/static/media/psf-logo.3485139af901ffeaf77f.png",
     "index.html": "/bch-wallet-web3-android/index.html",
-    "main.1fffacca.css.map": "/bch-wallet-web3-android/static/css/main.1fffacca.css.map",
-    "main.6329007d.js.map": "/bch-wallet-web3-android/static/js/main.6329007d.js.map"
+    "main.a6c58155.css.map": "/bch-wallet-web3-android/static/css/main.a6c58155.css.map",
+    "main.02cd356f.js.map": "/bch-wallet-web3-android/static/js/main.02cd356f.js.map"
   },
   "entrypoints": [
-    "static/css/main.1fffacca.css",
-    "static/js/main.6329007d.js"
+    "static/css/main.a6c58155.css",
+    "static/js/main.02cd356f.js"
   ]
 }
