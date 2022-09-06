@@ -4,7 +4,7 @@
 
 const config = {
   // Default IPFS CID for the app. This will be overwritten by dynamic lookup.
-  ipfsCid: 'bafybeibnox42r472sn5qa7wv3je7js3asvdjfcphhphvujuhjusi7lrufm',
+  ipfsCid: 'bafybeiglni7qmkzfhwphhuhbkj3c5gm3f4p4kh5c7gzhqxo3mdwb6qwrqy',
 
   // BCH address used to point to the latest version of the IPFS CID.
   appBchAddr: 'bitcoincash:qqq66ftjgncsxlrdwxvlykkhp3qusjq3zynx3q835y',
