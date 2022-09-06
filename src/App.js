@@ -93,10 +93,6 @@ class App extends React.Component {
       this.addToModal('Loading minimal-slp-wallet')
       await this.asyncLoad.loadWalletLib()
 
-      this.addToModal('Loading bch-sweep-lib')
-      const Sweep = await this.asyncLoad.loadSweepLib()
-      this.setState({ Sweep })
-
       // Update the list of potential back end servers.
       this.addToModal('Getting alternative servers')
       const servers = await this.asyncLoad.getServers()
