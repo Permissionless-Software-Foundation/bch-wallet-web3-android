@@ -3,7 +3,7 @@ This is a web-based single page app (SPA) written in React. It provides non-cust
 
 - [Live Demo on GitHub Pages](https://permissionless-software-foundation.github.io/bch-wallet-web3-android/)
 - [Download latest APK file](./android/apk/bch-web3-wallet.apk)
-- [Live Demo on Filecoin](https://bafybeigbo7ehabnf6f7x5325n3xu7wvha7mw5uhomux3na32iv24qv4mfu.ipfs.dweb.link/)
+- [Live Demo on Filecoin](https://bafybeifyeg6y425zsatd6r2l4iwevr2gklzn5hhv7l5f4xxfit7it6nqri.ipfs.dweb.link/)
 
 ## Installation
 ```bash
