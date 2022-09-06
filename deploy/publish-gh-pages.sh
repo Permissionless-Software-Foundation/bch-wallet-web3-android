@@ -7,8 +7,10 @@
 #git checkout gh-pages
 #git merge master
 
+rm -rf build
+rm -rf docs
 npm run build
-cp -r build docs
+mv build docs
 git add -A
 git commit -m "Updating GitHub page"
 git push
