@@ -31,22 +31,6 @@ class AsyncLoad {
     } while (!this.BchWallet)
   }
 
-  // Load the bch-sweep-lib which comes in a <script> file and is attached to
-  // the global 'window' object.
-  async loadSweepLib () {
-    do {
-      if (typeof window !== 'undefined' && window.Sweep) {
-        this.Sweep = window.Sweep
-
-        return this.Sweep
-      } else {
-        console.log('Waiting for sweep library to load...')
-      }
-
-      await sleep(1000)
-    } while (!this.Sweep)
-  }
-
   // Initialize the BCH wallet
   async initWallet (restURL, mnemonic, setLSState, updateBchWalletState) {
     const options = {

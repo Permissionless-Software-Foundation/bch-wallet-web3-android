@@ -8,10 +8,11 @@ import React from 'react'
 import { Container, Row, Col, Form, Button, Modal, Spinner } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+import Sweep from 'bch-token-sweep'
 
 // let _this
 
-class Sweep extends React.Component {
+class SweepWif extends React.Component {
   constructor (props) {
     super()
 
@@ -120,7 +121,7 @@ class Sweep extends React.Component {
       }
 
       try {
-        const Sweep = this.state.appData.Sweep
+        // const Sweep = this.state.appData.Sweep
         const walletWif = this.state.appData.bchWallet.walletInfo.privateKey
         // const bchjs = this.state.appData.bchWallet.bchjs
         const toAddr = this.state.appData.bchWallet.slpAddress
@@ -242,4 +243,4 @@ class Sweep extends React.Component {
   }
 }
 
-export default Sweep
+export default SweepWif
