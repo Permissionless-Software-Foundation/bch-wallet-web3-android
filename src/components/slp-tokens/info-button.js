@@ -43,6 +43,8 @@ function InfoButton (props) {
   let url = props.token.url
   url = linkIfUrl(props.token.url)
 
+  // console.log('props.token: ', props.token)
+
   return (
     <>
       <Button variant='info' onClick={handleOpen}>Info</Button>
@@ -64,7 +66,11 @@ function InfoButton (props) {
 
             <Row>
               <Col xs={4}><b>Token ID</b>:</Col>
-              <Col xs={8} style={{ wordBreak: 'break-all' }}>{props.token.tokenId}</Col>
+              <Col xs={8} style={{ wordBreak: 'break-all' }}>
+                <a href={`https://token.fullstack.cash/?tokenid=${props.token.tokenId}`} target='_blank' rel='noreferrer'>
+                  {props.token.tokenId}
+                </a>
+              </Col>
             </Row>
 
             <Row style={{ backgroundColor: '#eee' }}>
