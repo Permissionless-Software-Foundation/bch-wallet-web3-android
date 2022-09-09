@@ -214,7 +214,7 @@ class App extends React.Component {
     })
   }
 
-  // This function is used to retrieve the mnemonic from local storage, which
+  // This function is used to retrieve the mnemonic from LocalStorage, which
   // is handled by a child component (load-localstorage.js)
   passMnemonic (lsState, setLSState, delLSState) {
     // console.log(`mnemonic loaded from local storage: ${mnemonic}`)

@@ -19,11 +19,7 @@ class BchWallet extends React.Component {
     super(props)
 
     this.state = {
-      appData: props.appData,
-      bchWallet: props.appData.bchWallet,
-      bchWalletState: props.appData.bchWalletState,
-      delLSState: props.appData.delLSState,
-      setLSState: props.appData.setLSState
+      appData: props.appData
     }
   }
 
@@ -41,11 +37,11 @@ class BchWallet extends React.Component {
         </Container>
         <WebWalletWarning />
         <br />
-        <WalletSummary bchWallet={this.state.bchWallet} bchWalletState={this.state.bchWalletState} appData={this.state.appData} />
+        <WalletSummary appData={this.state.appData} />
         <br />
-        <WalletClear delLSState={this.state.delLSState} />
+        <WalletClear appData={this.state.appData} />
         <br />
-        <WalletImport bchWallet={this.state.bchWallet} setLSState={this.state.setLSState} />
+        <WalletImport appData={this.state.appData} />
       </>
     )
   }
