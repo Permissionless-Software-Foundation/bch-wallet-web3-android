@@ -25,11 +25,7 @@ class AppBody extends React.Component {
     this.state = {
       activeView: 0,
       menuState: props.menuState,
-      appData: props.appData,
-      bchWallet: props.appData.bchWallet,
-      bchWalletState: props.appData.bchWalletState,
-      delLSState: props.appData.delLSState,
-      setLSState: props.appData.setLSState
+      appData: props.appData
     }
 
     // This function is passed from the parent component. It's used to update
