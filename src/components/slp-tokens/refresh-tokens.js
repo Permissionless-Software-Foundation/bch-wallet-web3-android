@@ -62,6 +62,7 @@ class RefreshTokenBalance extends React.Component {
       const wallet = this.state.appData.bchWallet
 
       // Update the wallet UTXOs
+      await wallet.initialize()
       const tokenList = await wallet.listTokens()
       // console.log(`tokenList: ${JSON.stringify(tokenList, null, 2)}`)
 
