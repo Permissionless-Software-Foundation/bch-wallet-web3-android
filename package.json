@@ -60,5 +60,6 @@
         "npmPublish": false
       }
     ]
-  }
+  },
+  "homepage": "/bch-wallet-web3-android/"
 }
