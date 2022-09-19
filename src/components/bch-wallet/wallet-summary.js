@@ -20,8 +20,8 @@ class WalletSummary extends React.Component {
     super(props)
 
     this.state = {
-      bchWallet: props.bchWallet,
-      bchWalletState: props.bchWalletState,
+      bchWallet: props.appData.bchWallet,
+      bchWalletState: props.appData.bchWalletState,
       appData: props.appData,
       blurredMnemonic: true,
       blurredPrivateKey: true

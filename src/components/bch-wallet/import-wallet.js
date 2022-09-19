@@ -17,8 +17,9 @@ class WalletImport extends React.Component {
 
     this.state = {
       newMnemonic: '',
-      bchWallet: props.bchWallet,
-      setLSState: props.setLSState
+      appData: props.appData,
+      bchWallet: props.appData.bchWallet,
+      setLSState: props.appData.setLSState
     }
 
     _this = this

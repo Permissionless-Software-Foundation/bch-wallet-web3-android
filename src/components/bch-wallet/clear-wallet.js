@@ -15,7 +15,7 @@ class WalletClear extends React.Component {
     super(props)
 
     this.state = {
-      delLSState: props.delLSState
+      delLSState: props.appData.delLSState
     }
 
     _this = this
