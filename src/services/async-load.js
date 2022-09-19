@@ -34,7 +34,7 @@ class AsyncLoad {
   // Initialize the BCH wallet
   async initWallet (restURL, mnemonic, setLSState, updateBchWalletState) {
     const options = {
-      interface: 'consumer-api',
+      interface: 'rest-api',
       restURL,
       noUpdate: true
     }
