@@ -12,7 +12,8 @@ const config = {
   // Backup Info that goes into the Footer.
   ghPagesUrl: 'https://permissionless-software-foundation.github.io/bch-wallet-web3-android/',
   ghRepo: 'https://github.com/Permissionless-Software-Foundation/bch-wallet-web3-android',
-  radicleUrl: 'https://app.radicle.network/seeds/maple.radicle.garden/rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy/remotes/hyyycncbn9qzqmobnhjq9rry6t4mbjiadzjoyhaknzxjcz3cxkpfpc'
+  radicleUrl: 'https://app.radicle.network/seeds/maple.radicle.garden/rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy/remotes/hyyycncbn9qzqmobnhjq9rry6t4mbjiadzjoyhaknzxjcz3cxkpfpc',
+  filecoinRepo: 'https://bafybeihjei6hnl5dxau2ivnilnruqjql5ge6y5ncirljci5tcwnkx4dsju.ipfs.w3s.link/'
 
 }
 
