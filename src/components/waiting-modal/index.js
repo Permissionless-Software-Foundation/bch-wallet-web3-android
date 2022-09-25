@@ -12,6 +12,10 @@ function ModalTemplate (props) {
   const [show, setShow] = useState(true)
 
   const handleClose = () => {
+    // Refuse to close the modal if denyClose is set.
+    console.log(`props.denyClose: ${props.denyClose}`)
+    if (props.denyClose) return
+
     setShow(false)
 
     if (props.closeFunc) {

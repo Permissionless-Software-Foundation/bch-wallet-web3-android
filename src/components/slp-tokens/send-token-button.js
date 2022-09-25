@@ -35,7 +35,8 @@ class SentTokenButton extends React.Component {
       // Modal inputs
       sendToAddress: '',
       sendQtyStr: '',
-      sendQtyNum: 0
+      sendQtyNum: 0,
+      dialogFinished: true
     }
 
     // _this = this
@@ -67,6 +68,9 @@ class SentTokenButton extends React.Component {
   // This handler function is called when the modal is closed.
   async handleCloseModal (instance) {
     // console.log(`Refreshing tokens: ${instance.state.shouldRefreshOnModalClose}`)
+
+    // Prevent closing of the modal during a token send.
+    if (!this.state.dialogFinished) return
 
     if (instance.state.shouldRefreshOnModalClose) {
       // Refresh the token balance on modal close.
@@ -222,7 +226,8 @@ class SentTokenButton extends React.Component {
     try {
       instance.setState({
         statusMsg: 'Preparing to send tokens...',
-        hideSpinner: false
+        hideSpinner: false,
+        dialogFinished: false
       })
 
       // Validate the quantity
@@ -266,14 +271,16 @@ class SentTokenButton extends React.Component {
         hideSpinner: true,
         sendQtyStr: '',
         sendToAddress: '',
-        shouldRefreshOnModalClose: true
+        shouldRefreshOnModalClose: true,
+        dialogFinished: true
       })
     } catch (err) {
       console.error('Error in handleSendTokens(): ', err)
 
       instance.setState({
         statusMsg: `Error sending tokens: ${err.message}`,
-        hideSpinner: true
+        hideSpinner: true,
+        dialogFinished: true
       })
     }
   }

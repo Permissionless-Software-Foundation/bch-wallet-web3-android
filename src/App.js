@@ -178,6 +178,7 @@ class App extends React.Component {
                 modalBody={this.state.modalBody}
                 hideSpinner={this.state.hideSpinner}
                 appData={appData}
+                denyClose={this.state.showStartModal}
               />
             : <InitializedView
                 wallet={this.state.wallet}
@@ -254,7 +255,7 @@ function UninitializedView (props) {
 
   return (
     <>
-      <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
+      <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} denyClose={props.denyClose} />
 
       {
         _this.state.asyncInitFinished
