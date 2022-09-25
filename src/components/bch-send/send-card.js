@@ -40,7 +40,8 @@ class SendCard extends React.Component {
       modalBody: [],
       hideModalSpinner: false,
       hideModal: true,
-      refreshOnClose: false // Indicates if the BCH balance should be refreshed on close.
+      refreshOnClose: false, // Indicates if the BCH balance should be refreshed on close.
+      dialogFinished: true
     }
 
     _this = this
@@ -67,6 +68,7 @@ class SendCard extends React.Component {
                 hideSpinner={this.state.hideModalSpinner}
                 closeFunc={this.onModalClose}
                 instance={this}
+                dialogFinished={this.state.dialogFinished}
                />)
         }
 
@@ -240,7 +242,8 @@ class SendCard extends React.Component {
       // Clear the modal body
       _this.setState({
         modalBody: '',
-        hideModalSpinner: false
+        hideModalSpinner: false,
+        dialogFinished: false
       })
 
       // Open the modal
@@ -303,7 +306,8 @@ class SendCard extends React.Component {
         amountStr: '',
         refreshOnClose: true,
         amountUsd: 0,
-        amountBch: 0
+        amountBch: 0,
+        dialogFinished: true
       })
     } catch (err) {
       console.log('Error in handleSendBch(): ', err)
@@ -316,7 +320,8 @@ class SendCard extends React.Component {
         hideModal: false,
         modalBody,
         hideModalSpinner: true,
-        refreshOnClose: false
+        refreshOnClose: false,
+        dialogFinished: true
       })
     }
   }
@@ -327,9 +332,10 @@ function ModalTemplate (props) {
   // const [showSendModal, setShowSendModal] = useState(false)
 
   const handleClose = () => {
-    props.instance.setState({ hideModal: true })
+    // Prevent the user from closing the modal while transfer is taking place.
+    if (!props.dialogFinished) return
 
-    // setShowSendModal(false)
+    props.instance.setState({ hideModal: true })
 
     // If the parent component specified a function to execute at close, execute
     // it now.
@@ -337,21 +343,6 @@ function ModalTemplate (props) {
       props.closeFunc()
     }
   }
-
-  // if (!props.hideModal) {
-  //   // props.instance.setState({ hideModal: true })
-  //
-  //   setShowSendModal(true)
-  // }
-
-  // Allow other components to force the modal open if it was previously closed.
-  // if (props.forceOpen) {
-  //   if (!showSendModal) {
-  //     setShowSendModal(true)
-  //   }
-  // }
-
-  // const handleShow = () => setShow(true)
 
   return (
     <Modal show onHide={handleClose}>
