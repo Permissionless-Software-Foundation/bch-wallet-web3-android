@@ -11,7 +11,16 @@ import { Container, Row, Col, Modal, Spinner } from 'react-bootstrap'
 function ModalTemplate (props) {
   const [show, setShow] = useState(true)
 
-  const handleClose = () => setShow(false)
+  const handleClose = () => {
+    console.log(`props.denyClose: ${props.denyClose}`)
+    if (props.denyClose) return
+
+    setShow(false)
+
+    if (props.closeFunc) {
+      props.closeFunc()
+    }
+  }
   // const handleShow = () => setShow(true)
 
   return (
