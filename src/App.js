@@ -47,7 +47,8 @@ class App extends React.Component {
       asyncInitFinished: false, // Did startup finish?
       asyncInitSucceeded: null, // Did startup finish successfully?
       modalBody: [], // Strings displayed in the modal
-      hideSpinner: false // Spinner gif in modal
+      hideSpinner: false, // Spinner gif in modal
+      denyClose: false
     }
 
     this.cnt = 0
@@ -58,6 +59,10 @@ class App extends React.Component {
   async componentDidMount () {
     try {
       this.addToModal('Loading minimal-slp-wallet')
+
+      this.setState({
+        denyClose: true
+      })
 
       await this.asyncLoad.loadWalletLib()
 
@@ -77,7 +82,8 @@ class App extends React.Component {
         servers,
         showStartModal: false,
         asyncInitFinished: true,
-        asyncInitSucceeded: true
+        asyncInitSucceeded: true,
+        denyClose: false
       })
     } catch (err) {
       this.modalBody = [
@@ -90,7 +96,8 @@ class App extends React.Component {
         hideSpinner: true,
         showStartModal: true,
         asyncInitFinished: true,
-        asyncInitSucceeded: false
+        asyncInitSucceeded: false,
+        denyClose: false
       })
     }
   }
@@ -119,7 +126,7 @@ class App extends React.Component {
                 modalBody={this.state.modalBody}
                 hideSpinner={this.state.hideSpinner}
                 appData={appData}
-                denyClose={this.state.showStartModal}
+                denyClose={this.state.denyClose}
               />
             : <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
         }
