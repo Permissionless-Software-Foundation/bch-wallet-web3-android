@@ -13,6 +13,7 @@ import WebWalletWarning from './warning'
 import WalletSummary from './wallet-summary'
 import WalletClear from './clear-wallet'
 import WalletImport from './import-wallet'
+import OptimizeWallet from './optimize-wallet'
 
 class BchWallet extends React.Component {
   constructor (props) {
@@ -42,6 +43,8 @@ class BchWallet extends React.Component {
         <WalletClear appData={this.state.appData} />
         <br />
         <WalletImport appData={this.state.appData} />
+        <br />
+        <OptimizeWallet appData={this.state.appData} />
       </>
     )
   }
