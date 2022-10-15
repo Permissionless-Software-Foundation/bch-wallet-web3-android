@@ -12,6 +12,10 @@ function ModalTemplate (props) {
   const [show, setShow] = useState(true)
 
   const handleClose = () => {
+    // Refuse to close the modal if denyClose is set.
+    console.log(`props.denyClose: ${props.denyClose}`)
+    if (props.denyClose) return
+
     setShow(false)
 
     if (props.closeFunc) {
@@ -48,7 +52,12 @@ function BodyList (props) {
 
   // Paragraphs
   for (let i = 0; i < items.length; i++) {
-    listItems.push(<p key={items[i]}><code>{items[i]}</code></p>)
+    // Generate a unique key for each entry.
+    const rndNum = Math.floor(Math.random() * 1000)
+    const key = `${items[i].toString()}${rndNum}`
+    // console.log(`Dialog key: ${key}`)
+
+    listItems.push(<p key={key}><code>{items[i]}</code></p>)
   }
 
   return (
