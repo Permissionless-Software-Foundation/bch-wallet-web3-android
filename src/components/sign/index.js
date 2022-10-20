@@ -47,8 +47,8 @@ class SignMessage extends React.Component {
           </Row>
           <Row>
             <Col className='text-break'>
-              <Form>
-                <Form.Group className='mb-3' controlId='message'>
+              <Form onSubmit={this.handleSignMessage}>
+                <Form.Group className='mb-3' controlId='message' onSubmit={e => console.log('form submitted')}>
                   <Form.Label><b>Enter a message to sign.</b></Form.Label>
                   <Form.Control type='text' placeholder='verify' onChange={e => this.setState({ msg: e.target.value })} />
                 </Form.Group>
@@ -70,8 +70,10 @@ class SignMessage extends React.Component {
     )
   }
 
-  handleSignMessage () {
+  handleSignMessage (event) {
     try {
+      event.preventDefault()
+
       const { wif, msg } = this.state
       const bchjs = this.state.wallet.bchjs
       // console.log('bchjs: ', bchjs)
