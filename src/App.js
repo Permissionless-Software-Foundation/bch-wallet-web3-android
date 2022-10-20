@@ -159,6 +159,7 @@ class App extends React.Component {
     const appData = {
       // Wallet and wallet state
       bchWallet: this.state.bchWallet,
+      wallet: this.state.bchWallet,
       bchWalletState: this.state.bchWalletState,
 
       // Functions
@@ -168,9 +169,7 @@ class App extends React.Component {
 
       servers: this.state.servers, // Alternative back end servers
 
-      Sweep: this.state.Sweep, // Sweep library
-
-      wallet: this.state.bchWallet
+      Sweep: this.state.Sweep // Sweep library
     }
 
     return (
