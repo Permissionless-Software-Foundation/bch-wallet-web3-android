@@ -53,6 +53,7 @@ class App extends React.Component {
       asyncInitSucceeded: null, // Did startup finish successfully?
       modalBody: [], // Strings displayed in the modal
       hideSpinner: false, // Spinner gif in modal
+      denyClose: false,
 
       // The wallet state make this a true progressive web app (PWA). As
       // balances, UTXOs, and tokens are retrieved, this state is updated.
@@ -92,6 +93,11 @@ class App extends React.Component {
   async componentDidMount () {
     try {
       this.addToModal('Loading minimal-slp-wallet')
+
+      this.setState({
+        denyClose: true
+      })
+
       await this.asyncLoad.loadWalletLib()
 
       // Update the list of potential back end servers.
@@ -124,7 +130,8 @@ class App extends React.Component {
       this.setState({
         showStartModal: false,
         asyncInitFinished: true,
-        asyncInitSucceeded: true
+        asyncInitSucceeded: true,
+        denyClose: false
       })
     } catch (err) {
       this.modalBody = [
@@ -137,7 +144,8 @@ class App extends React.Component {
         hideSpinner: true,
         showStartModal: true,
         asyncInitFinished: true,
-        asyncInitSucceeded: false
+        asyncInitSucceeded: false,
+        denyClose: false
       })
     }
   }
@@ -152,6 +160,7 @@ class App extends React.Component {
     const appData = {
       // Wallet and wallet state
       bchWallet: this.state.bchWallet,
+      wallet: this.state.bchWallet,
       bchWalletState: this.state.bchWalletState,
 
       // Functions
@@ -161,9 +170,7 @@ class App extends React.Component {
 
       servers: this.state.servers, // Alternative back end servers
 
-      Sweep: this.state.Sweep, // Sweep library
-
-      wallet: this.state.bchWallet
+      Sweep: this.state.Sweep // Sweep library
     }
 
     return (
@@ -179,6 +186,7 @@ class App extends React.Component {
                 modalBody={this.state.modalBody}
                 hideSpinner={this.state.hideSpinner}
                 appData={appData}
+                denyClose={this.state.denyClose}
               />
             : <InitializedView
                 wallet={this.state.wallet}
@@ -255,7 +263,12 @@ function UninitializedView (props) {
 
   return (
     <>
-      <WaitingModal heading={heading} body={props.modalBody} hideSpinner={props.hideSpinner} />
+      <WaitingModal
+        heading={heading}
+        body={props.modalBody}
+        hideSpinner={props.hideSpinner}
+        denyClose={props.denyClose}
+      />
 
       {
         _this.state.asyncInitFinished

@@ -2,7 +2,7 @@
 This is a web-based single page app (SPA) written in React. It provides non-custodial wallet features for the Bitcoin Cash blockchain, including support for SLP tokens and NFTs. In includes [CapacitorJS](https://capacitorjs.com/) libraries and configuration so that it can be compiled into a native Android APK file.
 
 - [Live Demo on GitHub Pages](https://permissionless-software-foundation.github.io/bch-wallet-web3-android/)
-- [Download latest APK file](./android/apk/bch-web3-wallet.apk)
+- [Download latest APK file](./apk/bch-web3-wallet.apk)
 - [Live Demo on Filecoin](https://bafybeifyeg6y425zsatd6r2l4iwevr2gklzn5hhv7l5f4xxfit7it6nqri.ipfs.dweb.link/)
 
 ## Installation
@@ -46,14 +46,19 @@ Additional documentation:
 - [Deployment Targets](./deploy)
 
 ## Repo Backup
-This GitHub repository is backed up on [Radicle](https://radicle.network/get-started.html). If GitHub ever censors this respository, the code can be found in this alternative repository. [Here are extra notes on working with Radicle](https://christroutner.github.io/trouts-blog/docs/censorship/radicle).
+### Radicle
+This GitHub repository is backed up on [Radicle](https://radicle.network/get-started.html). If GitHub ever censors this repository, the code can be found in this alternative repository. [Here are extra notes on working with Radicle](https://christroutner.github.io/trouts-blog/docs/censorship/radicle).
 
-- Project ID: rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy
-- [Repo on Rad Website](https://app.radicle.network/seeds/maple.radicle.garden/rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy/remotes/hyyycncbn9qzqmobnhjq9rry6t4mbjiadzjoyhaknzxjcz3cxkpfpc)
+- Project ID: rad:git:hnrkkguksk4pz69ucmcfs315m65nhk8ie79uy
+- [Repo on Rad Website](https://app.radicle.network/seeds/maple.radicle.garden/rad:git:hnrkkguksk4pz69ucmcfs315m65nhk8ie79uy/remotes/hyyycncbn9qzqmobnhjq9rry6t4mbjiadzjoyhaknzxjcz3cxkpfpc)
 
 This can be cloned from [PSF](https://psfoundation.info) Radicle seed node with one of these commands:
-- `rad clone rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy --seed radicle.fullstackcash.nl`
-- `rad clone rad:git:hnrkd5cjwwb5tzx37hq9uqm5ubon7ee468xcy --seed maple.radicle.garden`
+- `rad clone rad:git:hnrkkguksk4pz69ucmcfs315m65nhk8ie79uy --seed radicle.fullstackcash.nl`
+- `rad clone rad:git:hnrkkguksk4pz69ucmcfs315m65nhk8ie79uy --seed maple.radicle.garden`
+
+### Filecoin
+This repository is also periodically backed up on Filecoin:
+- [bch-wallet-web3-android-v1.7.5.zip](https://bafybeihjei6hnl5dxau2ivnilnruqjql5ge6y5ncirljci5tcwnkx4dsju.ipfs.w3s.link/)
 
 ## License
 [MIT](./LICENSE.md)

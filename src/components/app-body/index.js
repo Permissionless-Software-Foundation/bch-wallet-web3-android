@@ -15,6 +15,7 @@ import BchSend from '../bch-send'
 import SlpTokens from '../slp-tokens'
 import ServerSelectView from '../servers/select-server-view'
 import Sweep from '../sweep'
+import Sign from '../sign'
 
 // let _this
 
@@ -54,13 +55,15 @@ class AppBody extends React.Component {
       case 1:
         return (<SlpTokens appData={this.state.appData} />)
       case 2:
-        return (<Sweep appData={this.state.appData} />)
-      case 3:
         return (
           <BchWallet
             appData={this.state.appData}
           />
         )
+      case 3:
+        return (<Sweep appData={this.state.appData} />)
+      case 4:
+        return (<Sign appData={this.state.appData} />)
 
       // Special Views
       case 100:
