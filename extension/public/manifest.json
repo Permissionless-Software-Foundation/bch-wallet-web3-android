@@ -1,0 +1,33 @@
+{
+    "manifest_version": 2,
+    "name": "PSF BCH Wallet",
+    "description": "PSF BCH wallet",
+    "version":"0.1.0",
+    "content_scripts": [
+        {
+            "matches": ["file://*/*", "http://*/*", "https://*/*"],
+            "js": ["browser-polyfill.min.js", "content.js"],
+            "run_at": "document_idle",
+            "all_frames": true
+        }
+    ],
+    "background": {
+        "scripts": ["browser-polyfill.min.js", "background.js"],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_title": "PSF BCH Wallet"
+    },
+    "permissions": ["storage", "tabs", "activeTab" , "scripting"],
+    "web_accessible_resources": [
+      "index.html"
+    ],
+    "icons": {
+        "16": "psfExt.png",
+        "48": "psfExt.png",
+        "128": "psfExt.png",
+        "192": "psfExt.png",
+        "512": "psfExt.png"
+    }
+}

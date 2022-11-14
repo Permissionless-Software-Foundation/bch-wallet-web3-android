@@ -7,11 +7,41 @@ This is a web-based single page app (SPA) written in React. It provides non-cust
 
 ## Installation
 ```bash
-git clone https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa
-cd react-bootstrap-web3-spa
+git clone https://github.com/Permissionless-Software-Foundation/bch-wallet-web3-android
+cd bch-wallet-web3-android
 npm install
 npm start
 npm run build
+```
+
+## Browser extension
+```bash
+git clone https://github.com/Permissionless-Software-Foundation/bch-wallet-web3-android
+cd bch-wallet-web3-android
+./scripts/extension.sh
+```
+
+In "Extensions" menu go to "Manage extensions" and enable "Developer mode".
+Click "Load unpacked" button and navigate to current repository `extension/dist` directory.
+Click "Select".
+
+*** WIP ***: Open the extension from the page content (for example on payment
+button click). From inside your `handleClick()` do:
+
+```js
+const eventData = {
+    text: 'psfWallet',
+    type: 'PAYMENT',
+    amount: '0.01',
+    to: 'bitcoincash:dsfsdfsdfsdfs',
+};
+
+const event = new MessageEvent('message', {
+    origin: 'wallet',
+    data: eventData,
+});
+
+window.dispatchEvent(event);
 ```
 
 ## Publish to Filecoin
