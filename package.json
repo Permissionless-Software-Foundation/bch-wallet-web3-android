@@ -50,7 +50,8 @@
     "@capacitor/clipboard": "4.0.1",
     "@capacitor/core": "latest",
     "standard": "17.0.0",
-    "web3.storage": "4.3.0"
+    "web3.storage": "4.3.0",
+    "webextension-polyfill": "^0.10.0"
   },
   "release": {
     "publish": [
