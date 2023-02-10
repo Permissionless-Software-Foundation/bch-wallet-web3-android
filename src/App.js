@@ -3,7 +3,7 @@
 */
 
 // Global npm libraries
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQueryParam, StringParam } from 'use-query-params'
 
 // Local libraries
@@ -16,9 +16,6 @@ import Footer from './components/footer'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
 
-// Default restURL for a back-end server.
-let serverUrl = 'https://free-bch.fullstack.cash'
-
 // Default alternative servers.
 const defaultServerOptions = [
   { value: 'https://free-bch.fullstack.cash', label: 'https://free-bch.fullstack.cash' },
@@ -27,157 +24,178 @@ const defaultServerOptions = [
   { value: 'https://wa-usa-bch-consumer.fullstackcash.nl', label: 'https://wa-usa-bch-consumer.fullstackcash.nl' }
 ]
 
-let _this
+// let _this
 
-class App extends React.Component {
-  constructor (props) {
-    super(props)
+function App (props) {
+  // BEGIN STATE
 
-    // Encasulate dependencies
-    this.asyncLoad = new AsyncLoad()
+  // Get the CashStack URL from a query parameter, if it exists.
+  const [restURL] = useQueryParam('restURL', StringParam)
+  console.log('restURL: ', restURL)
+  // Set default CashStack URL value if there is now query parameter.
+  const [serverUrl, setServerUrl] = useState('https://free-bch.fullstack.cash')
+  if (restURL) setServerUrl(restURL)
 
-    this.state = {
-      wallet: false, // BCH wallet instance
-      menuState: 0, // The current View being displayed in the app
-      serverUrl, // Stores the URL for the currently selected server.
-      servers: defaultServerOptions, // A list of back end servers.
+  const [menuState, setMenuState] = useQueryParam(0)
+  const [wallet, setWallet] = useState(false)
+  const [servers, setServers] = useState(defaultServerOptions)
 
-      // Startup Modal
-      showStartModal: true, // Should the startup modal be visible?
-      asyncInitFinished: false, // Did startup finish?
-      asyncInitSucceeded: null, // Did startup finish successfully?
-      modalBody: [], // Strings displayed in the modal
-      hideSpinner: false, // Spinner gif in modal
-      denyClose: false
-    }
+  // Startup state
+  // When the page is loaded, it goes through a series of async network calls
+  // to initialize the app. These variables track the state of this startup
+  // process.
+  const [asyncInitStarted, setAsyncInitStarted] = useState(false)
+  const [asyncInitFinished, setAsyncInitFinished] = useState(false)
+  const [asyncInitSucceeded, setAsyncInitSucceeded] = useState(null)
 
-    this.cnt = 0
+  // Startup Modal
+  const [showStartModal, setShowStartModal] = useState(true)
+  const [modalBody, setModalBody] = useState([])
+  const [hideSpinner, setHideSpinner] = useState(false)
+  const [denyClose, setDenyClose] = useState(false)
 
-    _this = this
+  // Load all the app state into a single object that can be passed to child
+  // components.
+  const appData = {
+    wallet,
+    setWallet,
+    servers,
+    setServers,
+    showStartModal,
+    setShowStartModal,
+    menuState,
+    setMenuState,
+    asyncInitFinished,
+    setAsyncInitFinished,
+    asyncInitSucceeded,
+    setAsyncInitSucceeded,
+    modalBody,
+    setModalBody,
+    hideSpinner,
+    setHideSpinner,
+    denyClose,
+    setDenyClose
   }
 
-  async componentDidMount () {
-    try {
-      this.addToModal('Loading minimal-slp-wallet')
+  // END STATE
 
-      this.setState({
-        denyClose: true
-      })
+  // Encasulate dependencies
+  const asyncLoad = new AsyncLoad()
 
-      await this.asyncLoad.loadWalletLib()
+  useEffect(() => {
+    async function asyncEffect () {
+      // console.log('asyncInitStarted: ', asyncInitStarted)
+      if (!asyncInitStarted) {
+        try {
+          setAsyncInitStarted(true)
 
-      this.addToModal('Getting alternative servers')
-      const servers = await this.asyncLoad.getServers()
-      // console.log('servers: ', servers)
+          addToModal('Loading minimal-slp-wallet', appData)
 
-      this.addToModal('Initializing wallet')
-      // console.log(`Initializing wallet with back end server ${serverUrl}`)
+          setDenyClose(true)
 
-      const wallet = await this.asyncLoad.initWallet(serverUrl)
+          const Wallet = await asyncLoad.loadWalletLib()
+          console.log('Wallet: ', Wallet)
 
-      this.setState({
-        wallet,
-        serverUrl,
-        // queryParamExists,
-        servers,
-        showStartModal: false,
-        asyncInitFinished: true,
-        asyncInitSucceeded: true,
-        denyClose: false
-      })
-    } catch (err) {
-      this.modalBody = [
-        `Error: ${err.message}`,
-        'Try selecting a different back end server using the drop-down menu at the bottom of the app.'
-      ]
+          addToModal('Getting alternative servers', appData)
+          const gistServers = await asyncLoad.getServers()
+          setServers(gistServers)
+          console.log('servers: ', servers)
 
-      this.setState({
-        modalBody: this.modalBody,
-        hideSpinner: true,
-        showStartModal: true,
-        asyncInitFinished: true,
-        asyncInitSucceeded: false,
-        denyClose: false
-      })
-    }
-  }
+          // throw new Error('test error')
 
-  render () {
-    // console.log('App component rendered. this.state.wallet: ', this.state.wallet)
-    // console.log(`App component menuState: ${this.state.menuState}`)
-    // console.log(`render() this.state.serverUrl: ${this.state.serverUrl}`)
+          addToModal('Initializing wallet', appData)
+          console.log(`Initializing wallet with back end server ${serverUrl}`)
 
-    // This is a macro object that is passed to all child components. It gathers
-    // all the data and handlers used throughout the app.
-    const appData = {
-      servers: this.state.servers, // Alternative back end servers
-      wallet: this.state.wallet
-    }
+          const walletTemp = await asyncLoad.initWallet(serverUrl)
+          setWallet(walletTemp)
 
-    return (
-      <>
-        <GetRestUrl />
-        <LoadScripts />
-        <NavMenu menuHandler={this.onMenuClick} />
+          // Update state
+          setShowStartModal(false)
+          setDenyClose(false)
 
-        {
-          this.state.showStartModal
-            ? <UninitializedView
-                modalBody={this.state.modalBody}
-                hideSpinner={this.state.hideSpinner}
-                appData={appData}
-                denyClose={this.state.denyClose}
-              />
-            : <InitializedView wallet={this.state.wallet} menuState={this.state.menuState} appData={appData} />
+          // Update the startup state.
+          setAsyncInitFinished(true)
+          setAsyncInitSucceeded(true)
+          console.log('useEffect() startup finished successfully')
+        } catch (err) {
+          const errModalBody = [
+            `Error: ${err.message}`,
+            'Try selecting a different back end server using the drop-down menu at the bottom of the app.'
+          ]
+          setModalBody(errModalBody)
+
+          // Update Modal State
+          setHideSpinner(true)
+          setShowStartModal(true)
+          setDenyClose(false)
+
+          // Update the startup state.
+          setAsyncInitFinished(true)
+          setAsyncInitSucceeded(false)
         }
+      }
+    }
+    asyncEffect()
+  })
 
-        <SelectServerButton menuHandler={this.onMenuClick} />
-        <Footer appData={appData} />
-      </>
-    )
-  }
+  return (
+    <>
+      <LoadScripts />
+      <NavMenu menuHandler={onMenuClick} />
 
-  // Add a new line to the waiting modal.
-  addToModal (inStr) {
-    const modalBody = this.state.modalBody
+      {
+        showStartModal
+          ? (<UninitializedView
+              appData={appData}
+             />)
+          : (<InitializedView
+              appData={appData}
+             />)
+      }
 
-    modalBody.push(inStr)
+      <SelectServerButton menuHandler={onMenuClick} />
+      <Footer appData={appData} />
+    </>
+  )
+}
 
-    this.setState({
-      modalBody
-    })
-  }
+// Add a new line to the waiting modal.
+function addToModal (inStr, appData) {
+  console.log('addToModal() inStr: ', inStr)
 
-  // This handler is passed into the child menu component. When an item in the
-  // nav menu is clicked, this handler will update the state. The state is
-  // used by the AppBody component to determine which View component to display.
-  onMenuClick (menuState) {
-    // console.log('menuState: ', menuState)
+  appData.setModalBody(prevBody => {
+    // console.log('prevBody: ', prevBody)
+    prevBody.push(inStr)
+    return prevBody
+  })
+}
 
-    _this.setState({
-      menuState
-    })
-  }
+// This handler is passed into the child menu component. When an item in the
+// nav menu is clicked, this handler will update the state. The state is
+// used by the AppBody component to determine which View component to display.
+function onMenuClick (menuState, appData) {
+  // console.log('menuState: ', menuState)
+
+  appData.setMenuState(menuState)
 }
 
 // This is rendered *before* the BCH wallet is initialized.
-function UninitializedView (props) {
+function UninitializedView (props = {}) {
   // console.log('UninitializedView props: ', props)
 
-  const heading = 'Loading Blockchain Data...'
+  const heading = 'Connecting to BCH blockchain...'
 
   return (
     <>
       <WaitingModal
         heading={heading}
-        body={props.modalBody}
-        hideSpinner={props.hideSpinner}
-        denyClose={props.denyClose}
+        body={props.appData.modalBody}
+        hideSpinner={props.appData.hideSpinner}
+        denyClose={props.appData.denyClose}
       />
-
       {
-        _this.state.asyncInitFinished
-          ? <AppBody menuState={100} wallet={props.wallet} appData={props.appData} />
+        props.asyncInitFinished
+          ? <AppBody menuState={100} wallet={props.appData.wallet} appData={props.appData} />
           : null
       }
     </>
@@ -186,28 +204,12 @@ function UninitializedView (props) {
 
 // This is rendered *after* the BCH wallet is initialized.
 function InitializedView (props) {
-  // console.log(`InitializedView props.menuState: ${props.menuState}`)
-  // console.log(`InitializedView _this.state.menuState: ${_this.state.menuState}`)
-
   return (
     <>
       <br />
-      <AppBody menuState={_this.state.menuState} wallet={props.wallet} appData={props.appData} />
+      <AppBody menuState={props.appData.menuState} wallet={props.appData.wallet} appData={props.appData} />
     </>
   )
-}
-
-// Get the restURL query parameter.
-function GetRestUrl (props) {
-  const [restURL] = useQueryParam('restURL', StringParam)
-  // console.log('restURL: ', restURL)
-
-  if (restURL) {
-    serverUrl = restURL
-    // queryParamExists = true
-  }
-
-  return (<></>)
 }
 
 export default App
