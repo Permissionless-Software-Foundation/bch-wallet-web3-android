@@ -36,7 +36,7 @@ function App (props) {
   const [serverUrl, setServerUrl] = useState('https://free-bch.fullstack.cash')
   if (restURL) setServerUrl(restURL)
 
-  const [menuState, setMenuState] = useQueryParam(0)
+  const [menuState, setMenuState] = useState(0)
   const [wallet, setWallet] = useState(false)
   const [servers, setServers] = useState(defaultServerOptions)
 
@@ -146,10 +146,10 @@ function App (props) {
       {
         showStartModal
           ? (<UninitializedView appData={appData} />)
-          : (<InitializedView appData={appData} />)
+          : (<InitializedView menuState={menuState} appData={appData} />)
       }
 
-      <SelectServerButton menuHandler={onMenuClick} />
+      <SelectServerButton menuHandler={onMenuClick} appData={appData} />
       <Footer appData={appData} />
     </>
   )
@@ -170,7 +170,7 @@ function addToModal (inStr, appData) {
 // nav menu is clicked, this handler will update the state. The state is
 // used by the AppBody component to determine which View component to display.
 function onMenuClick (menuState, appData) {
-  // console.log('menuState: ', menuState)
+  console.log('onMenuClick() menuState: ', menuState)
 
   appData.setMenuState(menuState)
 }
@@ -203,7 +203,7 @@ function InitializedView (props) {
   return (
     <>
       <br />
-      <AppBody menuState={props.appData.menuState} wallet={props.appData.wallet} appData={props.appData} />
+      <AppBody menuState={props.menuState} appData={props.appData} />
     </>
   )
 }

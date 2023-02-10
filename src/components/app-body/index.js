@@ -15,50 +15,36 @@ import Placeholder2 from '../placeholder2'
 import Placeholder3 from '../placeholder3'
 import ServerSelectView from '../servers/select-server-view'
 
-// let _this
+function AppBody (props) {
+  // Dependency injection through props
+  const appData = props.appData
+  const menuState = props.menuState
+  console.log('AppBody() menuState: ', menuState)
 
-class AppBody extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      activeView: 0,
-      menuState: props.menuState,
-      wallet: props.wallet,
-      appData: props.appData
-    }
-
-    // _this = this
-  }
-
-  render () {
-    // console.log(`AppBody menu state: ${this.props.menuState}`)
-
-    return (
-      <>
-        {this.chooseView(this.props.menuState)}
-      </>
-    )
-  }
-
-  chooseView (menuState) {
-    // console.log(`chooseView() menuState: ${menuState}`)
+  function chooseView (menuState) {
+    console.log(`chooseView() menuState: ${menuState}`)
 
     switch (menuState) {
       case 0:
-        return (<GetBalance wallet={this.state.wallet} />)
+        return (<GetBalance wallet={appData.wallet} />)
       case 1:
         return (<Placeholder2 />)
       case 2:
         return (<Placeholder3 />)
 
-      // Special Views
+        // Special Views
       case 100:
-        return (<ServerSelectView appData={this.state.appData} />)
+        return (<ServerSelectView appData={appData} />)
       default:
-        return (<GetBalance wallet={this.state.wallet} />)
+        return (<GetBalance wallet={appData.wallet} />)
     }
   }
+
+  return (
+    <>
+      {chooseView(menuState)}
+    </>
+  )
 }
 
 export default AppBody
