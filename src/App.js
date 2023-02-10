@@ -30,11 +30,11 @@ function App (props) {
   // BEGIN STATE
 
   // Get the CashStack URL from a query parameter, if it exists.
-  const [restURL] = useQueryParam('restURL', StringParam)
-  console.log('restURL: ', restURL)
-  // Set default CashStack URL value if there is now query parameter.
-  const [serverUrl, setServerUrl] = useState('https://free-bch.fullstack.cash')
-  if (restURL) setServerUrl(restURL)
+  let [restURL] = useQueryParam('restURL', StringParam)
+  // Otherwise default to free-bch.fullstack.cash
+  if (!restURL) restURL = 'https://free-bch.fullstack.cash'
+  // console.log('restURL: ', restURL)
+  const [serverUrl, setServerUrl] = useState(restURL)
 
   const [menuState, setMenuState] = useState(0)
   const [wallet, setWallet] = useState(false)
@@ -59,6 +59,8 @@ function App (props) {
   const appData = {
     wallet,
     setWallet,
+    serverUrl,
+    setServerUrl,
     servers,
     setServers,
     showStartModal,
@@ -93,13 +95,13 @@ function App (props) {
 
           setDenyClose(true)
 
-          const Wallet = await asyncLoad.loadWalletLib()
-          console.log('Wallet: ', Wallet)
+          await asyncLoad.loadWalletLib()
+          // console.log('Wallet: ', Wallet)
 
           addToModal('Getting alternative servers', appData)
           const gistServers = await asyncLoad.getServers()
           setServers(gistServers)
-          console.log('servers: ', servers)
+          // console.log('servers: ', servers)
 
           // throw new Error('test error')
 
@@ -116,7 +118,7 @@ function App (props) {
           // Update the startup state.
           setAsyncInitFinished(true)
           setAsyncInitSucceeded(true)
-          console.log('useEffect() startup finished successfully')
+          console.log('App.js useEffect() startup finished successfully')
         } catch (err) {
           const errModalBody = [
             `Error: ${err.message}`,
@@ -157,7 +159,7 @@ function App (props) {
 
 // Add a new line to the waiting modal.
 function addToModal (inStr, appData) {
-  console.log('addToModal() inStr: ', inStr)
+  // console.log('addToModal() inStr: ', inStr)
 
   appData.setModalBody(prevBody => {
     // console.log('prevBody: ', prevBody)
@@ -170,7 +172,7 @@ function addToModal (inStr, appData) {
 // nav menu is clicked, this handler will update the state. The state is
 // used by the AppBody component to determine which View component to display.
 function onMenuClick (menuState, appData) {
-  console.log('onMenuClick() menuState: ', menuState)
+  // console.log('onMenuClick() menuState: ', menuState)
 
   appData.setMenuState(menuState)
 }

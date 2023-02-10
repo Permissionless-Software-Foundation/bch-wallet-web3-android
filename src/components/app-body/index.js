@@ -19,10 +19,10 @@ function AppBody (props) {
   // Dependency injection through props
   const appData = props.appData
   const menuState = props.menuState
-  console.log('AppBody() menuState: ', menuState)
+  // console.log('AppBody() menuState: ', menuState)
 
   function chooseView (menuState) {
-    console.log(`chooseView() menuState: ${menuState}`)
+    // console.log(`chooseView() menuState: ${menuState}`)
 
     switch (menuState) {
       case 0:
