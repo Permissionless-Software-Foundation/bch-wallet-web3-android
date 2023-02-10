@@ -40,7 +40,7 @@
     "@capacitor/android": "latest",
     "@capacitor/cli": "latest",
     "@capacitor/core": "latest",
-    "minimal-slp-wallet": "5.0.3",
+    "minimal-slp-wallet": "5.8.5",
     "standard": "17.0.0",
     "web3.storage": "4.3.0"
   }
