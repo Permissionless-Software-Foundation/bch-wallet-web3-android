@@ -45,6 +45,7 @@ function ModalTemplate (props) {
 
 function BodyList (props) {
   const items = props.body
+  // console.log('BodyList items: ', items)
 
   const listItems = []
 
