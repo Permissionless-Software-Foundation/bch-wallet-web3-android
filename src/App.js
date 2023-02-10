@@ -141,16 +141,12 @@ function App (props) {
   return (
     <>
       <LoadScripts />
-      <NavMenu menuHandler={onMenuClick} />
+      <NavMenu menuHandler={onMenuClick} appData={appData} />
 
       {
         showStartModal
-          ? (<UninitializedView
-              appData={appData}
-             />)
-          : (<InitializedView
-              appData={appData}
-             />)
+          ? (<UninitializedView appData={appData} />)
+          : (<InitializedView appData={appData} />)
       }
 
       <SelectServerButton menuHandler={onMenuClick} />
