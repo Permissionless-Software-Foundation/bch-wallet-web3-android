@@ -25,23 +25,6 @@ const defaultServerOptions = [
   { value: 'https://wa-usa-bch-consumer.fullstackcash.nl', label: 'https://wa-usa-bch-consumer.fullstackcash.nl' }
 ]
 
-// The wallet state makes this a true progressive web app (PWA). As
-// balances, UTXOs, and tokens are retrieved, this state is updated.
-// properties are enumerated here for the purpose of documentation.
-let bchWalletState = {
-  mnemonic: undefined,
-  address: undefined,
-  cashAddress: undefined,
-  slpAddress: undefined,
-  privateKey: undefined,
-  publicKey: undefined,
-  legacyAddress: undefined,
-  hdPath: undefined,
-  bchBalance: 0,
-  slpTokens: [],
-  bchUsdPrice: 150
-}
-
 function App (props) {
   // BEGIN STATE
 
@@ -88,6 +71,23 @@ function App (props) {
   const [hideSpinner, setHideSpinner] = useState(false)
   const [denyClose, setDenyClose] = useState(false)
 
+  // The wallet state makes this a true progressive web app (PWA). As
+  // balances, UTXOs, and tokens are retrieved, this state is updated.
+  // properties are enumerated here for the purpose of documentation.
+  const [bchWalletState, setBchWalletState] = useState({
+    mnemonic: undefined,
+    address: undefined,
+    cashAddress: undefined,
+    slpAddress: undefined,
+    privateKey: undefined,
+    publicKey: undefined,
+    legacyAddress: undefined,
+    hdPath: undefined,
+    bchBalance: 0,
+    slpTokens: [],
+    bchUsdPrice: 150
+  })
+
   // Load all the app state into a single object that can be passed to child
   // components.
   const appData = {
@@ -112,7 +112,8 @@ function App (props) {
     denyClose,
     setDenyClose,
     bchWalletState,
-    bchWallet: wallet, // Alias
+    setBchWalletState,
+    bchWallet: wallet, // Alias. TODO: Remove this
     removeLocalStorageItem,
     updateLocalStorage,
     updateBchWalletState
@@ -145,12 +146,12 @@ function App (props) {
           addToModal('Initializing wallet', appData)
           console.log(`Initializing wallet with back end server ${serverUrl}`)
 
-          const walletTemp = await asyncLoad.initWallet(serverUrl, mnemonic, setLSState, updateBchWalletState)
+          const walletTemp = await asyncLoad.initWallet(serverUrl, mnemonic, appData)
           setWallet(walletTemp)
 
           // Get the BCH balance of the wallet.
           addToModal('Getting BCH balance', appData)
-          await asyncLoad.getWalletBchBalance(walletTemp, updateBchWalletState)
+          await asyncLoad.getWalletBchBalance(walletTemp, updateBchWalletState, appData)
 
           // Update state
           setShowStartModal(false)
@@ -203,14 +204,27 @@ function App (props) {
 
 // This function is passed to child components in order to update the wallet
 // state. This function is important to make this wallet a PWA.
-function updateBchWalletState (walletObj) {
-  // console.log('updateBchWalletState() walletObj: ', walletObj)
+function updateBchWalletState (inObj = {}) {
+  try {
+    const { walletObj, appData } = inObj
 
-  const oldState = bchWalletState
+    // Debuging
+    console.log('walletObj: ', walletObj)
+    console.log('appData: ', appData)
 
-  bchWalletState = Object.assign({}, oldState, walletObj)
+    // console.log('updateBchWalletState() walletObj: ', walletObj)
 
-  // console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
+    const oldState = appData.bchWalletState
+
+    const newBchWalletState = Object.assign({}, oldState, walletObj)
+
+    appData.setBchWalletState(newBchWalletState)
+
+    // console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
+  } catch (err) {
+    console.error('Error in App.js updateBchWalletState()')
+    throw err
+  }
 }
 
 // Add a new line to the waiting modal.

@@ -33,7 +33,7 @@ class AsyncLoad {
   }
 
   // Initialize the BCH wallet
-  async initWallet (restURL, mnemonic, setLSState, updateBchWalletState) {
+  async initWallet (restURL, mnemonic, appData) {
     const options = {
       interface: 'consumer-api',
       restURL,
@@ -52,14 +52,14 @@ class AsyncLoad {
     // Wait for wallet to initialize.
     await wallet.walletInfoPromise
     await wallet.initialize()
-
+    console.log('starting to update wallet state.')
     // Update the state of the wallet.
-    updateBchWalletState(wallet.walletInfo)
-
+    appData.updateBchWalletState({ walletObj: wallet.walletInfo, appData })
+    console.log('finished updating wallet state.')
     // Save the mnemonic to local storage.
     if (!mnemonic) {
       const newMnemonic = wallet.walletInfo.mnemonic
-      setLSState({ mnemonic: newMnemonic })
+      appData.updateLocalStorage({ mnemonic: newMnemonic })
     }
 
     this.wallet = wallet
@@ -68,17 +68,17 @@ class AsyncLoad {
   }
 
   // Get the spot exchange rate for BCH in USD.
-  async getUSDExchangeRate (wallet, updateBchWalletState) {
+  async getUSDExchangeRate (wallet, updateBchWalletState, appData) {
     const bchUsdPrice = await wallet.getUsd()
 
     // Update the state of the wallet
-    updateBchWalletState({ bchUsdPrice })
+    updateBchWalletState({ bchUsdPrice }, appData)
 
     return true
   }
 
   // Get a list of SLP tokens held by the wallet.
-  async getSlpTokenBalances (wallet, updateBchWalletState) {
+  async getSlpTokenBalances (wallet, updateBchWalletState, appData) {
     // Get token information from the wallet. This will also initialize the UTXO store.
     const slpTokens = await wallet.listTokens(wallet.walletInfo.cashAddress)
     // console.log('slpTokens: ', slpTokens)
@@ -91,18 +91,18 @@ class AsyncLoad {
     })
 
     // Update the state of the wallet with the balances
-    updateBchWalletState({ slpTokens })
+    updateBchWalletState({ slpTokens }, appData)
 
     return true
   }
 
   // Get the BCH balance of the wallet.
-  async getWalletBchBalance (wallet, updateBchWalletState) {
+  async getWalletBchBalance (wallet, updateBchWalletState, appData) {
     // Get the BCH balance of the wallet.
     const bchBalance = await wallet.getBalance(wallet.walletInfo.cashAddress)
 
     // Update the state of the wallet with the balances
-    updateBchWalletState({ bchBalance })
+    updateBchWalletState({ walletObj: { bchBalance }, appData })
 
     return true
   }

@@ -19,6 +19,8 @@ class WalletSummary extends React.Component {
   constructor (props) {
     super(props)
 
+    console.log('initializing WalletSummary component.')
+
     this.state = {
       bchWallet: props.appData.bchWallet,
       bchWalletState: props.appData.bchWalletState,
@@ -31,7 +33,7 @@ class WalletSummary extends React.Component {
   }
 
   render () {
-    // console.log(`WalletSummary render() this.state.bchWalletState: ${JSON.stringify(this.state.bchWalletState, null, 2)}`)
+    console.log(`WalletSummary render() this.state.bchWalletState: ${JSON.stringify(this.state.bchWalletState, null, 2)}`)
 
     const eyeIcon = {
       mnemonic: _this.state.blurredMnemonic ? faEyeSlash : faEye,

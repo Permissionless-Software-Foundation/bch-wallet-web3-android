@@ -30,7 +30,7 @@ class BchSend extends React.Component {
     }
 
     // Create a reference to the Refresh button.
-    this.refreshBchButtonRef = React.createRef()
+    // this.refreshBchButtonRef = React.createRef()
 
     _this = this
   }
