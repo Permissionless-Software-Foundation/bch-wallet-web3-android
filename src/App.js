@@ -214,11 +214,19 @@ function updateBchWalletState (inObj = {}) {
 
     // console.log('updateBchWalletState() walletObj: ', walletObj)
 
-    const oldState = appData.bchWalletState
+    // const oldState = appData.bchWalletState
+    //
+    // const newBchWalletState = Object.assign({}, oldState, walletObj)
+    // console.log('newBchWalletState: ', newBchWalletState)
+    //
+    // appData.setBchWalletState(newBchWalletState)
 
-    const newBchWalletState = Object.assign({}, oldState, walletObj)
+    appData.setBchWalletState(oldState => {
+      const newBchWalletState = Object.assign({}, oldState, walletObj)
+      console.log('newBchWalletState: ', newBchWalletState)
 
-    appData.setBchWalletState(newBchWalletState)
+      return newBchWalletState
+    })
 
     // console.log(`New wallet state: ${JSON.stringify(bchWalletState, null, 2)}`)
   } catch (err) {
