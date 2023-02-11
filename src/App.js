@@ -114,8 +114,9 @@ function App (props) {
     denyClose,
     setDenyClose,
     bchWalletState,
-    bchWallet: wallet,
-    removeLocalStorageItem, updateLocalStorage
+    bchWallet: wallet, // Alias
+    removeLocalStorageItem, updateLocalStorage,
+    updateBchWalletState
   }
 
   // END STATE
@@ -200,21 +201,6 @@ function App (props) {
     </>
   )
 }
-
-// This function is used to retrieve the mnemonic from LocalStorage, which
-// is handled by a child component (load-localstorage.js)
-// function passMnemonic (lsState, setLSState, delLSState) {
-//   // console.log(`mnemonic loaded from local storage: ${mnemonic}`)
-//
-//   // Get the mnemonic from local storage.
-//   this.mnemonic = lsState.mnemonic
-//
-//   // Save handles to the LocalStorage State, as well as the functions to save
-//   // and delete items from the LocalStorage.
-//   this.lsState = lsState
-//   this.setLSState = setLSState
-//   this.delLSState = delLSState
-// }
 
 // This function is passed to child components in order to update the wallet
 // state. This function is important to make this wallet a PWA.
