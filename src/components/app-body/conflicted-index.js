@@ -23,26 +23,61 @@ function AppBody (props) {
   const menuState = props.menuState
   // console.log('AppBody() menuState: ', menuState)
 
+<<<<<<< HEAD
+class AppBody extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      activeView: 0,
+      menuState: props.menuState,
+      appData: props.appData
+    }
+
+    // This function is passed from the parent component. It's used to update
+    // the BCH wallet state.
+    this.updateBchWalletState = props.appData.updateBchWalletState
+
+    // _this = this
+  }
+
+  render () {
+    // console.log(`AppBody menu state: ${this.props.menuState}`)
+
+    return (
+      <>
+        {this.chooseView(this.props.menuState)}
+      </>
+    )
+  }
+
+  chooseView (menuState) {
+=======
   function chooseView (menuState) {
+>>>>>>> upstream/master
     // console.log(`chooseView() menuState: ${menuState}`)
 
     switch (menuState) {
       case 0:
-        return (<BchSend appData={appData} />)
+        return (<BchSend appData={this.state.appData} />)
       case 1:
-        return (<SlpTokens appData={appData} />)
+        return (<SlpTokens appData={this.state.appData} />)
       case 2:
-        return (<BchWallet appData={appData} />)
+        return (
+          <BchWallet
+            appData={this.state.appData}
+          />
+        )
       case 3:
-        return (<Sweep appData={appData} />)
+        return (<Sweep appData={this.state.appData} />)
       case 4:
-        return (<Sign appData={appData} />)
+        return (<Sign appData={this.state.appData} />)
 
         // Special Views
       case 100:
         return (<ServerSelectView appData={appData} />)
       default:
-        return (<BchSend appData={appData} />)
+        return (<BchSend appData={this.state.appData} />)
     }
   }
 
