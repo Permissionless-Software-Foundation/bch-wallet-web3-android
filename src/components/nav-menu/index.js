@@ -11,7 +11,6 @@ import { Nav, Navbar, Image } from 'react-bootstrap'
 import Logo from './psf-logo.png'
 
 function NavMenu (props) {
-
   // This function is called when a user clicks on one of the menu items.
   const handleClickEvent = (menuItem) => {
     // Pass the selected menu item up to the parent component.

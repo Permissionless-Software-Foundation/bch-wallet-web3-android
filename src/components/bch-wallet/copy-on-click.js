@@ -55,7 +55,7 @@ class CopyOnClick extends React.Component {
     // console.log('event.target.nearestViewportElement.attributes.id.nodeValue: ', event.target.nearestViewportElement.attributes.id.nodeValue)
 
     // Prevent error when nearestViewportElement is null
-    if(!event.target.nearestViewportElement) return
+    if (!event.target.nearestViewportElement) return
 
     // Get the name of the wallet property to be copied.
     let key = event.target.nearestViewportElement.attributes.id.nodeValue

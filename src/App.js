@@ -88,8 +88,6 @@ function App (props) {
   const [hideSpinner, setHideSpinner] = useState(false)
   const [denyClose, setDenyClose] = useState(false)
 
-
-
   // Load all the app state into a single object that can be passed to child
   // components.
   const appData = {
@@ -115,7 +113,8 @@ function App (props) {
     setDenyClose,
     bchWalletState,
     bchWallet: wallet, // Alias
-    removeLocalStorageItem, updateLocalStorage,
+    removeLocalStorageItem,
+    updateLocalStorage,
     updateBchWalletState
   }
 
