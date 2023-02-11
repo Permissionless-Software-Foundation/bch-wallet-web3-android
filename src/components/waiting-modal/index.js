@@ -9,17 +9,25 @@ import React, { useState } from 'react'
 import { Container, Row, Col, Modal, Spinner } from 'react-bootstrap'
 
 function ModalTemplate (props) {
+  // State
   const [show, setShow] = useState(true)
 
+  // Dependency injection of props
+  const denyClose = props.denyClose // Determins if user is allowed to close modal.
+  const closeFunc = props.closeFunc // Optional function called after modal is closed.
+  const heading = props.heading // Title of the modal
+  const body = props.body // Body of the modal
+  const hideSpinner = props.hideSpinner // Hide the animated spinner
+
+  // This function is called when the modal is closed
   const handleClose = () => {
-    // Refuse to close the modal if denyClose is set.
-    console.log(`props.denyClose: ${props.denyClose}`)
-    if (props.denyClose) return
+    console.log(`props.denyClose: ${denyClose}`)
+    if (denyClose) return
 
     setShow(false)
 
-    if (props.closeFunc) {
-      props.closeFunc()
+    if (closeFunc) {
+      closeFunc()
     }
   }
 
@@ -28,14 +36,14 @@ function ModalTemplate (props) {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{props.heading}</Modal.Title>
+        <Modal.Title>{heading}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
           <Row>
             <Col style={{ textAlign: 'center' }}>
-              <BodyList body={props.body} />
-              {props.hideSpinner ? null : <Spinner animation='border' />}
+              <BodyList body={body} />
+              {hideSpinner ? null : <Spinner animation='border' />}
             </Col>
           </Row>
         </Container>
@@ -45,6 +53,8 @@ function ModalTemplate (props) {
   )
 }
 
+// This function populates the body of the modal. It expects props.body to be
+// an array of strings.
 function BodyList (props) {
   const items = props.body
   // console.log('BodyList items: ', items)
