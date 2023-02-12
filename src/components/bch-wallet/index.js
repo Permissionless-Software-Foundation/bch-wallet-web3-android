@@ -16,7 +16,6 @@ import WalletImport from './import-wallet'
 import OptimizeWallet from './optimize-wallet'
 
 function BchWallet (props) {
-
   // Dependency injection through props
   const appData = props.appData
 

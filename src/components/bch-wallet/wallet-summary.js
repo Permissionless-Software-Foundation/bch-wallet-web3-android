@@ -13,8 +13,7 @@ import { faWallet, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import './wallet-summary.css'
 import CopyOnClick from './copy-on-click'
 
-function WalletSummary(props) {
-
+function WalletSummary (props) {
   // Dependency injection through props
   const appData = props.appData
 
@@ -59,7 +58,7 @@ function WalletSummary(props) {
                       <b>Mnemonic:</b> <span className={blurredMnemonic ? 'blurred' : null}>{bchWalletState.mnemonic}</span>
                     </Col>
                     <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                      <FontAwesomeIcon icon={eyeIcon.mnemonic} size='lg' onClick={() => toggleMnemonicBlur({walletSummaryData})} />
+                      <FontAwesomeIcon icon={eyeIcon.mnemonic} size='lg' onClick={() => toggleMnemonicBlur({ walletSummaryData })} />
                     </Col>
                     <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                       <CopyOnClick walletProp='mnemonic' appData={appData} />
@@ -71,7 +70,7 @@ function WalletSummary(props) {
                       <b>Private Key:</b> <span className={blurredPrivateKey ? 'blurred' : null}>{bchWalletState.privateKey}</span>
                     </Col>
                     <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
-                      <FontAwesomeIcon icon={eyeIcon.privateKey} size='lg' onClick={() => togglePrivateKeyBlur({walletSummaryData})} />
+                      <FontAwesomeIcon icon={eyeIcon.privateKey} size='lg' onClick={() => togglePrivateKeyBlur({ walletSummaryData })} />
                     </Col>
                     <Col xs={6} sm={1} lg={2} style={{ textAlign: 'center' }}>
                       <CopyOnClick walletProp='privateKey' appData={appData} />
@@ -126,12 +125,11 @@ function WalletSummary(props) {
       </Container>
     </>
   )
-
 }
 
 // Toggle the state of blurring for the mnemonic
 function toggleMnemonicBlur (inObj = {}) {
-  const {walletSummaryData} = inObj
+  const { walletSummaryData } = inObj
 
   // toggle the state of blurring
   const blurredState = walletSummaryData.blurredMnemonic
@@ -140,7 +138,7 @@ function toggleMnemonicBlur (inObj = {}) {
 
 // Toggle the state of blurring for the private key
 function togglePrivateKeyBlur (inObj = {}) {
-  const {walletSummaryData} = inObj
+  const { walletSummaryData } = inObj
 
   // toggle the state of blurring
   const blurredState = walletSummaryData.blurredPrivateKey

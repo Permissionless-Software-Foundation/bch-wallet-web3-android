@@ -26,7 +26,7 @@ function NavMenu (props) {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-        <Navbar.Collapse id='responsive-navbar-nav'>
+        <Navbar.Collapse id='responsive-navbar-nav' style={{ paddingLeft: '20px' }}>
           <Nav className='mr-auto'>
             <Nav.Link href='#' onClick={(e) => handleClickEvent(0)}>BCH</Nav.Link>
             <Nav.Link href='#' onClick={(e) => handleClickEvent(1)}>Tokens</Nav.Link>
