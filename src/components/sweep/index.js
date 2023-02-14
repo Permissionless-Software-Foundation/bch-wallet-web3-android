@@ -239,7 +239,7 @@ class SweepWif extends React.Component {
     await wallet.initialize()
     const slpTokens = await wallet.listTokens(wallet.walletInfo.cashAddress)
 
-    this.state.appData.updateBchWalletState({ bchBalance, slpTokens })
+    this.state.appData.updateBchWalletState({ walletObj: { bchBalance, slpTokens }, appData: this.state.appData })
   }
 }
 

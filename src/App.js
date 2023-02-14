@@ -154,8 +154,8 @@ function App (props) {
           await asyncLoad.getWalletBchBalance(walletTemp, updateBchWalletState, appData)
 
           // Get the SLP tokens held by the wallet.
-          // this.addToModal('Getting SLP tokens')
-          // await this.asyncLoad.getSlpTokenBalances(bchWallet, this.updateBchWalletState)
+          addToModal('Getting SLP tokens', appData)
+          await asyncLoad.getSlpTokenBalances(walletTemp, updateBchWalletState, appData)
 
           // Get the BCH spot price
           addToModal('Getting BCH spot price in USD', appData)

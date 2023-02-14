@@ -21,8 +21,7 @@ function getRefreshBchData (newRefreshBchData) {
   refreshBchData = newRefreshBchData
 }
 
-function SendCard(props) {
-
+function SendCard (props) {
   // Dependency injection through props
   const appData = props.appData
 
@@ -51,7 +50,6 @@ function SendCard(props) {
   //   refreshOnClose: false, // Indicates if the BCH balance should be refreshed on close.
   //   dialogFinished: true
   // }
-
 
   // Modal State
   const [modalBody, setModalBody] = useState([])
@@ -99,8 +97,8 @@ function SendCard(props) {
               body={modalBody}
               hideSpinner={hideSpinner}
               closeFunc={onModalClose}
-              closeModalData={{appData, sendCardData}}
-            />)
+              closeModalData={{ appData, sendCardData }}
+             />)
       }
 
       <RefreshBchBalance appData={appData} getRefreshBchData={getRefreshBchData} />
@@ -137,7 +135,7 @@ function SendCard(props) {
                 <FontAwesomeIcon
                   icon={faPaste}
                   size='lg'
-                  onClick={(e) => pasteFromClipboard({sendCardData, appData})}
+                  onClick={(e) => pasteFromClipboard({ sendCardData, appData })}
                 />
               </Col>
             </Row>
@@ -155,7 +153,7 @@ function SendCard(props) {
                   <Form.Group controlId='formBasicEmail' style={{ textAlign: 'center' }}>
                     <Form.Control
                       type='text'
-                      onChange={(event) => handleUpdateAmount({event, appData, sendCardData})}
+                      onChange={(event) => handleUpdateAmount({ event, appData, sendCardData })}
                       value={amountStr}
                     />
                   </Form.Group>
@@ -164,7 +162,7 @@ function SendCard(props) {
             </Row>
             <Row>
               <Col xs={6}>
-                Units: {amountUnits} <FontAwesomeIcon icon={faRandom} size='lg' onClick={(e) => handleSwitchUnits({sendCardData, appData})} />
+                Units: {amountUnits} <FontAwesomeIcon icon={faRandom} size='lg' onClick={(e) => handleSwitchUnits({ sendCardData, appData })} />
               </Col>
               <Col xs={6} style={{ textAlign: 'right' }}>
                 {oppositeUnits}: {oppositeQty}
@@ -174,7 +172,7 @@ function SendCard(props) {
 
             <Row>
               <Col style={{ textAlign: 'center' }}>
-                <Button onClick={(e) => handleSendBch({sendCardData, appData})}>Send</Button>
+                <Button onClick={(e) => handleSendBch({ sendCardData, appData })}>Send</Button>
               </Col>
             </Row>
 
@@ -187,7 +185,7 @@ function SendCard(props) {
 
 // This function is called when the modal is closed.
 function onModalClose (closeModalData) {
-  const {appData, sendCardData} = closeModalData
+  const { appData, sendCardData } = closeModalData
 
   sendCardData.setHideModal(true)
 
@@ -201,7 +199,7 @@ function onModalClose (closeModalData) {
   handleRefreshBalance({ appData, refreshBchData })
 }
 
-async function pasteFromClipboard ({sendCardData, appData}) {
+async function pasteFromClipboard ({ sendCardData, appData }) {
   try {
     // Capacitor Android app takes this code path.
 
@@ -220,12 +218,12 @@ async function pasteFromClipboard ({sendCardData, appData}) {
 // both BCH and USD as the user types.
 function handleUpdateAmount (inObj = {}) {
   try {
-    const {event, appData, sendCardData} = inObj
+    const { event, appData, sendCardData } = inObj
 
     // Update the state of the text box.
     let amountStr = event.target.value
     sendCardData.setAmountStr(amountStr)
-    if(!amountStr) amountStr = '0'
+    if (!amountStr) amountStr = '0'
 
     // Convert the string to a number.
     const amountQty = parseFloat(amountStr)
@@ -235,21 +233,21 @@ function handleUpdateAmount (inObj = {}) {
 
     // Initialize local variables
     let oppositeQty = 0
-    let amountUsd = 0
-    let amountBch = 0
+    // const amountUsd = 0
+    // const amountBch = 0
 
     // Calculate the amount in the opposite units.
     const currentUnit = sendCardData.amountUnits
     if (currentUnit.includes('USD')) {
       // Convert USD to BCH
       oppositeQty = bchjs.Util.floor8(amountQty / bchUsdPrice)
-      amountUsd = amountQty
-      amountBch = oppositeQty
+      // amountUsd = amountQty
+      // amountBch = oppositeQty
     } else {
       // Convert BCH to USD
       oppositeQty = bchjs.Util.floor2(amountQty * bchUsdPrice)
-      amountUsd = oppositeQty
-      amountBch = amountQty
+      // amountUsd = oppositeQty
+      // amountBch = amountQty
     }
 
     // Update app state
@@ -261,7 +259,7 @@ function handleUpdateAmount (inObj = {}) {
 }
 
 // This is a click event handler that toggles the units between BCH and USD.
-function handleSwitchUnits ({sendCardData, appData}) {
+function handleSwitchUnits ({ sendCardData, appData }) {
   // Toggle the unit
   let newUnit = ''
   let oppositeUnits = ''
@@ -293,7 +291,7 @@ function addToModal (inStr, sendCardData) {
 
 // Send BCH based to the address in the form, and the amount specified in the
 // form.
-async function handleSendBch ({sendCardData, appData}) {
+async function handleSendBch ({ sendCardData, appData }) {
   console.log('Sending BCH')
 
   try {
@@ -305,7 +303,7 @@ async function handleSendBch ({sendCardData, appData}) {
     sendCardData.setHideModal(false)
 
     let amountBch
-    if(sendCardData.amountUnits === 'USD') {
+    if (sendCardData.amountUnits === 'USD') {
       amountBch = sendCardData.oppositeQty
     } else {
       amountBch = parseFloat(sendCardData.amountStr)

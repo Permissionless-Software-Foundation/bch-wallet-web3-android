@@ -72,7 +72,7 @@ class AsyncLoad {
     const bchUsdPrice = await wallet.getUsd()
 
     // Update the state of the wallet
-    updateBchWalletState({walletObj: { bchUsdPrice }, appData})
+    updateBchWalletState({ walletObj: { bchUsdPrice }, appData })
 
     return true
   }
@@ -90,8 +90,10 @@ class AsyncLoad {
       return true
     })
 
+    console.log('slpTokens: ', slpTokens)
+
     // Update the state of the wallet with the balances
-    updateBchWalletState({ slpTokens }, appData)
+    updateBchWalletState({ walletObj: { slpTokens }, appData })
 
     return true
   }
