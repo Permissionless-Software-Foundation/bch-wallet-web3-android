@@ -153,6 +153,14 @@ function App (props) {
           addToModal('Getting BCH balance', appData)
           await asyncLoad.getWalletBchBalance(walletTemp, updateBchWalletState, appData)
 
+          // Get the SLP tokens held by the wallet.
+          // this.addToModal('Getting SLP tokens')
+          // await this.asyncLoad.getSlpTokenBalances(bchWallet, this.updateBchWalletState)
+
+          // Get the BCH spot price
+          addToModal('Getting BCH spot price in USD', appData)
+          await asyncLoad.getUSDExchangeRate(walletTemp, updateBchWalletState, appData)
+
           // Update state
           setShowStartModal(false)
           setDenyClose(false)
@@ -209,21 +217,12 @@ function updateBchWalletState (inObj = {}) {
     const { walletObj, appData } = inObj
 
     // Debuging
-    console.log('walletObj: ', walletObj)
-    console.log('appData: ', appData)
-
     // console.log('updateBchWalletState() walletObj: ', walletObj)
-
-    // const oldState = appData.bchWalletState
-    //
-    // const newBchWalletState = Object.assign({}, oldState, walletObj)
-    // console.log('newBchWalletState: ', newBchWalletState)
-    //
-    // appData.setBchWalletState(newBchWalletState)
+    // console.log('updateBchWalletState() appData: ', appData)
 
     appData.setBchWalletState(oldState => {
       const newBchWalletState = Object.assign({}, oldState, walletObj)
-      console.log('newBchWalletState: ', newBchWalletState)
+      // console.log('newBchWalletState: ', newBchWalletState)
 
       return newBchWalletState
     })

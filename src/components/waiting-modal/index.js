@@ -18,6 +18,7 @@ function ModalTemplate (props) {
   const heading = props.heading // Title of the modal
   const body = props.body // Body of the modal
   const hideSpinner = props.hideSpinner // Hide the animated spinner
+  const closeModalData = props.closeModalData
 
   // This function is called when the modal is closed
   const handleClose = () => {
@@ -27,7 +28,8 @@ function ModalTemplate (props) {
     setShow(false)
 
     if (closeFunc) {
-      closeFunc()
+      console.log('Waiting model executing handleClose(). closeModalData: ', closeModalData)
+      closeFunc(closeModalData)
     }
   }
 

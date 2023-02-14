@@ -15,7 +15,7 @@ import WaitingModal from '../waiting-modal'
 
 export function RefreshBchBalance (props) {
   // Dependency injections of props
-  // const appData = props.appData
+  // getRefreshBchData() is a function passed in from the parent component.
   const getRefreshBchData = props.getRefreshBchData
 
   // State

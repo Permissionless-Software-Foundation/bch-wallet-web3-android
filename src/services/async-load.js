@@ -72,7 +72,7 @@ class AsyncLoad {
     const bchUsdPrice = await wallet.getUsd()
 
     // Update the state of the wallet
-    updateBchWalletState({ bchUsdPrice }, appData)
+    updateBchWalletState({walletObj: { bchUsdPrice }, appData})
 
     return true
   }
