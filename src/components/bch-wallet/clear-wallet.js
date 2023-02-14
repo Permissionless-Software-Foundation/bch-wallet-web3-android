@@ -15,7 +15,7 @@ class WalletClear extends React.Component {
     super(props)
 
     this.state = {
-      delLSState: props.appData.delLSState
+      removeLocalStorageItem: props.appData.removeLocalStorageItem
     }
 
     _this = this
@@ -62,7 +62,7 @@ class WalletClear extends React.Component {
     console.log('Deleting wallet and reloading page.')
 
     // Delete the mnemonic from Local Storage
-    _this.state.delLSState()
+    _this.state.removeLocalStorageItem('mnemonic')
 
     // Reload the app.
     window.location.reload()

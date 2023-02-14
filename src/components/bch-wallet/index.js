@@ -15,39 +15,32 @@ import WalletClear from './clear-wallet'
 import WalletImport from './import-wallet'
 import OptimizeWallet from './optimize-wallet'
 
-class BchWallet extends React.Component {
-  constructor (props) {
-    super(props)
+function BchWallet (props) {
+  // Dependency injection through props
+  const appData = props.appData
 
-    this.state = {
-      appData: props.appData
-    }
-  }
-
-  render () {
-    return (
-      <>
-        <Container>
-          <Row>
-            <Col style={{ textAlign: 'right' }}>
-              <a href='https://youtu.be/0R00cppN0fA' target='_blank' rel='noreferrer'>
-                <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
-              </a>
-            </Col>
-          </Row>
-        </Container>
-        <WebWalletWarning />
-        <br />
-        <WalletSummary appData={this.state.appData} />
-        <br />
-        <WalletClear appData={this.state.appData} />
-        <br />
-        <WalletImport appData={this.state.appData} />
-        <br />
-        <OptimizeWallet appData={this.state.appData} />
-      </>
-    )
-  }
+  return (
+    <>
+      <Container>
+        <Row>
+          <Col style={{ textAlign: 'right' }}>
+            <a href='https://youtu.be/0R00cppN0fA' target='_blank' rel='noreferrer'>
+              <FontAwesomeIcon icon={faCircleQuestion} size='lg' />
+            </a>
+          </Col>
+        </Row>
+      </Container>
+      <WebWalletWarning />
+      <br />
+      <WalletSummary appData={appData} />
+      <br />
+      <WalletClear appData={appData} />
+      <br />
+      <WalletImport appData={appData} />
+      <br />
+      <OptimizeWallet appData={appData} />
+    </>
+  )
 }
 
 export default BchWallet

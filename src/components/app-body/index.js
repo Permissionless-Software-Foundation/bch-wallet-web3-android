@@ -17,61 +17,40 @@ import ServerSelectView from '../servers/select-server-view'
 import Sweep from '../sweep'
 import Sign from '../sign'
 
-// let _this
+function AppBody (props) {
+  // Dependency injection through props
+  const appData = props.appData
+  const menuState = props.menuState
+  // console.log('AppBody() menuState: ', menuState)
 
-class AppBody extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      activeView: 0,
-      menuState: props.menuState,
-      appData: props.appData
-    }
-
-    // This function is passed from the parent component. It's used to update
-    // the BCH wallet state.
-    this.updateBchWalletState = props.appData.updateBchWalletState
-
-    // _this = this
-  }
-
-  render () {
-    // console.log(`AppBody menu state: ${this.props.menuState}`)
-
-    return (
-      <>
-        {this.chooseView(this.props.menuState)}
-      </>
-    )
-  }
-
-  chooseView (menuState) {
+  function chooseView (menuState) {
     // console.log(`chooseView() menuState: ${menuState}`)
 
     switch (menuState) {
       case 0:
-        return (<BchSend appData={this.state.appData} />)
+        return (<BchSend appData={appData} />)
       case 1:
-        return (<SlpTokens appData={this.state.appData} />)
+        return (<SlpTokens appData={appData} />)
       case 2:
-        return (
-          <BchWallet
-            appData={this.state.appData}
-          />
-        )
+        return (<BchWallet appData={appData} />)
       case 3:
-        return (<Sweep appData={this.state.appData} />)
+        return (<Sweep appData={appData} />)
       case 4:
-        return (<Sign appData={this.state.appData} />)
+        return (<Sign appData={appData} />)
 
-      // Special Views
+        // Special Views
       case 100:
-        return (<ServerSelectView appData={this.state.appData} />)
+        return (<ServerSelectView appData={appData} />)
       default:
-        return (<BchSend appData={this.state.appData} />)
+        return (<BchSend appData={appData} />)
     }
   }
+
+  return (
+    <>
+      {chooseView(menuState)}
+    </>
+  )
 }
 
 export default AppBody

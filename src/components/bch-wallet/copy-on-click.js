@@ -51,9 +51,11 @@ class CopyOnClick extends React.Component {
   }
 
   async handleCopyToClipboard (event, _this) {
+    // console.log('event.target: ', event.target)
     // console.log('event.target.nearestViewportElement.attributes.id.nodeValue: ', event.target.nearestViewportElement.attributes.id.nodeValue)
 
-    // console.log('_this.displayCopyMsg: ', _this.displayCopyMsg)
+    // Prevent error when nearestViewportElement is null
+    if (!event.target.nearestViewportElement) return
 
     // Get the name of the wallet property to be copied.
     let key = event.target.nearestViewportElement.attributes.id.nodeValue

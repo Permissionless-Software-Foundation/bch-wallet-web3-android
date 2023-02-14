@@ -10,17 +10,18 @@ import { Container, Row, Col, Button } from 'react-bootstrap'
 // Local libraries
 // import GistServers from '../../services/gist-servers'
 
-let _this
+// let _this
 
 class ServerSelect extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      menuHandler: props.menuHandler
+      menuHandler: props.menuHandler,
+      appData: props.appData
     }
 
-    _this = this
+    this.handleServerSelect = this.handleServerSelect.bind(this)
   }
 
   render () {
@@ -46,7 +47,7 @@ class ServerSelect extends React.Component {
   handleServerSelect () {
     console.log('This function should navigate to the server selection view.')
 
-    _this.state.menuHandler(100)
+    this.state.menuHandler(100, this.state.appData)
   }
 }
 
