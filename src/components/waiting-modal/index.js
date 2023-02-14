@@ -25,7 +25,7 @@ function ModalTemplate (props) {
     console.log(`props.denyClose: ${denyClose}`)
     if (denyClose) return
 
-    setShow(false)
+    // setShow(false)
 
     if (closeFunc) {
       console.log('Waiting model executing handleClose(). closeModalData: ', closeModalData)

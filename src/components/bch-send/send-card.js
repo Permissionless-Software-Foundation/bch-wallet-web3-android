@@ -189,6 +189,8 @@ function SendCard(props) {
 function onModalClose (closeModalData) {
   const {appData, sendCardData} = closeModalData
 
+  sendCardData.setHideModal(true)
+
   console.log('BCH Send modal closed. closeModalData: ', closeModalData)
   // _this.setState({ hideModal: true })
 
