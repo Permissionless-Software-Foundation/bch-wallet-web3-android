@@ -16,6 +16,7 @@ import Footer from './components/footer'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
 import useLocalStorageState from 'use-local-storage-state'
+import config from './config'
 
 // Default alternative servers.
 const defaultServerOptions = [
@@ -31,7 +32,8 @@ function App (props) {
   // Get the CashStack URL from a query parameter, if it exists.
   let [restURL] = useQueryParam('restURL', StringParam)
   // Otherwise default to free-bch.fullstack.cash
-  if (!restURL) restURL = 'https://free-bch.fullstack.cash'
+  // if (!restURL) restURL = 'https://free-bch.fullstack.cash'
+  if (!restURL) restURL = config.restUrl
   // console.log('restURL: ', restURL)
   const [serverUrl, setServerUrl] = useState(restURL)
 
