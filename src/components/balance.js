@@ -66,7 +66,7 @@ class GetBalance extends React.Component {
         balance: (<span>Retrieving balance... <Spinner animation='border' /></span>)
       })
 
-      const balance = await this.state.wallet.getBalance(textInput)
+      const balance = await this.state.wallet.getBalance({ bchAddress: textInput })
       console.log('balance: ', balance)
 
       const bchBalance = this.state.wallet.bchjs.BitcoinCash.toBitcoinCash(balance)
