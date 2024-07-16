@@ -33,6 +33,7 @@ function NavMenu (props) {
             <Nav.Link href='#' onClick={(e) => handleClickEvent(2)}>Wallet</Nav.Link>
             <Nav.Link href='#' onClick={(e) => handleClickEvent(3)}>Sweep</Nav.Link>
             <Nav.Link href='#' onClick={(e) => handleClickEvent(4)}>Sign</Nav.Link>
+            <Nav.Link href='#' onClick={(e) => handleClickEvent(5)}>Terminal</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

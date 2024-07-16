@@ -16,6 +16,7 @@ import SlpTokens from '../slp-tokens'
 import ServerSelectView from '../servers/select-server-view'
 import Sweep from '../sweep'
 import Sign from '../sign'
+import Terminal from '../terminal'
 
 function AppBody (props) {
   // Dependency injection through props
@@ -37,6 +38,8 @@ function AppBody (props) {
         return (<Sweep appData={appData} />)
       case 4:
         return (<Sign appData={appData} />)
+      case 5:
+        return (<Terminal appData={appData} />)
 
         // Special Views
       case 100:

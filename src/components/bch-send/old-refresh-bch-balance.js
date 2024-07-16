@@ -69,7 +69,7 @@ class RefreshBchBalance extends React.Component {
       const wallet = this.state.appData.bchWallet
 
       // Get the latest balance of the wallet.
-      const newBalance = await wallet.getBalance({bchAddress: cashAddr})
+      const newBalance = await wallet.getBalance({ bchAddress: cashAddr })
 
       this.addToModal('Updating BCH per USD price...')
       const bchUsdPrice = await wallet.getUsd()

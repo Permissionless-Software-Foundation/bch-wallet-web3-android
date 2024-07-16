@@ -67,7 +67,7 @@ export async function handleRefreshBalance (inObj = {}) {
     const wallet = appData.wallet
 
     // Get the latest balance of the wallet.
-    const newBalance = await wallet.getBalance({bchAddress: cashAddr})
+    const newBalance = await wallet.getBalance({ bchAddress: cashAddr })
 
     addToModal('Updating BCH per USD price...', refreshBchData)
     const bchUsdPrice = await wallet.getUsd()
