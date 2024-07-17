@@ -21,6 +21,8 @@ function Terminal (props) {
   const serverUrl = appData.serverUrl
   const mnemonic = appData.bchWallet.walletInfo.mnemonic
 
+  // This function is passed to some commands (like wallet_index) to change the
+  // wallet being used by the terminal.
   const switchWallet = async (inObj = {}) => {
     try {
       let { index } = inObj
@@ -59,6 +61,7 @@ function Terminal (props) {
     switchWallet
   }
 
+  // Commands available to the terminal.
   const commands = {
     help: (
       <span>
@@ -67,7 +70,7 @@ function Terminal (props) {
         <strong>wallet_index</strong> - Change the HD index of the wallet. <br />
       </span>
     ),
-    wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args })},
+    wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args }) },
     wallet_index: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_index', wallet, termUtils, args }) }
   }
 
@@ -82,6 +85,14 @@ function Terminal (props) {
       <Container>
         <Row>
           <Col>
+            <h2>Terminal</h2>
+            <p>
+              The primary purpose of the terminal is to allow advanced users to
+              tap into wallet features that do not have a Graphical User Interface
+              (GUI). The secondary purpose is to provide developers with a tool
+              for rapid prototyping of new ideas, by remove the need to develop
+              a GUI before developing new features.
+            </p>
             <p>
               Enter the command 'help' below to get a list of commands.
             </p>
