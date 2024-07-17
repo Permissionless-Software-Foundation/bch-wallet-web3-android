@@ -12,7 +12,7 @@ class CommandRouter {
 
   routeCommand (inObj) {
     try {
-      const { cmdStr, args, wallet } = inObj
+      const { cmdStr, args, appData } = inObj
 
       // Parse arguments
       let parsedArgs = {}
@@ -23,7 +23,7 @@ class CommandRouter {
       }
 
       if (cmdStr === 'wallet_info') {
-        return this.walletInfo.getWalletInfo({ wallet })
+        return this.walletInfo.getWalletInfo({ appData })
       }
 
       if (cmdStr === 'wallet_import_mnemonic') {

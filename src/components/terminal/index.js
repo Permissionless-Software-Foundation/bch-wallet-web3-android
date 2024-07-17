@@ -8,6 +8,10 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { ReactTerminal } from 'react-terminal'
 
+// Local libraries
+import CommandRouter from './command-router.js'
+const commandRouter = new CommandRouter()
+
 function Terminal (props) {
   // Dependency injection through props
   const { appData } = props
@@ -20,7 +24,8 @@ function Terminal (props) {
         <strong>wallet_info</strong> - Display addresses, mnemonic, and private key for the wallet. <br />
         <strong>wallet_import_mnemonic</strong> - Import a mnemonic and open it as the wallet. <br />
       </span>
-    )
+    ),
+    wallet_info: commandRouter.routeCommand({ cmdStr: 'wallet_info', appData })
   }
 
   const welcomeMessage = (
@@ -33,7 +38,7 @@ function Terminal (props) {
     <>
       <Container>
         <Row>
-          <Col style={{ minHeight: '100px' }}>
+          <Col>
             <p>
               Enter the command 'help' below to get a list of commands.
             </p>

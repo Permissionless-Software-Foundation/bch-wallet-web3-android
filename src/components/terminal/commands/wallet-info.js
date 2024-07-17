@@ -5,7 +5,9 @@
 class WalletInfo {
   getWalletInfo (inObj = {}) {
     try {
-      const { wallet } = inObj
+      const { appData } = inObj
+
+      const wallet = appData.bchWallet
 
       return (
         <span>
@@ -14,6 +16,7 @@ class WalletInfo {
           <strong>Private key</strong>: {wallet.walletInfo.privateKey} <br />
           <strong>Public key</strong>: {wallet.walletInfo.publicKey} <br />
           <strong>Mnemonic</strong>: {wallet.walletInfo.mnemonic} <br />
+          <strong>HD Path</strong>: {wallet.walletInfo.hdPath} <br />
         </span>
       )
     } catch (err) {
