@@ -15,17 +15,60 @@ const commandRouter = new CommandRouter()
 function Terminal (props) {
   // Dependency injection through props
   const { appData } = props
-  console.log('Terminal() appData: ', appData)
+  // console.log('Terminal() appData: ', appData)
+
+  let wallet = appData.bchWallet
+  const serverUrl = appData.serverUrl
+  const mnemonic = appData.bchWallet.walletInfo.mnemonic
+
+  const switchWallet = async (inObj = {}) => {
+    try {
+      let { index } = inObj
+
+      // By default, use the 0 HD index.
+      if (!index) index = 0
+
+      if (typeof window !== 'undefined' && window.SlpWallet) {
+        const BchWallet = window.SlpWallet
+
+        const hdPath = `m/44'/245'/0'/0/${index}`
+
+        const options = {
+          interface: 'consumer-api',
+          restURL: serverUrl,
+          hdPath
+        }
+
+        // Update the wallet object used by the terminal.
+        wallet = new BchWallet(mnemonic, options)
+
+        await wallet.initialize()
+
+        return wallet
+      } else {
+        throw new Error('minimal-slp-wallet is not loaded in the window object.')
+      }
+    } catch (err) {
+      console.error('Error in switchWallet(): ', err)
+    }
+  }
+
+  // This object contains utility functions for manipulating the terminal
+  // environment.
+  const termUtils = {
+    switchWallet
+  }
 
   const commands = {
     help: (
       <span>
         <strong>clear</strong> - clears the console. <br />
         <strong>wallet_info</strong> - Display addresses, mnemonic, and private key for the wallet. <br />
-        <strong>wallet_import_mnemonic</strong> - Import a mnemonic and open it as the wallet. <br />
+        <strong>wallet_index</strong> - Change the HD index of the wallet. <br />
       </span>
     ),
-    wallet_info: commandRouter.routeCommand({ cmdStr: 'wallet_info', appData })
+    wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args })},
+    wallet_index: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_index', wallet, termUtils, args }) }
   }
 
   const welcomeMessage = (

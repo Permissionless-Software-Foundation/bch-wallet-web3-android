@@ -10,9 +10,10 @@ class CommandRouter {
     this.walletInfo = new WalletInfo()
   }
 
-  routeCommand (inObj) {
+  async routeCommand (inObj) {
     try {
-      const { cmdStr, args, appData } = inObj
+      const { cmdStr, args, termUtils } = inObj
+      let {wallet} = inObj
 
       // Parse arguments
       let parsedArgs = {}
@@ -23,11 +24,21 @@ class CommandRouter {
       }
 
       if (cmdStr === 'wallet_info') {
-        return this.walletInfo.getWalletInfo({ appData })
+        return this.walletInfo.getWalletInfo({ wallet })
       }
 
-      if (cmdStr === 'wallet_import_mnemonic') {
-        return `parsedArgs: ${JSON.stringify(parsedArgs, null, 2)}`
+      if (cmdStr === 'wallet_index') {
+        let index = parsedArgs.index
+
+        // If index is not specified, display the current index of the wallet
+        if(!index && index !== 0) {
+          return `HD path: ${wallet.walletInfo.hdPath}`
+        }
+
+        // If an index argument is passed, switch the wallet to that HD index.
+        wallet = await termUtils.switchWallet({ index })
+
+        return `HD path: ${wallet.walletInfo.hdPath}`
       }
 
       // Default value

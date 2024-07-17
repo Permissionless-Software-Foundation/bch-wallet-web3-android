@@ -5,9 +5,7 @@
 class WalletInfo {
   getWalletInfo (inObj = {}) {
     try {
-      const { appData } = inObj
-
-      const wallet = appData.bchWallet
+      const { wallet } = inObj
 
       return (
         <span>
@@ -20,7 +18,7 @@ class WalletInfo {
         </span>
       )
     } catch (err) {
-      console.error('Error in getWalletInfo()')
+      console.error('Error in getWalletInfo(): ', err)
       throw err
     }
   }
