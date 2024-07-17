@@ -18,7 +18,8 @@ const config = {
   filecoinRepo: 'https://bafybeihjei6hnl5dxau2ivnilnruqjql5ge6y5ncirljci5tcwnkx4dsju.ipfs.w3s.link/',
 
   // Default 'Local Back End' URL. See https://CashStack.info for details.
-  restUrl: 'https://free-bch.fullstack.cash'
+  // restUrl: 'https://free-bch.fullstack.cash'
+  restUrl: 'https://bchn.fullstack.cash/v5/'
   // restUrl: 'http://localhost:5005'
 }
 

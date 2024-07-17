@@ -15,13 +15,8 @@ import SelectServerButton from './components/servers/select-server-button'
 import Footer from './components/footer'
 import NavMenu from './components/nav-menu'
 import AppBody from './components/app-body'
-//import LoadLocalStorage from './components/load-localstorage'
 import config from './config'
 import useLocalStorageState from 'use-local-storage-state'
-
-// Default restURL for a back-end server.
-// let serverUrl = 'https://free-bch.fullstack.cash'
-let serverUrl = 'https://bchn.fullstack.cash/v5/'
 
 // Default alternative servers.
 const defaultServerOptions = [
