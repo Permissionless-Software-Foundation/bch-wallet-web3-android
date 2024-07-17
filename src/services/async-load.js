@@ -102,6 +102,7 @@ class AsyncLoad {
   async getWalletBchBalance (wallet, updateBchWalletState, appData) {
     // Get the BCH balance of the wallet.
     const bchBalance = await wallet.getBalance({ bchAddress: wallet.walletInfo.cashAddress })
+    console.log('bchBalance: ', bchBalance)
 
     // Update the state of the wallet with the balances
     updateBchWalletState({ walletObj: { bchBalance }, appData })
