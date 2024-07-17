@@ -36,7 +36,7 @@ function Terminal (props) {
         const hdPath = `m/44'/245'/0'/0/${index}`
 
         const options = {
-          interface: 'consumer-api',
+          interface: 'rest-api',
           restURL: serverUrl,
           hdPath
         }
