@@ -86,7 +86,7 @@ class RefreshTokenBalance extends React.Component {
 
       // Update the wallet state.
       walletState.slpTokens = tokenList
-      this.state.appData.updateBchWalletState(walletState)
+      this.state.appData.updateBchWalletState({ walletObj: walletState, appData: this.state.appData })
 
       const newAppData = Object.assign({}, this.state.appData, { bchWalletState: walletState })
       // console.log(`newAppData.bchWalletState: ${JSON.stringify(newAppData.bchWalletState, null, 2)}`)

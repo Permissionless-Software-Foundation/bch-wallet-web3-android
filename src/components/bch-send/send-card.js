@@ -3,380 +3,368 @@
 */
 
 // Global npm libraries
-import React from 'react'
-import { Container, Row, Col, Card, Form, Button, Modal, Spinner } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faPaste, faRandom } from '@fortawesome/free-solid-svg-icons'
 import { Clipboard } from '@capacitor/clipboard'
 
 // Local libraries
-// import WaitingModal from '../waiting-modal'
+import WaitingModal from '../waiting-modal'
+import { RefreshBchBalance, handleRefreshBalance } from '../refresh-balance'
 
-let _this
+// Get the refreshed BCH wallet data
+// This function is passed to the RefreshBchBalance child component so that it
+// can pass the updated wallet data up to this parent component.
+let refreshBchData = {}
+function getRefreshBchData (newRefreshBchData) {
+  refreshBchData = newRefreshBchData
+}
 
-class SendCard extends React.Component {
-  constructor (props) {
-    super(props)
+function SendCard (props) {
+  // Dependency injection through props
+  const appData = props.appData
 
-    this.state = {
-      // Wallet and App data passed from parent components.
-      appData: props.appData,
+  // this.state = {
+  //   // Wallet and App data passed from parent components.
+  //   appData: props.appData,
+  //
+  //   // Function from parent View component. Called after sending tokens,
+  //   // to trigger a refresh of the wallet token balances.
+  //   refreshBchBalance: props.refreshBchBalance,
+  //
+  //   bchAddr: '',
+  //   amountUnits: 'USD',
+  //   amountStr: '',
+  //   amountUsd: 0, // on-the-fly calculated USD amount.
+  //   amountBch: 0, // on-the-fly calculated BCH amount.
+  //
+  //   // Used to display the opposite units and quantity.
+  //   oppositeUnits: 'BCH',
+  //   oppositeQty: 0,
+  //
+  //   // Modal variables
+  //   modalBody: [],
+  //   hideModalSpinner: false,
+  //   hideModal: true,
+  //   refreshOnClose: false, // Indicates if the BCH balance should be refreshed on close.
+  //   dialogFinished: true
+  // }
 
-      // Function from parent View component. Called after sending tokens,
-      // to trigger a refresh of the wallet token balances.
-      refreshBchBalance: props.refreshBchBalance,
+  // Modal State
+  const [modalBody, setModalBody] = useState([])
+  const [hideSpinner, setHideSpinner] = useState(false)
+  const [hideWaitingModal, setHideWaitingModal] = useState(true)
+  const [hideModal, setHideModal] = useState(true)
 
-      bchAddr: '',
-      amountUnits: 'USD',
-      amountStr: '',
-      amountUsd: 0, // on-the-fly calculated USD amount.
-      amountBch: 0, // on-the-fly calculated BCH amount.
+  // Form State
+  const [bchAddr, setBchAddr] = useState('')
+  const [amountStr, setAmountStr] = useState('')
+  const [amountUnits, setAmountUnits] = useState('USD')
+  const [oppositeUnits, setOppositeUnits] = useState('BCH')
+  const [oppositeQty, setOppositeQty] = useState(0)
 
-      // Used to display the opposite units and quantity.
-      oppositeUnits: 'BCH',
-      oppositeQty: 0,
-
-      // Modal variables
-      modalBody: [],
-      hideModalSpinner: false,
-      hideModal: true,
-      refreshOnClose: false, // Indicates if the BCH balance should be refreshed on close.
-      dialogFinished: true
-    }
-
-    _this = this
+  // Encapsulate the state for this component into a single object that can
+  // be passed around to subfunctions and subcomponents.
+  const sendCardData = {
+    modalBody,
+    setModalBody,
+    hideSpinner,
+    setHideSpinner,
+    hideWaitingModal,
+    setHideWaitingModal,
+    hideModal,
+    setHideModal,
+    bchAddr,
+    setBchAddr,
+    amountStr,
+    setAmountStr,
+    amountUnits,
+    setAmountUnits,
+    oppositeUnits,
+    setOppositeUnits,
+    oppositeQty,
+    setOppositeQty
   }
 
-  // <ModalTemplate
-  //   heading='Sending BCH'
-  //   body={this.state.modalBody}
-  //   hideSpinner={this.state.hideModalSpinner}
-  //   closeFunc={this.onModalClose}
-  //   hideModal={this.state.hideModal}
-  //   instance={this}
-  // />
+  return (
+    <>
+      {
+        hideModal
+          ? null
+          : (<WaitingModal
+              heading='Sending BCH'
+              body={modalBody}
+              hideSpinner={hideSpinner}
+              closeFunc={onModalClose}
+              closeModalData={{ appData, sendCardData }}
+             />)
+      }
 
-  render () {
-    return (
-      <>
-        {
-          this.state.hideModal
-            ? null
-            : (<ModalTemplate
-                heading='Sending BCH'
-                body={this.state.modalBody}
-                hideSpinner={this.state.hideModalSpinner}
-                closeFunc={this.onModalClose}
-                instance={this}
-                dialogFinished={this.state.dialogFinished}
-               />)
-        }
+      <RefreshBchBalance appData={appData} getRefreshBchData={getRefreshBchData} />
 
-        <Card>
-          <Card.Body>
-            <Card.Title style={{ textAlign: 'center' }}>
-              <h2><FontAwesomeIcon icon={faPaperPlane} size='lg' /> Send</h2>
-            </Card.Title>
+      <Card>
+        <Card.Body>
+          <Card.Title style={{ textAlign: 'center' }}>
+            <h2><FontAwesomeIcon icon={faPaperPlane} size='lg' /> Send</h2>
+          </Card.Title>
+          <br />
+
+          <Container>
+            <Row>
+              <Col style={{ textAlign: 'center' }}>
+                <b>BCH Address:</b>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={10}>
+                <Form>
+                  <Form.Group controlId='formBasicEmail' style={{ textAlign: 'center' }}>
+                    <Form.Control
+                      type='text'
+                      placeholder='bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d'
+                      onChange={e => setBchAddr(e.target.value)}
+                      value={bchAddr}
+                    />
+                  </Form.Group>
+                </Form>
+              </Col>
+
+              <Col xs={2}>
+                <FontAwesomeIcon
+                  icon={faPaste}
+                  size='lg'
+                  onClick={(e) => pasteFromClipboard({ sendCardData, appData })}
+                />
+              </Col>
+            </Row>
             <br />
 
-            <Container>
-              <Row>
-                <Col style={{ textAlign: 'center' }}>
-                  <b>BCH Address:</b>
-                </Col>
-              </Row>
+            <Row>
+              <Col style={{ textAlign: 'center' }}>
+                <b>Amount:</b>
+              </Col>
+            </Row>
 
-              <Row>
-                <Col xs={10}>
-                  <Form>
-                    <Form.Group controlId='formBasicEmail' style={{ textAlign: 'center' }}>
-                      <Form.Control type='text' placeholder='bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d' onChange={e => this.setState({ bchAddr: e.target.value })} value={this.state.bchAddr} />
-                    </Form.Group>
-                  </Form>
-                </Col>
+            <Row>
+              <Col xs={12}>
+                <Form style={{ paddingBottom: '10px' }}>
+                  <Form.Group controlId='formBasicEmail' style={{ textAlign: 'center' }}>
+                    <Form.Control
+                      type='text'
+                      onChange={(event) => handleUpdateAmount({ event, appData, sendCardData })}
+                      value={amountStr}
+                    />
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={6}>
+                Units: {amountUnits} <FontAwesomeIcon icon={faRandom} size='lg' onClick={(e) => handleSwitchUnits({ sendCardData, appData })} />
+              </Col>
+              <Col xs={6} style={{ textAlign: 'right' }}>
+                {oppositeUnits}: {oppositeQty}
+              </Col>
+            </Row>
+            <br />
 
-                <Col xs={2}>
-                  <FontAwesomeIcon icon={faPaste} size='lg' onClick={(e) => _this.pasteFromClipboard(e)} />
-                </Col>
-              </Row>
-              <br />
+            <Row>
+              <Col style={{ textAlign: 'center' }}>
+                <Button onClick={(e) => handleSendBch({ sendCardData, appData })}>Send</Button>
+              </Col>
+            </Row>
 
-              <Row>
-                <Col style={{ textAlign: 'center' }}>
-                  <b>Amount:</b>
-                </Col>
-              </Row>
+          </Container>
+        </Card.Body>
+      </Card>
+    </>
+  )
+}
 
-              <Row>
-                <Col xs={12}>
-                  <Form style={{ paddingBottom: '10px' }}>
-                    <Form.Group controlId='formBasicEmail' style={{ textAlign: 'center' }}>
-                      <Form.Control type='text' onChange={this.handleUpdateAmount} value={this.state.amountStr} />
-                    </Form.Group>
-                  </Form>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={6}>
-                  Units: {this.state.amountUnits} <FontAwesomeIcon icon={faRandom} size='lg' onClick={this.handleSwitchUnits} />
-                </Col>
-                <Col xs={6} style={{ textAlign: 'right' }}>
-                  {this.state.oppositeUnits}: {this.state.oppositeQty}
-                </Col>
-              </Row>
-              <br />
+// This function is called when the modal is closed.
+function onModalClose (closeModalData) {
+  const { appData, sendCardData } = closeModalData
 
-              <Row>
-                <Col style={{ textAlign: 'center' }}>
-                  <Button onClick={this.handleSendBch}>Send</Button>
-                </Col>
-              </Row>
+  sendCardData.setHideModal(true)
 
-            </Container>
-          </Card.Body>
-        </Card>
-      </>
-    )
+  console.log('BCH Send modal closed. closeModalData: ', closeModalData)
+  // _this.setState({ hideModal: true })
+
+  // if (_this.state.refreshOnClose) {
+  //   _this.state.refreshBchBalance()
+  // }
+
+  handleRefreshBalance({ appData, refreshBchData })
+}
+
+async function pasteFromClipboard ({ sendCardData, appData }) {
+  try {
+    // Capacitor Android app takes this code path.
+
+    // Get the value from the clipboard.
+    const { value } = await Clipboard.read()
+    // console.log('value: ', value)
+
+    // Set the value of the form.
+    this.setState({ bchAddr: value })
+  } catch (err) {
+    // Browser implementation. Exit quietly.
   }
+}
 
-  // This function is called when the modal is closed.
-  onModalClose () {
-    // _this.setState({ hideModal: true })
+// This is an on-change event handler that updates the amount calculated in
+// both BCH and USD as the user types.
+function handleUpdateAmount (inObj = {}) {
+  try {
+    const { event, appData, sendCardData } = inObj
 
-    if (_this.state.refreshOnClose) {
-      _this.state.refreshBchBalance()
-    }
-  }
+    // Update the state of the text box.
+    let amountStr = event.target.value
+    sendCardData.setAmountStr(amountStr)
+    if (!amountStr) amountStr = '0'
 
-  async pasteFromClipboard (event) {
-    try {
-      // Capacitor Android app takes this code path.
+    // Convert the string to a number.
+    const amountQty = parseFloat(amountStr)
 
-      // Get the value from the clipboard.
-      const { value } = await Clipboard.read()
-      // console.log('value: ', value)
+    const bchUsdPrice = appData.bchWalletState.bchUsdPrice
+    const bchjs = appData.wallet.bchjs
 
-      // Set the value of the form.
-      this.setState({ bchAddr: value })
-    } catch (err) {
-      // Browser implementation. Exit quietly.
-    }
-  }
+    // Initialize local variables
+    let oppositeQty = 0
+    // const amountUsd = 0
+    // const amountBch = 0
 
-  // This is an on-change event handler that updates the amount calculated in
-  // both BCH and USD as the user types.
-  handleUpdateAmount (event) {
-    const amountStr = event.target.value
-    // console.log('amountStr: ', amountStr)
-
-    try {
-      const amountQty = parseFloat(amountStr)
-
-      // console.log('appData: ', _this.state.appData)
-      const bchUsdPrice = _this.state.appData.bchWalletState.bchUsdPrice
-      const bchjs = _this.state.appData.bchWallet.bchjs
-
-      // Initialize local variables
-      let oppositeQty = 0
-      let amountUsd = 0
-      let amountBch = 0
-
-      // Calculate the amount in the opposite units.
-      const currentUnit = _this.state.amountUnits
-      if (currentUnit.includes('USD')) {
-        // Convert USD to BCH
-        oppositeQty = bchjs.Util.floor8(amountQty / bchUsdPrice)
-        amountUsd = amountQty
-        amountBch = oppositeQty
-      } else {
-        // Convert BCH to USD
-        oppositeQty = bchjs.Util.floor2(amountQty * bchUsdPrice)
-        amountUsd = oppositeQty
-        amountBch = amountQty
-      }
-
-      _this.setState({
-        oppositeQty,
-        amountUsd,
-        amountBch,
-        amountStr
-      })
-    } catch (err) {
-      /* exit quietly */
-      console.log('Error: ', err)
-    }
-  }
-
-  // This is a click event handler that toggles the units between BCH and USD.
-  handleSwitchUnits () {
-    // Toggle the unit
-    let newUnit = ''
-    let oppositeUnits = ''
-    const oldUnit = _this.state.amountUnits
-    if (oldUnit.includes('USD')) {
-      newUnit = 'BCH'
-      oppositeUnits = 'USD'
+    // Calculate the amount in the opposite units.
+    const currentUnit = sendCardData.amountUnits
+    if (currentUnit.includes('USD')) {
+      // Convert USD to BCH
+      oppositeQty = bchjs.Util.floor8(amountQty / bchUsdPrice)
+      // amountUsd = amountQty
+      // amountBch = oppositeQty
     } else {
-      newUnit = 'USD'
-      oppositeUnits = 'BCH'
+      // Convert BCH to USD
+      oppositeQty = bchjs.Util.floor2(amountQty * bchUsdPrice)
+      // amountUsd = oppositeQty
+      // amountBch = amountQty
     }
 
-    // Clear the Amount text box
-
-    _this.setState({
-      amountUnits: newUnit,
-      oppositeUnits,
-      amountStr: '',
-      oppositeQty: 0,
-      amountUsd: 0,
-      amountBch: 0
-    })
-  }
-
-  // Send BCH based to the address in the form, and the amount specified in the
-  // form.
-  async handleSendBch () {
-    console.log('Sending BCH')
-
-    try {
-      // Clear the modal body
-      _this.setState({
-        modalBody: '',
-        hideModalSpinner: false,
-        dialogFinished: false
-      })
-
-      // Open the modal
-      const modalBody = ['Preparing to send bch...']
-      _this.setState({
-        hideModal: false,
-        modalBody
-      })
-
-      const amountBch = _this.state.amountBch
-
-      if (amountBch < 0.00000546) throw new Error('Trying to send less than dust.')
-
-      let bchAddr = _this.state.bchAddr
-      let infoStr = `Sending ${amountBch} BCH ($${_this.state.amountUsd} USD) to ${bchAddr}`
-      console.log(infoStr)
-
-      // Update modal
-      modalBody.push(infoStr)
-      _this.setState({ modalBody })
-
-      const wallet = _this.state.appData.bchWallet
-      const bchjs = wallet.bchjs
-
-      // If the address is an SLP address, convert it to a cash address.
-      if (!bchAddr.includes('bitcoincash:')) {
-        bchAddr = bchjs.SLP.Address.toCashAddress(bchAddr)
-      }
-
-      // Convert the BCH to satoshis
-      const sats = bchjs.BitcoinCash.toSatoshi(amountBch)
-
-      // Update the wallets UTXOs
-      infoStr = 'Updating UTXOs...'
-      console.log(infoStr)
-      modalBody.push(infoStr)
-      _this.setState({ modalBody })
-      await wallet.getUtxos()
-
-      const receivers = [{
-        address: bchAddr,
-        amountSat: sats
-      }]
-      const txid = await wallet.send(receivers)
-
-      // Display TXID
-      infoStr = `txid: ${txid}`
-      console.log(infoStr)
-      modalBody.push(infoStr)
-
-      // Link to block explorer
-      const explorerUrl = `https://blockchair.com/bitcoin-cash/transaction/${txid}`
-      const explorerLink = (<a href={`${explorerUrl}`} target='_blank' rel='noreferrer'>Block Explorer</a>)
-      modalBody.push(explorerLink)
-
-      _this.setState({
-        modalBody,
-        hideModalSpinner: true,
-        bchAddr: '',
-        amountStr: '',
-        refreshOnClose: true,
-        amountUsd: 0,
-        amountBch: 0,
-        dialogFinished: true
-      })
-    } catch (err) {
-      console.log('Error in handleSendBch(): ', err)
-
-      const modalBody = []
-      modalBody.push(`Error trying to send BCH: ${err.message}`)
-
-      // Print the error to the modal
-      _this.setState({
-        hideModal: false,
-        modalBody,
-        hideModalSpinner: true,
-        refreshOnClose: false,
-        dialogFinished: true
-      })
-    }
+    // Update app state
+    sendCardData.setOppositeQty(oppositeQty)
+  } catch (err) {
+    /* exit quietly */
+    console.log('Error: ', err)
   }
 }
 
-// Modal dedicated to the Send card.
-function ModalTemplate (props) {
-  // const [showSendModal, setShowSendModal] = useState(false)
-
-  const handleClose = () => {
-    // Prevent the user from closing the modal while transfer is taking place.
-    if (!props.dialogFinished) return
-
-    props.instance.setState({ hideModal: true })
-
-    // If the parent component specified a function to execute at close, execute
-    // it now.
-    if (props.closeFunc) {
-      props.closeFunc()
-    }
+// This is a click event handler that toggles the units between BCH and USD.
+function handleSwitchUnits ({ sendCardData, appData }) {
+  // Toggle the unit
+  let newUnit = ''
+  let oppositeUnits = ''
+  const oldUnit = sendCardData.amountUnits
+  if (oldUnit.includes('USD')) {
+    newUnit = 'BCH'
+    oppositeUnits = 'USD'
+  } else {
+    newUnit = 'USD'
+    oppositeUnits = 'BCH'
   }
 
-  return (
-    <Modal show onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{props.heading}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Container>
-          <Row>
-            <Col style={{ textAlign: 'center' }}>
-              <BodyList body={props.body} />
-              {props.hideSpinner ? null : <Spinner animation='border' />}
-            </Col>
-          </Row>
-        </Container>
-      </Modal.Body>
-      <Modal.Footer />
-    </Modal>
-  )
+  // Clear the Amount text box
+  sendCardData.setAmountStr('')
+  sendCardData.setOppositeQty(0)
+
+  // Persist the new units.
+  sendCardData.setAmountUnits(newUnit)
+  sendCardData.setOppositeUnits(oppositeUnits)
 }
 
-function BodyList (props) {
-  const items = props.body
+// Add a new line to the waiting modal.
+function addToModal (inStr, sendCardData) {
+  sendCardData.setModalBody(prevBody => {
+    prevBody.push(inStr)
+    return prevBody
+  })
+}
 
-  const listItems = []
+// Send BCH based to the address in the form, and the amount specified in the
+// form.
+async function handleSendBch ({ sendCardData, appData }) {
+  console.log('Sending BCH')
 
-  // Paragraphs
-  for (let i = 0; i < items.length; i++) {
-    listItems.push(<p key={items[i]}><code>{items[i]}</code></p>)
+  try {
+    // Clear the modal body
+    sendCardData.setModalBody([])
+    sendCardData.setHideSpinner(false)
+
+    // Open the modal
+    sendCardData.setHideModal(false)
+
+    let amountBch
+    if (sendCardData.amountUnits === 'USD') {
+      amountBch = sendCardData.oppositeQty
+    } else {
+      amountBch = parseFloat(sendCardData.amountStr)
+    }
+    console.log('amountBch: ', amountBch)
+
+    if (amountBch < 0.00000546) throw new Error('Trying to send less than dust.')
+
+    let bchAddr = sendCardData.bchAddr
+    let infoStr = `Sending ${amountBch} BCH ($${sendCardData.amountUsd} USD) to ${bchAddr}`
+    console.log(infoStr)
+
+    // Update modal
+    addToModal('Preparing to send bch...', sendCardData)
+    // modalBody.push(infoStr)
+    // _this.setState({ modalBody })
+
+    const wallet = appData.wallet
+    const bchjs = wallet.bchjs
+
+    // If the address is an SLP address, convert it to a cash address.
+    if (bchAddr.includes('simpleledger:')) {
+      bchAddr = bchjs.SLP.Address.toCashAddress(bchAddr)
+    }
+
+    // Convert the BCH to satoshis
+    const sats = bchjs.BitcoinCash.toSatoshi(amountBch)
+
+    // Update the wallets UTXOs
+    infoStr = 'Updating UTXOs...'
+    console.log(infoStr)
+    addToModal(infoStr, sendCardData)
+    await wallet.getUtxos()
+
+    const receivers = [{
+      address: bchAddr,
+      amountSat: sats
+    }]
+    const txid = await wallet.send(receivers)
+
+    // Display TXID
+    infoStr = `txid: ${txid}`
+    // console.log(infoStr)
+    // modalBody.push(infoStr)
+    addToModal(infoStr, sendCardData)
+
+    // Link to block explorer
+    const explorerUrl = `https://blockchair.com/bitcoin-cash/transaction/${txid}`
+    const explorerLink = (<a href={`${explorerUrl}`} target='_blank' rel='noreferrer'>Block Explorer</a>)
+    // modalBody.push(explorerLink)
+    addToModal(explorerLink, sendCardData)
+
+    sendCardData.setHideSpinner(true)
+    sendCardData.setBchAddr('')
+    sendCardData.setAmountStr('')
+  } catch (err) {
+    console.log('Error in handleSendBch(): ', err)
+
+    sendCardData.setModalBody([`Error: ${err.message}`])
+    sendCardData.setHideSpinner(true)
   }
-
-  return (
-    listItems
-  )
 }
 
 export default SendCard

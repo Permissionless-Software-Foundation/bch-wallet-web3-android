@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 
 // Local libraries
-import RefreshBchBalance from './refresh-bch-balance'
+import RefreshBchBalanceButton from './refresh-bch-balance-button'
 import SendCard from './send-card'
 import BalanceCard from './balance-card'
 import ReceiveCard from './receive-card'
@@ -30,7 +30,7 @@ class BchSend extends React.Component {
     }
 
     // Create a reference to the Refresh button.
-    this.refreshBchButtonRef = React.createRef()
+    // this.refreshBchButtonRef = React.createRef()
 
     _this = this
   }
@@ -41,7 +41,7 @@ class BchSend extends React.Component {
         <Container>
           <Row>
             <Col xs={6}>
-              <RefreshBchBalance
+              <RefreshBchBalanceButton
                 appData={this.state.appData}
                 ref={this.refreshBchButtonRef}
               />

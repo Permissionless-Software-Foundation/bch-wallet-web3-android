@@ -1,6 +1,6 @@
 {
   "name": "bch-wallet-web3-android",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "dependencies": {
     "@chris.troutner/react-jdenticon": "1.0.0",
     "@fortawesome/fontawesome-svg-core": "6.1.2",
@@ -17,6 +17,7 @@
     "react-bootstrap": "2.4.0",
     "react-dom": "18.2.0",
     "react-scripts": "5.0.1",
+    "react-terminal": "1.4.4",
     "use-local-storage-state": "18.1.0",
     "use-query-params": "1.2.3"
   },
