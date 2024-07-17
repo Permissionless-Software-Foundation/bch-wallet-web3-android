@@ -21,7 +21,7 @@ class WalletInfo {
           </span>
         )
 
-        return {outMsg}
+        return { outMsg }
       }
 
       const outMsg = (
@@ -35,10 +35,10 @@ class WalletInfo {
         </span>
       )
 
-      return {outMsg}
+      return { outMsg }
     } catch (err) {
       console.error('Error in getWalletInfo(): ', err)
-      throw err
+      return { outMsg: `Error: ${err.message}` }
     }
   }
 }

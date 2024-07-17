@@ -6,8 +6,8 @@ class WalletIndex {
   async changeWalletIndex (inObj = {}) {
     try {
       const { parsedArgs, termUtils } = inObj
-      let {wallet} = inObj
-      const {index} = parsedArgs
+      let { wallet } = inObj
+      const { index } = parsedArgs
 
       // Help
       if (parsedArgs.help) {
@@ -31,12 +31,12 @@ class WalletIndex {
           </span>
         )
 
-        return {outMsg}
+        return { outMsg }
       }
 
       // If index is not specified, display the current index of the wallet
       if (!index && index !== 0) {
-        return {outMsg: `HD path: ${wallet.walletInfo.hdPath}`}
+        return { outMsg: `HD path: ${wallet.walletInfo.hdPath}` }
       }
 
       // If an index argument is passed, switch the wallet to that HD index.
@@ -44,10 +44,10 @@ class WalletIndex {
 
       const outMsg = `HD path: ${wallet.walletInfo.hdPath}`
 
-      return {wallet, outMsg}
+      return { wallet, outMsg }
     } catch (err) {
       console.error('Error in walletIndex(): ', err)
-      throw err
+      return { outMsg: `Error: ${err.message}` }
     }
   }
 }

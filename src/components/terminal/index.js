@@ -66,12 +66,14 @@ function Terminal (props) {
     help: (
       <span>
         <strong>clear</strong> - clears the console. <br />
-        <strong>wallet_info</strong> - Display addresses, mnemonic, and private key for the wallet. <br />
         <strong>wallet_index</strong> - Change the HD index of the wallet. <br />
+        <strong>wallet_info</strong> - Display addresses, mnemonic, and private key for the wallet. <br />
+        <strong>wallet_balance</strong> - Check the balance of the selected HD key pair. <br />
       </span>
     ),
     wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args }) },
-    wallet_index: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_index', wallet, termUtils, args }) }
+    wallet_index: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_index', wallet, termUtils, args }) },
+    wallet_balance: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_balance', wallet, termUtils, args }) }
   }
 
   const welcomeMessage = (

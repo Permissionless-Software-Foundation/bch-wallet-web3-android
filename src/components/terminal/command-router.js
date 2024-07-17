@@ -5,11 +5,13 @@
 // Local libraries
 import WalletInfo from './commands/wallet-info.js'
 import WalletIndex from './commands/wallet-index.js'
+import WalletBalance from './commands/wallet-balance.js'
 
 class CommandRouter {
   constructor () {
     this.walletInfo = new WalletInfo()
     this.walletIndex = new WalletIndex()
+    this.walletBalance = new WalletBalance()
 
     // Bind 'this' object to all subfunctions
     this.routeCommand = this.routeCommand.bind(this)
@@ -19,18 +21,23 @@ class CommandRouter {
   async routeCommand (inObj) {
     try {
       const { cmdStr, args, termUtils } = inObj
-      let { wallet } = inObj
+      const { wallet } = inObj
 
       // Parse arguments
       const parsedArgs = this.parseArgs(args)
 
       if (cmdStr === 'wallet_info') {
-        const {outMsg} = this.walletInfo.getWalletInfo({ wallet, parsedArgs })
+        const { outMsg } = this.walletInfo.getWalletInfo({ wallet, parsedArgs })
         return outMsg
       }
 
       if (cmdStr === 'wallet_index') {
-        const {outMsg} = await this.walletIndex.changeWalletIndex({wallet, parsedArgs, termUtils})
+        const { outMsg } = await this.walletIndex.changeWalletIndex({ wallet, parsedArgs, termUtils })
+        return outMsg
+      }
+
+      if (cmdStr === 'wallet_balance') {
+        const { outMsg } = await this.walletBalance.getWalletBalance({ wallet, parsedArgs, termUtils })
         return outMsg
       }
 
@@ -42,7 +49,7 @@ class CommandRouter {
     }
   }
 
-  parseArgs(args) {
+  parseArgs (args) {
     let parsedArgs = {}
 
     if (args) {
