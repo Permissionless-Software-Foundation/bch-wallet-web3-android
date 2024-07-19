@@ -69,11 +69,13 @@ function Terminal (props) {
         <strong>wallet_index</strong> - Change the HD index of the wallet. <br />
         <strong>wallet_info</strong> - Display addresses, mnemonic, and private key for the wallet. <br />
         <strong>wallet_balance</strong> - Check the balance of the selected HD key pair. <br />
+        <strong>token_info</strong> - Get info about a SLP token. <br />
       </span>
     ),
     wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args }) },
     wallet_index: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_index', wallet, termUtils, args }) },
-    wallet_balance: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_balance', wallet, termUtils, args }) }
+    wallet_balance: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_balance', wallet, termUtils, args }) },
+    token_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_info', wallet, termUtils, args }) }
   }
 
   const welcomeMessage = (
