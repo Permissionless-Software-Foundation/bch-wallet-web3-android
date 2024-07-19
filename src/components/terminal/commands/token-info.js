@@ -8,6 +8,12 @@
 */
 
 class TokenInfo {
+  constructor() {
+    // Bind 'this' object to all subfunctions
+    this.getTokenInfo = this.getTokenInfo.bind(this)
+    this.getIpfsData = this.getIpfsData.bind(this)
+  }
+
   async getTokenInfo(inObj = {}) {
     try {
       const { wallet, parsedArgs } = inObj
