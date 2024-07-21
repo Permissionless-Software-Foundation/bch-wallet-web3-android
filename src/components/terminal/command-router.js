@@ -7,6 +7,7 @@ import WalletInfo from './commands/wallet-info.js'
 import WalletIndex from './commands/wallet-index.js'
 import WalletBalance from './commands/wallet-balance.js'
 import TokenInfo from './commands/token-info.js'
+import PsffppPin from './commands/psffpp-pin.js'
 
 class CommandRouter {
   constructor () {
@@ -14,6 +15,7 @@ class CommandRouter {
     this.walletIndex = new WalletIndex()
     this.walletBalance = new WalletBalance()
     this.tokenInfo = new TokenInfo()
+    this.psffppPin = new PsffppPin()
 
     // Bind 'this' object to all subfunctions
     this.routeCommand = this.routeCommand.bind(this)
@@ -45,6 +47,11 @@ class CommandRouter {
 
       if (cmdStr === 'token_info') {
         const { outMsg } = await this.tokenInfo.getTokenInfo({ wallet, parsedArgs, termUtils })
+        return outMsg
+      }
+
+      if (cmdStr === 'psffpp_pin') {
+        const { outMsg } = await this.psffppPin.pinCid({ wallet, parsedArgs, termUtils })
         return outMsg
       }
 
