@@ -13,7 +13,7 @@
   across the internet.
 */
 
-import Buffer from 'buffer'
+import { Buffer } from 'buffer/'
 
 // Local libraries
 // import config from '../../../../config'
