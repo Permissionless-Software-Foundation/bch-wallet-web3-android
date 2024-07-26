@@ -8,13 +8,13 @@
 */
 
 class TokenInfo {
-  constructor() {
+  constructor () {
     // Bind 'this' object to all subfunctions
     this.getTokenInfo = this.getTokenInfo.bind(this)
     this.getIpfsData = this.getIpfsData.bind(this)
   }
 
-  async getTokenInfo(inObj = {}) {
+  async getTokenInfo (inObj = {}) {
     try {
       const { wallet, parsedArgs } = inObj
       const { tokenId } = parsedArgs
@@ -39,8 +39,8 @@ class TokenInfo {
         return { outMsg }
       }
 
-      if(!tokenId) {
-        return {outMsg: 'tokenId required. Example: token_info tokenId=c9c425f2c6352697c6665a53e035cbad8a44c4b1e36491a1838dc4655479aa09'}
+      if (!tokenId) {
+        return { outMsg: 'tokenId required. Example: token_info tokenId=c9c425f2c6352697c6665a53e035cbad8a44c4b1e36491a1838dc4655479aa09' }
       }
 
       // Get the genesis data.
@@ -49,13 +49,13 @@ class TokenInfo {
 
       // Get the mutable data if it exists in the token data.
       let mutableData = null
-      if(tokenData.mutableData) {
+      if (tokenData.mutableData) {
         mutableData = await this.getIpfsData(tokenData.mutableData)
       }
 
       // Get the immutable data if it exists in the token data.
       let immutableData = null
-      if(tokenData.immutableData) {
+      if (tokenData.immutableData) {
         immutableData = await this.getIpfsData(tokenData.immutableData)
       }
 
@@ -64,33 +64,33 @@ class TokenInfo {
       const tokenInfoAry = tokenInfoStr.split('\n')
       console.log('tokenInfoAry: ', tokenInfoAry)
       const jsxAry = []
-      for(let i=0; i<tokenInfoAry.length; i++) {
+      for (let i = 0; i < tokenInfoAry.length; i++) {
         jsxAry.push(<span>{tokenInfoAry[i]}<br /></span>)
       }
       // console.log('jsxAry: ', jsxAry)
 
       // Format the mutable data for the terminal.
-      if(mutableData) {
+      if (mutableData) {
         const mutableStr = JSON.stringify(mutableData, null, 2)
         const mutableAry = mutableStr.split('\n')
         jsxAry.push(<span><br /><br /><b>Mutable Data:</b></span>)
-        for(let i=0; i<mutableAry.length; i++) {
+        for (let i = 0; i < mutableAry.length; i++) {
           jsxAry.push(<span>{mutableAry[i]}<br /></span>)
         }
       }
 
       // Format the immutable data for the terminal.
-      if(immutableData) {
+      if (immutableData) {
         const immutableStr = JSON.stringify(immutableData, null, 2)
         const immutableAry = immutableStr.split('\n')
         jsxAry.push(<span><br /><br /><b>Immutable Data:</b></span>)
-        for(let i=0; i<immutableAry.length; i++) {
+        for (let i = 0; i < immutableAry.length; i++) {
           jsxAry.push(<span>{immutableAry[i]}<br /></span>)
         }
       }
 
-      return {outMsg: jsxAry}
-    } catch(err) {
+      return { outMsg: jsxAry }
+    } catch (err) {
       console.error('Error in getTokenInfo(): ', err)
       return { outMsg: `Error: ${err.message}` }
     }
@@ -110,12 +110,11 @@ class TokenInfo {
       const ipfsData = await response.json()
 
       return ipfsData
-    } catch(err) {
+    } catch (err) {
       return {
         message: `Could not download this CID: ${ipfsUri}`
       }
     }
-
   }
 }
 
