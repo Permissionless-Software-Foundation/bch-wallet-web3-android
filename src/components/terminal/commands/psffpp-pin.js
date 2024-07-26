@@ -13,6 +13,8 @@
   across the internet.
 */
 
+import Buffer from 'buffer'
+
 // Local libraries
 // import config from '../../../../config'
 
@@ -20,7 +22,7 @@ class PsffppPin {
   async pinCid (inObj = {}) {
     try {
       const { wallet, parsedArgs } = inObj
-      const { cid } = parsedArgs
+      const { cid, filename } = parsedArgs
 
       // Help
       if (parsedArgs.help) {
@@ -50,7 +52,8 @@ class PsffppPin {
             <br /><br />
             <strong>Arguments:</strong><br />
             <ul>
-              <li><i>cid</i> - The Content IDentifier for a file. Example: CID=bafkreih7n2266ttdtlh4cgddxaog33mtvmicf5vluulcqtom5haxdzndc4</li>
+              <li><i>cid</i> - The Content IDentifier for a file. Example: CID=bafkreih7n2266ttdtlh4cgddxaog33mtvmicf5vluulcqtom5haxdzndc4</li><br />
+              <li><i>filename</i> - The filename (including extension) you want associated with the CID.</li>
             </ul>
           </span>
         )
@@ -63,9 +66,18 @@ class PsffppPin {
       const writePrice = await this.getWritePrice({ wallet })
       console.log('pinCid() writePrice: ', writePrice)
 
+      const { pobTxid, claimTxid } = await this.buildPinClaimTx({
+        wallet,
+        writePrice,
+        filename,
+        cid
+      })
+
       const outMsg = (
         <span>
           <p>Write Price: {writePrice}</p>
+          <p>Proof of Burn TXID: {pobTxid}</p>
+          <p>Pin Claim: {claimTxid}</p>
         </span>
       )
 
@@ -77,6 +89,7 @@ class PsffppPin {
   }
 
   // Get the PSFFPP write price for pinning 1MB of data to the pinning cluster.
+  // This data is retrieved from ipfs-bch-wallet-consumer.
   async getWritePrice (inObj = {}) {
     try {
       const { wallet } = inObj
@@ -95,6 +108,102 @@ class PsffppPin {
       // return 0.1
     } catch (err) {
       console.error('Error in getWritePrice()')
+      throw err
+    }
+  }
+
+  // This code builds a Pin Claim transaction as per PS010 specification:
+  // https://github.com/Permissionless-Software-Foundation/specifications/blob/master/ps010-file-pinning-protocol.md
+  async buildPinClaimTx (inObj = {}) {
+    try {
+      const { wallet, writePrice, filename, cid } = inObj
+      const bchjs = wallet.bchjs
+
+      // Token ID for the PSF token.
+      const PSF_TOKEN_ID = '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
+
+      // Get info and libraries from the wallet.
+      const addr = wallet.walletInfo.address
+      const wif = wallet.walletInfo.privateKey
+
+      // Proof-of-Burn TXID
+      const pobTxid = await wallet.burnTokens(writePrice, PSF_TOKEN_ID)
+      console.log('pobTxid: ', pobTxid)
+
+      // Wait for the indexer to update before get utxos.
+      await bchjs.Util.sleep(6000)
+
+      // Get a UTXO to spend to generate the pin claim TX.
+      let utxos = await wallet.getUtxos()
+      utxos = utxos.bchUtxos
+      const utxo = bchjs.Utxo.findBiggestUtxo(utxos)
+
+      // instance of transaction builder
+      const transactionBuilder = new bchjs.TransactionBuilder()
+
+      const originalAmount = utxo.value
+      const vout = utxo.tx_pos
+      const txid = utxo.tx_hash
+
+      // add input with txid and index of vout
+      transactionBuilder.addInput(txid, vout)
+
+      // TODO: Compute the 1 sat/byte fee.
+      const fee = 500
+
+      // BEGIN - Construction of OP_RETURN transaction.
+
+      // Add the OP_RETURN to the transaction.
+      const script = [
+        bchjs.Script.opcodes.OP_RETURN,
+        Buffer.from('00510000', 'hex'),
+        Buffer.from(pobTxid, 'hex'),
+        Buffer.from(cid),
+        Buffer.from(filename)
+      ]
+
+      // Compile the script array into a bitcoin-compliant hex encoded string.
+      const data = bchjs.Script.encode(script)
+
+      // Add the OP_RETURN output.
+      transactionBuilder.addOutput(data, 0)
+
+      // END - Construction of OP_RETURN transaction.
+
+      // Send the same amount - fee.
+      transactionBuilder.addOutput(addr, originalAmount - fee)
+
+      // Create an EC Key Pair from the user-supplied WIF.
+      const ecPair = bchjs.ECPair.fromWIF(wif)
+
+      // Sign the transaction with the HD node.
+      let redeemScript
+      transactionBuilder.sign(
+        0,
+        ecPair,
+        redeemScript,
+        transactionBuilder.hashTypes.SIGHASH_ALL,
+        originalAmount
+      )
+
+      // build tx
+      const tx = transactionBuilder.build()
+
+      // output rawhex
+      const hex = tx.toHex().toString()
+      // console.log(`TX hex: ${hex}`)
+
+      // Broadcast transation to the network
+      const claimTxid = await wallet.broadcast({ hex })
+      // console.log(`Claim Transaction ID: ${claimTxid}`)
+      // console.log(`https://blockchair.com/bitcoin-cash/transaction/${claimTxid}`)
+
+      return {
+        pobTxid,
+        claimTxid
+      }
+    } catch (err) {
+      console.error('Error in buildPinClaimTx()')
       throw err
     }
   }
