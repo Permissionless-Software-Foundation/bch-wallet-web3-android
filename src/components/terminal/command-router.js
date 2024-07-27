@@ -8,6 +8,7 @@ import WalletIndex from './commands/wallet-index.js'
 import WalletBalance from './commands/wallet-balance.js'
 import TokenInfo from './commands/token-info.js'
 import PsffppPin from './commands/psffpp-pin.js'
+import TokenMda from './commands/token-mda-tx.js'
 
 class CommandRouter {
   constructor () {
@@ -16,6 +17,7 @@ class CommandRouter {
     this.walletBalance = new WalletBalance()
     this.tokenInfo = new TokenInfo()
     this.psffppPin = new PsffppPin()
+    this.tokenMda = new TokenMda()
 
     // Bind 'this' object to all subfunctions
     this.routeCommand = this.routeCommand.bind(this)
@@ -52,6 +54,11 @@ class CommandRouter {
 
       if (cmdStr === 'psffpp_pin') {
         const { outMsg } = await this.psffppPin.pinCid({ wallet, parsedArgs, termUtils })
+        return outMsg
+      }
+
+      if (cmdStr === 'token_mda') {
+        const { outMsg } = await this.tokenMda.createMdaTx({ wallet, parsedArgs, termUtils })
         return outMsg
       }
 

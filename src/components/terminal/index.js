@@ -69,15 +69,17 @@ function Terminal (props) {
         <strong>wallet_index</strong> - Change the HD index of the wallet. <br />
         <strong>wallet_info</strong> - Display addresses, mnemonic, and private key for the wallet. <br />
         <strong>wallet_balance</strong> - Check the balance of the selected HD key pair. <br />
-        <strong>token_info</strong> - Get info about a SLP token. <br />
         <strong>psffpp_pin</strong> - Pin a CID with the PSFFPP IPFS cluster. <br />
+        <strong>token_info</strong> - Get info about a SLP token. <br />
+        <strong>token_mda</strong> - Setup a Mutable Data Address for a tokens mutable data. <br />
       </span>
     ),
     wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args }) },
     wallet_index: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_index', wallet, termUtils, args }) },
     wallet_balance: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_balance', wallet, termUtils, args }) },
     token_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_info', wallet, termUtils, args }) },
-    psffpp_pin: (args) => { return commandRouter.routeCommand({ cmdStr: 'psffpp_pin', wallet, termUtils, args }) }
+    psffpp_pin: (args) => { return commandRouter.routeCommand({ cmdStr: 'psffpp_pin', wallet, termUtils, args }) },
+    token_mda: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_mda', wallet, termUtils, args }) }
   }
 
   const welcomeMessage = (
