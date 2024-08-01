@@ -112,8 +112,22 @@ class SlpTokens extends React.Component {
           // Retrieve the mutable data from Filecoin/IPFS.
           // TokenTiger.com wraps the JSON data in a directory with a filename
           // of data.json.
-          const url = `https://pin.fullstack.cash/ipfs/download/${cid}/data.json`
-          const result = await axios.get(url)
+
+          let result
+          try {
+            // Try the token-tiger format.
+            const url = `https://pin.fullstack.cash/ipfs/download/${cid}/data.json`
+            result = await axios.get(url)
+          } catch(err) {
+            try {
+              // Second try: manual upload format
+              const url = `https://pin.fullstack.cash/ipfs/download/${cid}`
+              result = await axios.get(url)
+            } catch(err) {
+              throw err
+            }
+          }
+
 
           const mutableData = result.data
           console.log(`mutableData: ${JSON.stringify(mutableData, null, 2)}`)

@@ -71,6 +71,7 @@ class TokenCreateFungible {
         return { outMsg: `qty argument is required. You entered: ${qty}` }
       }
 
+      await wallet.initialize() // Get up-to-date UTXOs.
       const bchjs = wallet.bchjs
 
       // Get a UTXO to pay for the transaction
