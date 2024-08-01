@@ -10,6 +10,7 @@ import TokenInfo from './commands/token-info.js'
 import PsffppPin from './commands/psffpp-pin.js'
 import TokenMda from './commands/token-mda-tx.js'
 import TokenCreateFungible from './commands/token-create-fungible.js'
+import TokenUpdate from './commands/token-update.js'
 
 class CommandRouter {
   constructor () {
@@ -20,6 +21,7 @@ class CommandRouter {
     this.psffppPin = new PsffppPin()
     this.tokenMda = new TokenMda()
     this.tokenCreateFungible = new TokenCreateFungible()
+    this.tokenUpdate = new TokenUpdate()
 
     // Bind 'this' object to all subfunctions
     this.routeCommand = this.routeCommand.bind(this)
@@ -66,6 +68,11 @@ class CommandRouter {
 
       if (cmdStr === 'token_create_fungible') {
         const { outMsg } = await this.tokenCreateFungible.createType1({ wallet, parsedArgs, termUtils })
+        return outMsg
+      }
+
+      if (cmdStr === 'token_update') {
+        const { outMsg } = await this.tokenUpdate.updateMutableCid({ wallet, parsedArgs, termUtils })
         return outMsg
       }
 
