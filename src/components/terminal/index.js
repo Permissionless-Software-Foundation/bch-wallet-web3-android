@@ -72,6 +72,7 @@ function Terminal (props) {
         <strong>psffpp_pin</strong> - Pin a CID with the PSFFPP IPFS cluster. <br />
         <strong>token_info</strong> - Get info about a SLP token. <br />
         <strong>token_mda</strong> - Setup a Mutable Data Address for a tokens mutable data. <br />
+        <strong>token_create_fungible</strong> - Create a Type 1 Fungible token (or simple NFT)<br />
       </span>
     ),
     wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args }) },
@@ -79,7 +80,8 @@ function Terminal (props) {
     wallet_balance: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_balance', wallet, termUtils, args }) },
     token_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_info', wallet, termUtils, args }) },
     psffpp_pin: (args) => { return commandRouter.routeCommand({ cmdStr: 'psffpp_pin', wallet, termUtils, args }) },
-    token_mda: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_mda', wallet, termUtils, args }) }
+    token_mda: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_mda', wallet, termUtils, args }) },
+    token_create_fungible: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_fungible', wallet, termUtils, args }) }
   }
 
   const welcomeMessage = (

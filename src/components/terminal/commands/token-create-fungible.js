@@ -8,7 +8,7 @@ import { Buffer } from 'buffer/'
 // import config from '../../../../config'
 
 class TokenCreateFungible {
-  async type1Tx (inObj = {}) {
+  async createType1 (inObj = {}) {
     try {
       const { wallet, parsedArgs } = inObj
       const { ticker, tokenName, decimals, qty, url, hash, baton } = parsedArgs
@@ -19,19 +19,27 @@ class TokenCreateFungible {
           <span>
             <strong>token_create_fungible:</strong><br />
             <p>
-              This command is used to create a new Type 1 (fungible) SLP token.
+              This command is used to create a new <a href="https://github.com/simpleledger/slp-specifications/blob/master/slp-token-type-1.md"
+              target="_blank">Type 1 (fungible) SLP token</a>. A 'simple NFT'
+              can be created by setting the <code>qty</code> argument to 1 and
+              the <code>decimals</code> property set to 0.
             </p>
             <br /><br />
             <strong>Arguments:</strong><br />
             <ul>
               <li><i>ticker</i> - The ticker symbol associated with the token. Usually 3-4 characters.</li><br />
               <li><i>tokenName</i> - The name of the token</li><br />
-              <li><i>decimals</i> - Divisibility of the tokens. Can be 0 to 10. 0 = non-divisible (NFT). Bitcoin uses 8. USD uses 2. Recommended value: 0-2</li><br />
               <li><i>qty</i> - The quantity of tokens to create.</li><br />
+              <li><i>decimals</i> - Divisibility of the tokens. Can be 0 to 10. 0 = non-divisible (NFT). Bitcoin uses 8. USD uses 2. Recommended value: 0-2</li><br />
               <li><i>url</i> - (optional) A website or URL associated with the token. Used by PS002 to set immutable data.</li><br />
               <li><i>hash</i> - (optional) a transaction hash. Used by PS002 to set mutable data.</li><br />
               <li><i>baton</i> - (optional) an address to send minting baton, which allows minting of additional tokens. If not specified no minting baton is created, making a fixed quantity token.</li><br />
             </ul>
+            <br /><br />
+            <strong>Example usage:</strong><br />
+            <code>
+              token_create_fungible ticker=TEST tokenName=ThisIsATest qty=10 decimals=0
+            </code>
           </span>
         )
 
