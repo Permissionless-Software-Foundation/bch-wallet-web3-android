@@ -122,6 +122,8 @@ class PsffppPin {
       // Token ID for the PSF token.
       const PSF_TOKEN_ID = '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
 
+      await wallet.initialize() // Get up-to-date UTXOs.
+
       // Get info and libraries from the wallet.
       const addr = wallet.walletInfo.address
       const wif = wallet.walletInfo.privateKey
