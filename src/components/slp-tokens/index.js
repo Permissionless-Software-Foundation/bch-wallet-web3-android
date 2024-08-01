@@ -88,6 +88,8 @@ class SlpTokens extends React.Component {
       const thisToken = tokens[i]
       let tokenFound = false
 
+      console.log('thisToken: ', thisToken)
+
       // if (thisToken.iconNeedsDownload) {
       //   console.log(`token ${thisToken.tokenId} needs icon download`)
       // }
@@ -100,19 +102,21 @@ class SlpTokens extends React.Component {
 
         // Retrieve token data from psf-slp-indexer.
         const tokenData = await wallet.getTokenData(thisToken.tokenId)
-        // console.log(`tokenData: ${JSON.stringify(tokenData, null, 2)}`)
+        console.log(`tokenData: ${JSON.stringify(tokenData, null, 2)}`)
 
         // If the token has mutable data, then try to retrieve it from IPFS.
         if (tokenData.mutableData && tokenData.mutableData.includes('ipfs://')) {
           const cid = tokenData.mutableData.substring(7)
-          // console.log('cid')
+          console.log('cid')
 
           // Retrieve the mutable data from Filecoin/IPFS.
-          const url = `https://${cid}.ipfs.dweb.link/data.json`
+          // TokenTiger.com wraps the JSON data in a directory with a filename
+          // of data.json.
+          const url = `https://pin.fullstack.cash/ipfs/download/${cid}/data.json`
           const result = await axios.get(url)
 
           const mutableData = result.data
-          // console.log(`mutableData: ${JSON.stringify(mutableData, null, 2)}`)
+          console.log(`mutableData: ${JSON.stringify(mutableData, null, 2)}`)
 
           const tokenIcon = mutableData.tokenIcon
 
