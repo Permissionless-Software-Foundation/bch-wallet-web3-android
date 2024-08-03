@@ -118,16 +118,11 @@ class SlpTokens extends React.Component {
             // Try the token-tiger format.
             const url = `https://pin.fullstack.cash/ipfs/download/${cid}/data.json`
             result = await axios.get(url)
-          } catch(err) {
-            try {
-              // Second try: manual upload format
-              const url = `https://pin.fullstack.cash/ipfs/download/${cid}`
-              result = await axios.get(url)
-            } catch(err) {
-              throw err
-            }
+          } catch (err) {
+            // Second try: manual upload format
+            const url = `https://pin.fullstack.cash/ipfs/download/${cid}`
+            result = await axios.get(url)
           }
-
 
           const mutableData = result.data
           console.log(`mutableData: ${JSON.stringify(mutableData, null, 2)}`)

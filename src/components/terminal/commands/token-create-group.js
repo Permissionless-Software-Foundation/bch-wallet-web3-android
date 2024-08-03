@@ -1,32 +1,32 @@
 /*
-  This command is used to generate a Type 1 fungible SLP token.
+  This command is used to generate a Type 128 Group SLP token.
+  These tokens are used to create NFTs (Type 65)
 */
 
-// import { Buffer } from 'buffer/'
-
-// Local libraries
-// import config from '../../../../config'
-
-class TokenCreateFungible {
-  async createType1 (inObj = {}) {
+class TokenCreateGroup {
+  async createType128 (inObj = {}) {
     try {
       const { wallet, parsedArgs } = inObj
-      const { ticker, tokenName, decimals, qty, url, hash, baton = null } = parsedArgs
+      const { ticker, tokenName, qty, url, hash, baton = null } = parsedArgs
 
       // Help
       if (parsedArgs.help) {
         const outMsg = (
           <span>
-            <strong>token_create_fungible:</strong><br />
+            <strong>token_create_group:</strong><br />
             <p>
               This command is used to create a new{' '}
               <a
-                href='https://github.com/simpleledger/slp-specifications/blob/master/slp-token-type-1.md'
+                href='https://github.com/simpleledger/slp-specifications/blob/master/slp-nft-1.md'
                 target='_blank' rel='noreferrer'
-              >Type 1 (fungible) SLP token
-              </a>. A 'simple NFT'
-              can be created by setting the <code>qty</code> argument to 1 and
-              the <code>decimals</code> property set to 0.
+              >Type 128 (group) SLP token
+              </a>. These group tokens are burned to generate a type 65 NFT token.{' '}
+              <a
+                href='https://github.com/Permissionless-Software-Foundation/psf-js-examples/blob/master/bch-js/bch/applications/slp/nft/README.md'
+                target='_blank' rel='noreferrer'
+              >Here is an explanation
+              </a> of the
+              relationship between group tokens and NFTs.
             </p>
             <br /><br />
             <strong>Arguments:</strong><br />
@@ -34,7 +34,6 @@ class TokenCreateFungible {
               <li><i>ticker</i> - The ticker symbol associated with the token. Usually 3-4 characters.</li><br />
               <li><i>tokenName</i> - The name of the token</li><br />
               <li><i>qty</i> - The quantity of tokens to create.</li><br />
-              <li><i>decimals</i> - Divisibility of the tokens. Can be 0 to 10. 0 = non-divisible (NFT). Bitcoin uses 8. USD uses 2. Recommended value: 0-2</li><br />
               <li><i>url</i> - (optional) A website or URL associated with the token. Used by PS002 to set immutable data.</li><br />
               <li><i>hash</i> - (optional) a transaction hash. Used by PS002 to set mutable data.</li><br />
               <li><i>baton</i> - (optional) an address to send minting baton, which allows minting of additional tokens. If not specified no minting baton is created, making a fixed quantity token.</li><br />
@@ -42,7 +41,7 @@ class TokenCreateFungible {
             <br /><br />
             <strong>Example usage:</strong><br />
             <code>
-              token_create_fungible ticker=TEST tokenName=ThisIsATest qty=10 decimals=0
+              token_create_group ticker=TEST tokenName=ThisIsATest qty=1
             </code>
           </span>
         )
@@ -56,12 +55,6 @@ class TokenCreateFungible {
       }
       if (!tokenName) {
         return { outMsg: `tokenName argument is required. You entered: ${tokenName}` }
-      }
-      if (!decimals) {
-        return { outMsg: `decimals argument is required. You entered: ${decimals}` }
-      }
-      if (decimals > 10) {
-        return { outMsg: `decimals argument is out of range. Must be 0 to 10. You entered: ${decimals}` }
       }
       if (!qty) {
         return { outMsg: `qty argument is required. You entered: ${qty}` }
@@ -112,14 +105,13 @@ class TokenCreateFungible {
         name: tokenName,
         ticker,
         documentUrl,
-        decimals,
         initialQty: qty,
         documentHash,
         mintBatonVout: mintBaton
       }
 
       // Generate the OP_RETURN entry for an SLP GENESIS transaction.
-      const script = bchjs.SLP.TokenType1.generateGenesisOpReturn(configObj)
+      const script = bchjs.SLP.NFT1.newNFTGroupOpReturn(configObj)
 
       // OP_RETURN needs to be the first output in the transaction.
       transactionBuilder.addOutput(script, 0)
@@ -170,7 +162,7 @@ class TokenCreateFungible {
         <span>
           <p>
             New token created with this token ID:<br />
-            <a href={explorerLink} rel='noreferrer'>{tokenId}</a>
+            <a href={explorerLink} target='_blank' rel='noreferrer'>{tokenId}</a>
           </p>
         </span>
       )
@@ -183,4 +175,4 @@ class TokenCreateFungible {
   }
 }
 
-export default TokenCreateFungible
+export default TokenCreateGroup

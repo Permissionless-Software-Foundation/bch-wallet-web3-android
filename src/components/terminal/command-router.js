@@ -11,6 +11,8 @@ import PsffppPin from './commands/psffpp-pin.js'
 import TokenMda from './commands/token-mda-tx.js'
 import TokenCreateFungible from './commands/token-create-fungible.js'
 import TokenUpdate from './commands/token-update.js'
+import TokenCreateGroup from './commands/token-create-group.js'
+import TokenCreateNft from './commands/token-create-nft.js'
 
 class CommandRouter {
   constructor () {
@@ -22,6 +24,8 @@ class CommandRouter {
     this.tokenMda = new TokenMda()
     this.tokenCreateFungible = new TokenCreateFungible()
     this.tokenUpdate = new TokenUpdate()
+    this.tokenCreateGroup = new TokenCreateGroup()
+    this.tokenCreateNft = new TokenCreateNft()
 
     // Bind 'this' object to all subfunctions
     this.routeCommand = this.routeCommand.bind(this)
@@ -73,6 +77,16 @@ class CommandRouter {
 
       if (cmdStr === 'token_update') {
         const { outMsg } = await this.tokenUpdate.updateMutableCid({ wallet, parsedArgs, termUtils })
+        return outMsg
+      }
+
+      if (cmdStr === 'token_create_group') {
+        const { outMsg } = await this.tokenCreateGroup.createType128({ wallet, parsedArgs, termUtils })
+        return outMsg
+      }
+
+      if (cmdStr === 'token_create_nft') {
+        const { outMsg } = await this.tokenCreateNft.createType65({ wallet, parsedArgs, termUtils })
         return outMsg
       }
 

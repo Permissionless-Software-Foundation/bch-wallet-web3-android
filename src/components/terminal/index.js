@@ -74,6 +74,8 @@ function Terminal (props) {
         <strong>token_mda</strong> - Setup a Mutable Data Address for a tokens mutable data. <br />
         <strong>token_update</strong> - Update the mutable data attached to a token.<br />
         <strong>token_create_fungible</strong> - Create a Type 1 Fungible token (or simple NFT).<br />
+        <strong>token_create_group</strong> - Create a Type 128 Group token.<br />
+        <strong>token_create_nft</strong> - Create a Type 65 NFT.<br />
       </span>
     ),
     wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args }) },
@@ -83,7 +85,9 @@ function Terminal (props) {
     psffpp_pin: (args) => { return commandRouter.routeCommand({ cmdStr: 'psffpp_pin', wallet, termUtils, args }) },
     token_mda: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_mda', wallet, termUtils, args }) },
     token_create_fungible: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_fungible', wallet, termUtils, args }) },
-    token_update: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_update', wallet, termUtils, args }) }
+    token_update: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_update', wallet, termUtils, args }) },
+    token_create_group: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_group', wallet, termUtils, args }) },
+    token_create_nft: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_nft', wallet, termUtils, args }) }
   }
 
   const welcomeMessage = (
