@@ -156,7 +156,7 @@ class TokenCreateGroup {
       // Broadcast transation to the network
       const tokenId = await wallet.broadcast({ hex })
 
-      const explorerLink = `https://token.fullstack.cash/?tokenid=${tokenId}`
+      const explorerLink = `https://slp-token.fullstack.cash/?tokenid=${tokenId}`
 
       const outMsg = (
         <span>
@@ -169,7 +169,7 @@ class TokenCreateGroup {
 
       return { outMsg }
     } catch (err) {
-      console.error('Error in type1Tx(): ', err)
+      console.error('Error in createType128(): ', err)
       return { outMsg: `Error: ${err.message}` }
     }
   }

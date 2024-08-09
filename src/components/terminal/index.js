@@ -76,6 +76,7 @@ function Terminal (props) {
         <strong>token_create_fungible</strong> - Create a Type 1 Fungible token (or simple NFT).<br />
         <strong>token_create_group</strong> - Create a Type 128 Group token.<br />
         <strong>token_create_nft</strong> - Create a Type 65 NFT.<br />
+        <strong>token_mint</strong> - Mint additional Type 1 or Type 128 tokens from a minting baton.<br />
       </span>
     ),
     wallet_info: (args) => { return commandRouter.routeCommand({ cmdStr: 'wallet_info', wallet, termUtils, args }) },
@@ -87,7 +88,8 @@ function Terminal (props) {
     token_create_fungible: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_fungible', wallet, termUtils, args }) },
     token_update: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_update', wallet, termUtils, args }) },
     token_create_group: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_group', wallet, termUtils, args }) },
-    token_create_nft: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_nft', wallet, termUtils, args }) }
+    token_create_nft: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_create_nft', wallet, termUtils, args }) },
+    token_mint: (args) => { return commandRouter.routeCommand({ cmdStr: 'token_mint', wallet, termUtils, args }) }
   }
 
   const welcomeMessage = (

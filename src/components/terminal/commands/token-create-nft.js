@@ -1,6 +1,5 @@
 /*
-  This command is used to generate a Type 128 Group SLP token.
-  These tokens are used to create NFTs (Type 65)
+  This command is used to generate a Type 65 NFT from a Type 128 Group token.
 */
 
 class TokenCreateNFT {
@@ -162,7 +161,7 @@ class TokenCreateNFT {
       // Broadcast transation to the network
       const nftTokenId = await wallet.broadcast({ hex })
 
-      const explorerLink = `https://token.fullstack.cash/?tokenid=${nftTokenId}`
+      const explorerLink = `https://slp-token.fullstack.cash/?tokenid=${nftTokenId}`
 
       const outMsg = (
         <span>
@@ -175,7 +174,7 @@ class TokenCreateNFT {
 
       return { outMsg }
     } catch (err) {
-      console.error('Error in type1Tx(): ', err)
+      console.error('Error in createType65(): ', err)
       return { outMsg: `Error: ${err.message}` }
     }
   }

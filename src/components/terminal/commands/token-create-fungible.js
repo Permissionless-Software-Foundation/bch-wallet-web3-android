@@ -164,7 +164,7 @@ class TokenCreateFungible {
       // Broadcast transation to the network
       const tokenId = await wallet.broadcast({ hex })
 
-      const explorerLink = `https://token.fullstack.cash/?tokenid=${tokenId}`
+      const explorerLink = `https://slp-token.fullstack.cash/?tokenid=${tokenId}`
 
       const outMsg = (
         <span>

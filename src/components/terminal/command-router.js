@@ -13,6 +13,7 @@ import TokenCreateFungible from './commands/token-create-fungible.js'
 import TokenUpdate from './commands/token-update.js'
 import TokenCreateGroup from './commands/token-create-group.js'
 import TokenCreateNft from './commands/token-create-nft.js'
+import TokenMint from './commands/token-mint.js'
 
 class CommandRouter {
   constructor () {
@@ -26,6 +27,7 @@ class CommandRouter {
     this.tokenUpdate = new TokenUpdate()
     this.tokenCreateGroup = new TokenCreateGroup()
     this.tokenCreateNft = new TokenCreateNft()
+    this.tokenMint = new TokenMint()
 
     // Bind 'this' object to all subfunctions
     this.routeCommand = this.routeCommand.bind(this)
@@ -87,6 +89,11 @@ class CommandRouter {
 
       if (cmdStr === 'token_create_nft') {
         const { outMsg } = await this.tokenCreateNft.createType65({ wallet, parsedArgs, termUtils })
+        return outMsg
+      }
+
+      if (cmdStr === 'token_mint') {
+        const { outMsg } = await this.tokenMint.mintTokens({ wallet, parsedArgs, termUtils })
         return outMsg
       }
 
