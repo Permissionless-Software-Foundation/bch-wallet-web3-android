@@ -22,7 +22,7 @@ class PsffppPin {
   async pinCid (inObj = {}) {
     try {
       const { wallet, parsedArgs } = inObj
-      const { cid, filename } = parsedArgs
+      const { cid, filename, filesize } = parsedArgs
 
       // Help
       if (parsedArgs.help) {
@@ -31,8 +31,8 @@ class PsffppPin {
             <strong>psffpp_pin:</strong><br />
             <p>
               A CID is a Content IDentifier, and is used to represent files on
-              the IPFS network. You can upload a file and get a CID for it at
-              <a href='https://file-stage.fullstack.cash' target='_blank' rel='noreferrer'>
+              the IPFS network. You can upload a file and get a CID for it
+              at <a href='https://file-stage.fullstack.cash/app' target='_blank' rel='noreferrer'>
                 file-stage.fullstack.cash
               </a>.
             </p>
@@ -45,15 +45,17 @@ class PsffppPin {
               can be pinned again to renew the hosting after a year.
             </p>
             <p>
-              Right now this command assumes the file is 1MB or less. But files
-              up to 100MB are supported by the PSFFPP protocol. This command
-              will be updated in the future to support larger files.
+              Files up to 100MB are supported by the PSFFPP protocol. If your file
+              if under 1MB, you do not need to inclue the filesize. Otherwise,
+              use the <i>filesize</i> argument to include the files size
+              in <b>bytes</b>.
             </p>
             <br /><br />
             <strong>Arguments:</strong><br />
             <ul>
               <li><i>cid</i> - The Content IDentifier for a file. Example: CID=bafkreih7n2266ttdtlh4cgddxaog33mtvmicf5vluulcqtom5haxdzndc4</li><br />
-              <li><i>filename</i> - The filename (including extension) you want associated with the CID.</li>
+              <li><i>filename</i> - The filename (including extension) you want associated with the CID.</li><br />
+              <li><i>filesize</i> - (optional) if the file is over 1MB in size, give the files size in bytes. This will be used to calculate the cost in PSF tokens to pin the file.</li>
             </ul>
           </span>
         )
@@ -63,7 +65,33 @@ class PsffppPin {
 
       console.log('cid: ', cid)
 
-      const writePrice = await this.getWritePrice({ wallet })
+      const psfPrice = await this.getWritePrice({ wallet })
+
+      // Calculate the write price.
+      let writePrice
+      if (!filesize) {
+        // User did not provide a filesize argument, so assume file size is 1MB
+        // or less.
+        writePrice = psfPrice
+      } else {
+        // User provided filesize argument.
+
+        // Calculate size in MB.
+        const sizeInMb = parseInt(filesize) / 1000000
+
+        if (sizeInMb < 1) {
+          // If less than 1MB, use the default write price.
+          writePrice = psfPrice
+        } else {
+          // If over 1MB, calculate the amount of tokens that need to be burned.
+          writePrice = Math.ceil(sizeInMb) * psfPrice
+        }
+      }
+
+      // Ensure the write price only has 8 decimal places.
+      const bchjs = wallet.bchjs
+      writePrice = bchjs.Util.floor8(writePrice)
+
       console.log('pinCid() writePrice: ', writePrice)
 
       const { pobTxid, claimTxid } = await this.buildPinClaimTx({

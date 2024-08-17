@@ -85,7 +85,6 @@ class TokenMint {
       const mintBaton = filteredBatons[0]
       // console.log(`mintBaton: ${JSON.stringify(mintBaton, null, 2)}`)
 
-
       // add the mint baton as an input.
       transactionBuilder.addInput(mintBaton.tx_hash, mintBaton.tx_pos)
 
