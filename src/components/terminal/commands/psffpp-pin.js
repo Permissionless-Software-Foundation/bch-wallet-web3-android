@@ -88,6 +88,10 @@ class PsffppPin {
         }
       }
 
+      if(!writePrice) {
+        throw new Error(`writePrice has a value of ${writePrice}`)
+      }
+
       // Ensure the write price only has 8 decimal places.
       const bchjs = wallet.bchjs
       writePrice = bchjs.Util.floor8(writePrice)
