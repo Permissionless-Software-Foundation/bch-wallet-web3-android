@@ -129,7 +129,11 @@ class PsffppPin {
 
       const server = wallet.advancedOptions.restURL
 
-      const url = `${server}/price/psffpp`
+      // ipfs-bch-wallet-consumer
+      // const url = `${server}price/psffpp`
+
+      // bch-api
+      const url = `${server}price/psffpp`
 
       const response = await fetch(url)
       const writePrice = await response.json()
