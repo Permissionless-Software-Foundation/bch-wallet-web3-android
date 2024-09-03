@@ -136,7 +136,8 @@ class PsffppPin {
       const url = `${server}price/psffpp`
 
       const response = await fetch(url)
-      const writePrice = await response.json()
+      let writePrice = await response.json()
+      writePrice = writePrice.writePrice
       console.log('getWritePrice() writePrice: ', writePrice)
 
       return writePrice.psfPrice
