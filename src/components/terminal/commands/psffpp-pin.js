@@ -129,8 +129,9 @@ class PsffppPin {
       // console.log('wallet: ', wallet)
 
       const writePrice = await wallet.getPsfWritePrice()
+      console.log('getWritePrice() writePrice: ', writePrice)
 
-      return writePrice.writePrice
+      return writePrice
 
       // const server = wallet.advancedOptions.restURL
       //
