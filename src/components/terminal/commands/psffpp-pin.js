@@ -66,6 +66,7 @@ class PsffppPin {
       console.log('cid: ', cid)
 
       const psfPrice = await this.getWritePrice({ wallet })
+      console.log('psfPrice: ', psfPrice)
 
       // Calculate the write price.
       let writePrice
@@ -125,22 +126,26 @@ class PsffppPin {
   async getWritePrice (inObj = {}) {
     try {
       const { wallet } = inObj
-      console.log('wallet: ', wallet)
+      // console.log('wallet: ', wallet)
 
-      const server = wallet.advancedOptions.restURL
+      const writePrice = await wallet.getPsfWritePrice()
 
-      // ipfs-bch-wallet-consumer
+      return writePrice.writePrice
+
+      // const server = wallet.advancedOptions.restURL
+      //
+      // // ipfs-bch-wallet-consumer
+      // // const url = `${server}price/psffpp`
+      //
+      // // bch-api
       // const url = `${server}price/psffpp`
-
-      // bch-api
-      const url = `${server}price/psffpp`
-
-      const response = await fetch(url)
-      let writePrice = await response.json()
-      writePrice = writePrice.writePrice
-      console.log('getWritePrice() writePrice: ', writePrice)
-
-      return writePrice.psfPrice
+      //
+      // const response = await fetch(url)
+      // let writePrice = await response.json()
+      // writePrice = writePrice.writePrice
+      // console.log('getWritePrice() writePrice: ', writePrice)
+      //
+      // return writePrice.psfPrice
 
       // return 0.1
     } catch (err) {
