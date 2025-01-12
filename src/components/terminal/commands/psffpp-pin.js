@@ -65,6 +65,13 @@ class PsffppPin {
 
       console.log('cid: ', cid)
 
+      if(!cid) {
+        throw new Error(`You must provide a cid.`)
+      }
+      if(!filename) {
+        throw new Error(`You must provide a filename.`)
+      }
+
       const psfPrice = await this.getWritePrice({ wallet })
       console.log('psfPrice: ', psfPrice)
 
